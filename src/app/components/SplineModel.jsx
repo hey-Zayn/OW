@@ -39,8 +39,10 @@ export default function SplineModel() {
         }>
           {isVisible && (
             <SplineComponent 
-            scene="https://prod.spline.design/P8iUV3zc5so1wun6/scene.splinecode" 
+            // scene="https://prod.spline.design/P8iUV3zc5so1wun6/scene.splinecode" 
                 // scene="https://prod.spline.design/AAFqKJ70IgxxvJi5/scene.splinecode"
+                //  scene="https://prod.spline.design/dotiTBcq-AmvMw5q/scene.splinecode"
+                 scene="https://prod.spline.design/syhpYJcwn3yLtpc1/scene.splinecode"
             />
           )}
         </Suspense>
