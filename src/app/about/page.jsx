@@ -1,27 +1,38 @@
-import React from 'react'
+import React from "react";
+import SplineModel from "../components/SplineModel";
+import InteractiveTimeline from "../components/InteractiveTimeline";
 
 const page = () => {
   return (
     <>
-       <div  className="w-full h-full bg-[#191919]">
+      <div className="w-full h-full bg-[#181818]">
         {/* --------------------------------  { Hero }  ------------------------------------------ */}
-        <div className="w-full h-full">
-          <div
-            id="seo-hero"
-            className="w-full h-screen relative flex flex-col justify-center items-center bg-gradient-to-b from-[#520ADE] via-[#520ADE] to-[#191919] overflow-hidden"
-          >
-            <span className="size-200 absolute -top-50 -left-50  rounded-full bg-[radial-gradient(circle_at_center,#a8288f_20%,transparent_70%)] blur-[90px]"></span>
-            <h1
-             
-              className="text-white text-center text-8xl max-sm:text-4xl font-bold z-10"
-            >
-             360 Lead Nurture
-            </h1>
+        <div className="w-full h-screen relative bg-[#181818] overflow-hidden">
+          <SplineModel />
+          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-4 text-center">
+            <div className="overflow-hidden">
+              <h1 className="text-white text-6xl sm:text-7xl md:text-8xl font-bold tracking-tight mb-4">
+                About Us
+              </h1>
+            </div>
+            <div className="overflow-hidden max-w-3xl">
+              <p className="text-white/80 text-lg sm:text-xl font-light">
+                We transform visions into growth through innovative digital strategies
+                and cutting-edge technology solutions.
+              </p>
+            </div>
+            <div className="mt-8 overflow-hidden">
+              <button className="px-8 py-3 bg-[#A91F1E]/30 text-white/90 font-medium rounded-lg hover:bg-[#A91F1E]/40 transition-all duration-300 backdrop-blur-md border border-[#A91F1E]/50 shadow-lg hover:shadow-[#A91F1E]/30">
+                Learn More
+              </button>
+            </div>
           </div>
         </div>
-    </div>
-    </>
-  )
-}
 
-export default page
+        <InteractiveTimeline/>
+      </div>
+    </>
+  );
+};
+
+export default page;
