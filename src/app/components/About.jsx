@@ -81,6 +81,7 @@ const About = () => {
   return (
     <div
       ref={section2Ref}
+    //   className="w-full h-screen max-sm:h-[70vh] relative flex flex-col justify-center items-center bg-gradient-to-b from-[#000]  to-[#191919] overflow-hidden"
       className="w-full h-screen max-sm:h-[70vh] relative flex flex-col justify-center items-center bg-gradient-to-b from-[#000]  to-[#191919] overflow-hidden"
     >
       {/* <span className="size-300 absolute top-[4%] left-[50%] rounded-full bg-[radial-gradient(circle_at_center,#a8288f_20%,transparent_70%)] blur-[90px]"></span> */}
@@ -98,7 +99,7 @@ const About = () => {
       </div>
 
       <button
-        ref={section2ButtonRef}
+        // ref={section2ButtonRef}
         className="text-white/90 border border-[#A91F1E]/50 px-6 py-3 font-semibold rounded-lg mt-16 z-10 cursor-pointer 
         bg-[#A91F1E]/30 backdrop-blur-md hover:bg-[#A91F1E]/40 transition-all duration-300 
         shadow-lg hover:shadow-[#A91F1E]/30"
@@ -116,7 +117,7 @@ const About = () => {
             loading="lazy"
             className="w-full"
             style={{
-              filter: "brightness(0) invert(0.1)",
+              filter: "brightness(0) invert(0.9) opacity(1)",
               willChange: "transform",
             }}
           />

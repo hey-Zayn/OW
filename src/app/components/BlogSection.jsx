@@ -32,7 +32,7 @@ const BlogSection = () => {
     }, []);
     return (
         <>
-            <div className='w-full h-full  '>
+            <div className='w-full h-full bg-[#E5E5E5] '>
                 <div className='relative w-full  h-full'>
                     {/* Imgages */}
                     <div className='absoulte top-0 h-[200px] max-sm:h-[100px]  overflow-hidden'>
