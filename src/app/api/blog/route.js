@@ -33,33 +33,54 @@ export async function GET(request) {
 }
 
 export async function POST(request){
-    const formData = await request.formData();
-    const timestamp = Date.now();
+    try {
+        const formData = await request.formData();
+        const timestamp = Date.now();
 
-    const image = formData.get('image');
-    const imageByteData = await image.arrayBuffer();
-    const buffer = Buffer.from(imageByteData);
-    const path = `./public/${timestamp}_${image.name}`;
-    await writeFile(path, buffer);
-    const imgUrl = `/${timestamp}_${image.name}`;
-    
-    const blogData = {
-        title:`${formData.get('title')}`,
-        description:`${formData.get('description')}`,
-        category:`${formData.get('category')}`,
-        author:`${formData.get('author')}`,
-        image:`${imgUrl}`,
-        authorImg:`${formData.get('authorImg')}`,
+        const image = formData.get('image');
+        if (!image) {
+            return NextResponse.json(
+                { success: false, message: "Image is required" },
+                { status: 400 }
+            );
+        }
+
+        const imageByteData = await image.arrayBuffer();
+        const buffer = Buffer.from(imageByteData);
+        
+        // Use process.cwd() for Vercel compatibility
+        const publicDir = process.cwd() + '/public';
+        if (!fs.existsSync(publicDir)){
+            fs.mkdirSync(publicDir, { recursive: true });
+        }
+        
+        const filename = `${timestamp}_${image.name}`;
+        const path = `${publicDir}/${filename}`;
+        await writeFile(path, buffer);
+        const imgUrl = `/${filename}`;
+        
+        const blogData = {
+            title: formData.get('title'),
+            description: formData.get('description'),
+            category: formData.get('category'),
+            author: formData.get('author'),
+            image: imgUrl,
+            authorImg: formData.get('authorImg'),
+        }
+
+        await BlogModel.create(blogData);
+        
+        return NextResponse.json({
+            success: true,
+            message: "Blog Added Successfully",
+        });
+    } catch (error) {
+        console.error('Error in POST /api/blog:', error);
+        return NextResponse.json(
+            { success: false, message: "Error creating blog" },
+            { status: 500 }
+        );
     }
-
-    await BlogModel.create(blogData);
-// console.log(imgUrl); this is for the testing perpuse for i m gona save this in DB
-console.log('blog Saved '); 
-
-    return NextResponse.json({
-        success:true,
-        message:"Blog Added Successfully",
-    });
 }
 
 
