@@ -70,7 +70,21 @@ const page = () => {
         document.getElementById('dropzone-file').value = '';
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Failed to create blog post');
+      if (error.response) {
+        if (error.response.data) {
+          if (error.response.data.message) {
+            toast.error(`Server error: ${error.response.data.message}`);
+          } else {
+            toast.error(`Server responded with status ${error.response.status}`);
+          }
+        } else {
+          toast.error(`Server error: ${error.response.statusText}`);
+        }
+      } else if (error.request) {
+        toast.error('No response received from server');
+      } else {
+        toast.error(`Request setup error: ${error.message}`);
+      }
     }
   };
 
