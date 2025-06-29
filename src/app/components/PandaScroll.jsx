@@ -83,8 +83,7 @@ export default function PandaScroll() {
             style={{ zIndex: 2, opacity: 1 }}
           />
           <p className="absolute text-center text-white bottom-[5%] xl:bottom-[12%] md:bottom-[17%] lg:bottom-[13%] 2xl:bottom-[10%] right-[10%] sm:right-[20%] md:right-[25%] lg:right-[30%] text-base sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-medium w-[80%] sm:w-[60%] md:w-[50%] lg:w-[43%] xl:w-[43%] 2xl:w-[50%]">
-            We Had to put the panda somewhere, so what if it's not in our logo,
-            we still love them.
+            Our journey blends creativity with strategy, crafting digital experiences that connect and convert.
           </p>
         </div>
       </div>

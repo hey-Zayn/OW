@@ -7,7 +7,7 @@ import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const About = () => {
+const AboutInfo = () => {
   const section2Ref = useRef(null);
   const section2TextRef = useRef(null);
   const section2ButtonRef = useRef(null);
@@ -82,7 +82,7 @@ const About = () => {
     <div
       ref={section2Ref}
     //   className="w-full h-screen max-sm:h-[70vh] relative flex flex-col justify-center items-center bg-gradient-to-b from-[#000]  to-[#191919] overflow-hidden"
-      className="w-full h-screen max-sm:h-[70vh] relative flex flex-col justify-center items-center bg-gradient-to-b from-[#000]  to-[#191919] overflow-hidden"
+      className="w-full h-screen max-sm:h-[70vh] relative flex flex-col justify-center items-center bg-[#010101] overflow-hidden"
     >
       {/* <span className="size-300 absolute top-[4%] left-[50%] rounded-full bg-[radial-gradient(circle_at_center,#a8288f_20%,transparent_70%)] blur-[90px]"></span> */}
 
@@ -128,4 +128,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default AboutInfo;

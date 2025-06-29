@@ -4,9 +4,61 @@
 import React, { useEffect, useState } from "react";
 import { CircleAlert } from "lucide-react";
 import Marquee from "../components/marquee";
+import NavBar from "../components/NavBar";
+import Footer from "../components/Footer";
 const Page = () => {
+
+  const [data, setData] = useState({
+   fullName: '',
+    email:"", 
+    company:"", 
+    phone:"",
+    job:""
+  });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    
+
+    const formData = new FormData();
+    formData.append('fullName', data.fullName);
+    formData.append('email', data.email);
+    formData.append('company', data.company);
+    formData.append('phone', data.phone);
+    formData.append('job', data.job);
+
+    try {
+      const response = await axios.post('/api/contact', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      
+      if(response.data.success) {
+        toast.success('Blog post created successfully!');
+        setData({
+          fullName: '',
+    email:"", 
+    company:"", 
+    phone:"",
+    job:""
+        });
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Failed to create blog post');
+    }
+  };
+
   return (
     <div className="w-full h-full bg-[#191919] ">
+      <NavBar/>
       <div className="w-full h-full pt-30">
         <Marquee />
         <div className="text-white w-full h-full pb-[2%] overflow-hidden bg-[#181818] pt-15">
@@ -36,6 +88,7 @@ const Page = () => {
 
             <div className="w-full h-full m-[4%] my-0">
               <form
+              onSubmit={handleSubmit}
                 className="flex flex-col gap-[15px]
             "
               >
@@ -49,6 +102,8 @@ const Page = () => {
                   type="text"
                   placeholder="Enter Your Full Name"
                   className="p-5 w-[90%] sm:w-[90%] md:w-[100%] xl:w-[100%] lg:w-[100%] 2xl:w-[100%] text-lg font-semibold border-[1px] border-gray-100 rounded-md focus:outline-none placeholder-[rgb(107,107,107)] placeholder:text-sm sm:placeholder:text-lg md:placeholder:text-lg xl:placeholder:text-lg lg:placeholder:text-lg 2xl:placeholder:text-lg"
+                  value={data.fullName}
+                  onChange={handleChange}
                 />
 
                 <label
@@ -61,6 +116,8 @@ const Page = () => {
                   type="text"
                   placeholder="Your Your Company Name"
                   className="p-5 w-[90%] sm:w-[90%] md:w-[100%] xl:w-[100%] lg:w-[100%] 2xl:w-[100%] text-lg font-semibold border-[1px] border-gray-100 rounded-md focus:outline-none placeholder-[rgb(107,107,107)] placeholder:text-sm sm:placeholder:text-lg md:placeholder:text-lg xl:placeholder:text-lg lg:placeholder:text-lg 2xl:placeholder:text-lg"
+                  value={data.company}
+                  onChange={handleChange}
                 />
                 <label
                   htmlFor=""
@@ -72,7 +129,10 @@ const Page = () => {
                   type="email"
                   placeholder="Your Business Email"
                   className="p-5 w-[90%] sm:w-[90%] md:w-[100%] xl:w-[100%] lg:w-[100%] 2xl:w-[100%] text-lg font-semibold border-[1px] border-gray-100 rounded-md focus:outline-none placeholder-[rgb(107,107,107)] placeholder:text-sm sm:placeholder:text-lg md:placeholder:text-lg xl:placeholder:text-lg lg:placeholder:text-lg 2xl:placeholder:text-lg"
+                  value={data.email}
+                  onChange={handleChange}
                 />
+                
                 <label
                   htmlFor=""
                   className="text-xl sm:text-1xl 2xl:text-4xl md:text-1xl lg:text-2xl font-medium"
@@ -83,6 +143,8 @@ const Page = () => {
                   type="tel"
                   placeholder="Enter Your Phone Number"
                   className="p-5 w-[90%] sm:w-[90%] md:w-[100%] xl:w-[100%] lg:w-[100%] 2xl:w-[100%] text-lg font-semibold border-[1px] border-gray-100 rounded-md focus:outline-none placeholder-[rgb(107,107,107)] placeholder:text-sm sm:placeholder:text-lg md:placeholder:text-lg xl:placeholder:text-lg lg:placeholder:text-lg 2xl:placeholder:text-lg"
+                  value={data.phone}
+                  onChange={handleChange}
                 />
                 <label
                   htmlFor=""
@@ -94,6 +156,8 @@ const Page = () => {
                   type="text"
                   placeholder="Enter Your Job Title"
                   className="p-5 w-[90%] sm:w-[90%] md:w-[100%] xl:w-[100%] lg:w-[100%] 2xl:w-[100%] text-lg font-semibold border-[1px] border-gray-100 rounded-md focus:outline-none placeholder-[rgb(107,107,107)] placeholder:text-sm sm:placeholder:text-lg md:placeholder:text-lg xl:placeholder:text-lg lg:placeholder:text-lg 2xl:placeholder:text-lg"
+                  value={data.job}
+                  onChange={handleChange}
                 />
                 <label
                   htmlFor=""
@@ -123,13 +187,15 @@ const Page = () => {
                   consent.
                 </p>
               </div>
-              <button className="p-8 py-3 text-lg font-semibold md:text-sm text-white bg-[#212121] border-white-50 outline-1 rounded-md ml-[20%] mt-[8%] sm:mt-[4%] sm:ml-[0%] md:mt-[4%] md:ml-[0%] xl:mt-[4%] xl:ml-[0%] lg:mt-[4%] lg:ml-[0%] 2xl:ml-[0%] 2xl:mt-[4%] cursor-pointer">
+              <button type="submit" className="p-8 py-3 text-lg font-semibold md:text-sm text-white bg-[#212121] border-white-50 outline-1 rounded-md ml-[20%] mt-[8%] sm:mt-[4%] sm:ml-[0%] md:mt-[4%] md:ml-[0%] xl:mt-[4%] xl:ml-[0%] lg:mt-[4%] lg:ml-[0%] 2xl:ml-[0%] 2xl:mt-[4%] cursor-pointer">
                 Get in Touch
               </button>
             </div>
           </div>
         </div>
       </div>
+
+      <Footer/>
     </div>
   );
 };

@@ -118,38 +118,69 @@ const Section3 = () => {
   const client = [
     {
       title: "Chief Strategy Officer",
-      company: "The Recovery Center USA",
+      company: "The Recovery Center USA | Cary, NC",
       period: "2022–Present",
+      achievements: [
+        "Spearheaded digital transformation for 6 behavioral health programs, increasing revenue by 25% in Year 1",
+        "Implemented HIPAA-compliant CRM system, boosting patient inquiries by 38%",
+        "Led cross-functional teams of 30+ to align tech infrastructure with strategic goals"
+      ],
+      tools: "Salesforce, Tableau, AI automation"
     },
     {
       title: "Director of Development & Innovation", 
-      company: "Healthcare Consultancy",
+      company: "Healthcare Consultancy Group | Remote",
       period: "2018–2022",
-     
+      achievements: [
+        "Launched multi-state digital campaigns that grew engagement by 30% through targeted content",
+        "Optimized vendor partnerships, reducing operational costs by 22%",
+        "Trained 8-10 member teams on data-driven decision making"
+      ],
+      tools: "HubSpot, Monday.com, Adobe Creative Suite"
     },
     {
       title: "Digital Strategy Consultant",
-      company: "Freelance Portfolio",
+      company: "Freelance Clients | National",
       period: "2016–2018",
-      
+      achievements: [
+        "Delivered $18K revenue growth for small businesses via SEO/email campaigns",
+        "Automated reporting workflows, saving 15+ hours weekly with Lean Six Sigma methods",
+        "Conducted leadership workshops for 50+ professionals"
+      ],
+      tools: "WordPress, Mailchimp, Google Analytics"
     },
     {
       title: "Marketing Director",
-      company: "Nonprofit Health Initiative",
+      company: "Nonprofit Health Initiative | Kansas City, MO",
       period: "2014–2016",
-      
+      achievements: [
+        "Secured $500K+ in grants through award-winning awareness campaigns",
+        "Revamped donor CRM system, improving retention by 27%",
+        "Negotiated contracts with 20+ vendors to enhance service delivery"
+      ],
+      tools: "Bloomerang, Canva, Meta Ads"
     },
     {
       title: "Creative Campaign Lead",
-      company: "Author Branding Projects",
+      company: "Author Branding Projects | Remote",
       period: "2012–2014",
-      
+      achievements: [
+        "Orchestrated marketing for an Amazon #1 Best Seller launch",
+        "Grew social media followings by 4,000+ through strategic content",
+        "Developed brand storytelling frameworks that increased engagement by 25-30%"
+      ],
+      tools: "Adobe Premiere, Hootsuite, SEMrush"
     },
     {
-      title: "Operations & Analytics Specialist",
-      company: "Global Consulting Firm",
+      title: "Operations Analyst",
+      company: "Global Consulting Firm | Chicago, IL",
       period: "2010–2012",
-     
+      achievements: [
+        "Built real-time dashboards that reduced reporting time by 20%",
+        "Authored 10+ whitepapers on digital transformation trends",
+        "Streamlined client deliverables using Lean Six Sigma principles"
+      ],
+      tools: "SharePoint, Tableau, Microsoft Power BI"
     }
   ]
 
@@ -192,29 +223,24 @@ const Section3 = () => {
                 index % 2 === 0 ? "rotate-z-25" : "-rotate-z-15"
               } ${index === 5 ? "mb-40" : ""}`}
             >
-              <div className="card w-80 bg-gradient-to-br from-red-900/30 to-red-800/40 backdrop-blur-lg rounded-2xl p-8 border border-red-500/30 shadow-xl shadow-red-900/20 transition-all duration-300 hover:shadow-red-800/30 hover:scale-[1.02] hover:border-red-500/50">
-                <div className="mb-6">
-                  <h3 className="text-2xl font-bold text-white tracking-tight">{item.title}</h3>
-                  <p className="text-white/80 text-sm mt-2">{item.company} • <span className="text-white/60">{item.period}</span></p>
+              <div className="card w-80 bg-gradient-to-br from-red-900/30 to-red-800/40 backdrop-blur-lg rounded-xl p-6 border border-red-500/30 shadow-lg shadow-red-900/20 transition-all duration-300 hover:shadow-red-800/30 hover:scale-[1.02] hover:border-red-500/50">
+                <div className="mb-5">
+                  <h3 className="text-xl font-semibold text-white tracking-tight">{item.title}</h3>
+                  <p className="text-white/80 text-xs mt-1.5 font-medium tracking-wide">{item.company} • <span className="text-white/60">{item.period}</span></p>
                 </div>
                 
                 {item.achievements && (
-                  <ul className="mb-6 space-y-2">
+                  <ul className="mb-5 space-y-2.5">
                     {item.achievements.map((achievement, i) => (
-                      <li key={i} className="text-white/90 text-sm leading-relaxed flex items-start">
-                        <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-500/80 mt-2 mr-2"></span>
+                      <li key={i} className="text-white/90 text-xs leading-relaxed flex items-start">
+                        <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-500/80 mt-1.5 mr-2 flex-shrink-0"></span>
                         {achievement}
                       </li>
                     ))}
                   </ul>
                 )}
                 
-                <button className="w-full mt-2 px-6 py-3 bg-red-600/80 text-white rounded-xl border border-red-500/50 hover:bg-red-700/90 transition-all duration-300 font-medium tracking-wide flex items-center justify-center gap-2">
-                  Learn More
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
-                  </svg>
-                </button>
+               
               </div>
             </div>
           ))}
@@ -222,7 +248,7 @@ const Section3 = () => {
       </div>
 
       {/* Mobile view */}
-      <div className="w-full h-full overflow-hidden lg:hidden md:hidden max-sm:block bg-[#191919]">
+      <div className="w-full h-full overflow-hidden lg:hidden md:hidden max-sm:block bg-[#E5E5E5]">
         <div className="h-full w-full py-4 px-4 overflow-hidden">
           <div className="flex flex-col justify-center gap-6">
             <div className="w-full flex flex-col justify-center mb-8">
@@ -232,26 +258,29 @@ const Section3 = () => {
               </h2>
             </div>
 
-            {[1, 2, 3, 4, 5, 6].map((num, index) => (
+            {client.map((item, index) => (
               <div
-                key={`mobile-card-${num}`}
+                key={`mobile-card-${index}`}
                 ref={(el) => (mobileCardRefs.current[index] = el)}
                 id={index === 0 ? "mobileCard1section3" : undefined}
                 className="w-full flex justify-center items-center"
               >
-                <div className="card w-80 bg-gradient-to-br from-red-900/30 to-red-800/40 backdrop-blur-lg rounded-2xl p-8 border border-red-500/30 shadow-xl shadow-red-900/20 transition-all hover:shadow-red-800/30 hover:scale-[1.02]">
-                  <h3 className="text-2xl font-bold text-white mb-4 tracking-tight">Challenge {num}</h3>
-                  <p className="text-white/90 text-base leading-relaxed mb-6">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  </p>
-                  <ul className="text-white/90 text-base leading-relaxed mb-6 list-disc pl-5">
-                    <li>Sample achievement 1</li>
-                    <li>Sample achievement 2</li>
-                    <li>Sample achievement 3</li>
-                  </ul>
-                  <button className="w-full mt-2 px-6 py-3 bg-red-600/80 text-white rounded-xl border border-red-500/50 hover:bg-red-700/90 transition-all duration-300 font-medium tracking-wide">
-                    Learn More →
-                  </button>
+                <div className="card w-80 bg-gradient-to-br from-red-900/30 to-red-800/40 backdrop-blur-lg rounded-xl p-6 border border-red-500/30 shadow-lg shadow-red-900/20 transition-all duration-300 hover:shadow-red-800/30 hover:scale-[1.02] hover:border-red-500/50">
+                  <div className="mb-5">
+                    <h3 className="text-xl font-semibold text-white tracking-tight">{item.title}</h3>
+                    <p className="text-white/80 text-xs mt-1.5 font-medium tracking-wide">{item.company} • <span className="text-white/60">{item.period}</span></p>
+                  </div>
+                  
+                  {item.achievements && (
+                    <ul className="mb-5 space-y-2.5">
+                      {item.achievements.map((achievement, i) => (
+                        <li key={i} className="text-white/90 text-xs leading-relaxed flex items-start">
+                          <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-500/80 mt-1.5 mr-2 flex-shrink-0"></span>
+                          {achievement}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               </div>
             ))}

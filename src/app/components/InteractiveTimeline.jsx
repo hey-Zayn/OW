@@ -67,12 +67,12 @@ const FloatingOrbs = memo(() => (
 
 const SectionHeader = memo(() => (
   <div className="text-center mb-20">
-    <h2 className="text-5xl md:text-5xl font-bold text-white mb-6">
-      <span className="text-white">
+    <h2 className="text-5xl md:text-5xl font-bold text-black mb-6">
+      <span className="text-black">
         Professional Milestones
       </span>
     </h2>
-    <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+    <p className="text-xl text-gray-800 max-w-2xl mx-auto">
       A comprehensive overview of my career progression, highlighting key achievements and <span className="font-bold">strategic contributions</span>
     </p>
   </div>
@@ -311,7 +311,8 @@ const InteractiveTimeline = () => {
   }, { scope: containerRef });
 
   return (
-    <section className="relative py-28 px-4 sm:px-8 bg-[#181818] overflow-hidden">
+    <section className="relative py-28 px-4 sm:px-8 bg-[#E5E5E5] overflow-hidden">
+       
       <FloatingOrbs />
 
       <div className="max-w-7xl mx-auto relative z-10">
