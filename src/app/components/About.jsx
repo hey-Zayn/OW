@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import Link from "next/link";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -99,6 +100,7 @@ const About = () => {
         </h1>
       </div>
 
+      <Link href={'/contact'}>
       <button
         // ref={section2ButtonRef}
         className="text-white/90 border border-[#A91F1E]/50 px-6 py-3 font-semibold rounded-lg mt-16 z-10 cursor-pointer 
@@ -107,6 +109,7 @@ const About = () => {
       >
         Get in Touch
       </button>
+      </Link>
 
       <div className="w-full max-sm:w-[300%] flex justify-center items-center absolute top-[75%]">
         {[...Array(8)].map((_, index) => (

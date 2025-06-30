@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { CircleAlert } from "lucide-react";
 import { toast } from "react-toastify";
+import Link from "next/link";
 
 const Form = () => {
   const [formData, setFormData] = useState({
@@ -70,9 +71,11 @@ const Form = () => {
               <button className="p-5 py-3 text-lg md:text-sm font-semibold bg-red-500/20 text-white border border-red-500/30 rounded-md max-sm:hidden cursor-pointer backdrop-blur-lg hover:bg-red-500/30 transition-all duration-300 shadow-lg hover:shadow-red-500/20">
                 Book a Demo
               </button>
+              <Link href={`/about`}>
               <button className="p-5 py-3 text-lg font-semibold md:text-sm text-white bg-[#212121] border-white-50 outline-1 rounded-md max-sm:hidden cursor-pointer">
                 Careers
               </button>
+              </Link>
             </div>
             <div className="w-55 mt-[15%]">
               <p>
@@ -81,7 +84,7 @@ const Form = () => {
               </p>
             </div>
             <div className="w-55 mt-[15%]">
-              <p><span className="font-bold">Email:</span>jwilliams01109@gmail.com</p>
+              <p className="text-sm space-x-1"><span className="font-bold">Email </span>jwilliams01109@gmail.com</p>
             </div>
           </div>
 

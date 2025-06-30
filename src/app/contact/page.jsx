@@ -7,6 +7,7 @@ import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Link from "next/link";
 
 const Page = () => {
   const [data, setData] = useState({
@@ -90,9 +91,11 @@ const Page = () => {
                 <button className="p-5 py-3 text-lg md:text-sm font-semibold bg-red-500/20 text-white border border-red-500/30 rounded-md max-sm:hidden cursor-pointer backdrop-blur-lg hover:bg-red-500/30 transition-all duration-300 shadow-lg hover:shadow-red-500/20">
                   Book a Demo
                 </button>
-                <button className="p-5 py-3 text-lg font-semibold md:text-sm text-white bg-[#212121] border-white-50 outline-1 rounded-md max-sm:hidden cursor-pointer">
+               <Link href={'/about'}>
+               <button className="p-5 py-3 text-lg font-semibold md:text-sm text-white bg-[#212121] border-white-50 outline-1 rounded-md max-sm:hidden cursor-pointer">
                   Careers
                 </button>
+               </Link>
               </div>
               <div className="w-55 mt-[15%]">
                 <p>
@@ -101,7 +104,7 @@ const Page = () => {
                 </p>
               </div>
               <div className="w-55 mt-[15%]">
-                <p>Email: info@chatpandas.com</p>
+                <p>Email: jwilliams01109@gmail.com</p>
               </div>
             </div>
 
