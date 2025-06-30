@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import {writeFile} from 'fs/promises';
-
+import { v2 as cloudinary } from 'cloudinary';
 import fs from 'fs'
 import connectDB from "@/lib/config/db";
 import BlogModel from "@/lib/models/BlogModel";
@@ -31,6 +31,17 @@ export async function GET(request) {
         return NextResponse.json({ success: false, message }, { status: 500 });
     }
 }
+
+
+  cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME || "dd9j33dja",
+    api_key: process.env.CLOUDINARY_API_KEY || "329347982555784",
+    api_secret: process.env.CLOUDINARY_API_SECRET || "4avhppvyg6hTcbXYBH4cTKjiDK8",
+    secure: true
+  });
+  
+
+
 // authToken
 export async function POST(request) {
     try {
