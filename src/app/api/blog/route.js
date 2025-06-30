@@ -31,96 +31,94 @@ export async function GET(request) {
         return NextResponse.json({ success: false, message }, { status: 500 });
     }
 }
-
+// authToken
 export async function POST(request) {
     try {
-        // Authentication check
-        const token = request.cookies.get('authToken')?.value;
-        if (!token) {
-            return NextResponse.json(
-                { success: false, message: "Authentication required" },
-                { status: 401 }
-            );
-        }
-
-        // Token verification
-        const { verify } = await import('@tsndr/cloudflare-worker-jwt');
-        const isValid = await verify(token, process.env.JWT_SECRET || "your-secret-key-here-must-be-at-least-32-chars");
-        if (!isValid) {
-            return NextResponse.json(
-                { success: false, message: "Invalid token" },
-                { status: 401 }
-            );
-        }
-
-        // Get authenticated user
-        const user = await getUserFromRequest(request);
-        if (!user) {
-            return NextResponse.json(
-                { success: false, message: "User not found" },
-                { status: 404 }
-            );
-        }
-
-        // Process form data
-        const formData = await request.formData();
-        const requiredFields = ['title', 'description', 'category', 'author', 'image'];
-        
-        // Validate required fields
-        for (const field of requiredFields) {
-            if (!formData.get(field)) {
-                return NextResponse.json(
-                    { success: false, message: `${field} is required` },
-                    { status: 400 }
-                );
+      // Check authentication
+      const token = request.cookies.get('authToken')?.value;
+      if (!token) {
+        return NextResponse.json(
+          { success: false, message: "Authentication required" },
+          { status: 401 }
+        );
+      }
+  
+      // Verify token
+      const { verify } = await import('@tsndr/cloudflare-worker-jwt');
+      const isValid = await verify(token, "your-secret-key-here-must-be-at-least-32-chars");
+      if (!isValid) {
+        return NextResponse.json(
+          { success: false, message: "Invalid token" },
+          { status: 401 }
+        );
+      }
+  
+      await connectDB();
+  
+      const formData = await request.formData();
+      const image = formData.get('image');
+  
+      // Validate image file
+      if (!image || typeof image === 'string') {
+        return NextResponse.json(
+          { success: false, message: "No image file provided" },
+          { status: 400 }
+        );
+      }
+  
+      // Convert image to buffer
+      const imageBuffer = await image.arrayBuffer();
+      const buffer = Buffer.from(imageBuffer);
+  
+      // Upload to Cloudinary
+      const result = await new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          {
+            resource_type: 'auto',
+            folder: 'blog-images' // Optional: Organize in Cloudinary folder
+          },
+          (error, result) => {
+            if (error) {
+              console.error('Cloudinary upload error:', error);
+              reject(new Error('Failed to upload image to Cloudinary'));
+            } else {
+              resolve(result);
             }
-        }
-
-        // Handle image upload
-        const image = formData.get('image');
-        const cloudinary = (await import('@/lib/utils/cloudinary')).default;
-        const buffer = Buffer.from(await image.arrayBuffer());
-
-        const result = await new Promise((resolve, reject) => {
-            cloudinary.uploader.upload_stream(
-                { 
-                    resource_type: 'auto',
-                    folder: 'blog-images'
-                },
-                (error, result) => error ? reject(error) : resolve(result)
-            ).end(buffer);
-        });
-
-        // Create blog post
-        const blogData = {
-            title: formData.get('title'),
-            description: formData.get('description'),
-            category: formData.get('category'),
-            author: formData.get('author'),
-            image: result.secure_url,
-            authorImg: formData.get('authorImg'),
-            createdBy: user.id,
-        };
-
-        const createdBlog = await BlogModel.create(blogData);
-        if (!createdBlog) {
-            throw new Error("Failed to create blog");
-        }
-
-        return NextResponse.json({
-            success: true,
-            message: "Blog created successfully",
-            blog: createdBlog
-        }, { status: 201 });
-
+          }
+        );
+        uploadStream.end(buffer);
+      });
+  
+      // Create blog post
+      const blogData = {
+        title: formData.get('title'),
+        description: formData.get('description'),
+        category: formData.get('category'),
+        author: formData.get('author'),
+        image: result.secure_url,
+        authorImg: formData.get('authorImg'),
+        createdBy: isValid.id, // Using user ID from token
+      };
+  
+      await BlogModel.create(blogData);
+  
+      return NextResponse.json({
+        success: true,
+        message: "Blog Added Successfully",
+        imageUrl: result.secure_url
+      });
+  
     } catch (error) {
-        console.error('Blog creation error:', error);
-        return NextResponse.json({
-            success: false,
-            message: error.message || "Internal server error"
-        }, { status: 500 });
+      console.error('Server error:', error);
+      return NextResponse.json(
+        { 
+          success: false, 
+          message: error.message || "Server error occurred" 
+        },
+        { status: 500 }
+      );
     }
-}
+  }
 
 
 
