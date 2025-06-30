@@ -1,76 +1,81 @@
-import jwt from 'jsonwebtoken';
-import { cookies } from 'next/headers';
-import bcrypt from 'bcryptjs';
+import { NextResponse } from "next/server";
+import bcryptjs from "bcryptjs";
+import { sign } from '@tsndr/cloudflare-worker-jwt';
+import UserModel from "@/lib/models/UserModel";
+import connectDB from "@/lib/config/db";
 
-export async function POST(request) {
+connectDB();
+
+export async function POST(req) {
     try {
-        const { email, password } = await request.json();
+        const { email, password } = await req.json();
         
-        // Validate input
         if (!email || !password) {
-            return Response.json(
-                { success: false, error: "Email and password are required" },
+            return NextResponse.json(
+                { message: "Email and password are required", success: false },
                 { status: 400 }
             );
         }
 
-        // In a real app, you would fetch user from database here
-        const hardcodedUser = {
-            email: "zaynobusiness@gmail.com",
-            passwordHash: "$2a$10$N9qo8uLOickgx2ZMRZoMy.Mrq1LxH5XhWX7JYz7JYz7JYz7JYz7JY" // hash for "zain123456"
-        };
-
-        // Check if user exists
-        if (email !== hardcodedUser.email) {
-            return Response.json(
-                { success: false, error: "Invalid credentials" },
+        const user = await UserModel.findOne({ email });
+        if (!user) {
+            return NextResponse.json(
+                { message: "Invalid credentials", success: false },
                 { status: 401 }
             );
         }
 
-        // Verify password
-        const isPasswordValid = await bcrypt.compare(password, hardcodedUser.passwordHash);
-        if (!isPasswordValid) {
-            return Response.json(
-                { success: false, error: "Invalid credentials" },
+        const isPasswordMatch = await bcryptjs.compare(password, user.password);
+        if (!isPasswordMatch) {
+            return NextResponse.json(
+                { message: "Invalid credentials", success: false },
                 { status: 401 }
             );
         }
 
-        // Create JWT token
-        const token = jwt.sign(
-            { email },
-            process.env.JWT_SECRET || "sadfasdfojasdfhkajsdhlfaslflkj",
-            { expiresIn: '1d' }
+        // Create token
+        const token = await sign(
+            {
+                id: user._id.toString(),
+                email: user.email
+            },
+            "your-secret-key-here-must-be-at-least-32-chars",
+            { expiresIn: '7d' }
         );
 
-        // Set cookie
-        cookies().set('token', token, {
+        // Create response
+        const response = NextResponse.json(
+            {
+                message: "Login successful",
+                success: true,
+                user: {
+                    id: user._id,
+                    email: user.email
+                }
+            },
+            { status: 200 }
+        );
+
+        // Set cookie with all required options
+        response.cookies.set({
+            name: "authToken",
+            value: token,
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict',
-            maxAge: 60 * 60 * 24, // 1 day
-            path: '/',
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
+            maxAge: 7 * 24 * 60 * 60,
+            path: "/",
+            domain: process.env.NODE_ENV === "development" ? "localhost" : ".yourdomain.com"
         });
 
-        return new Response(JSON.stringify({ 
-            success: true,
-            token 
-        }), {
-            status: 200,
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
+        console.log('Login successful - cookie set');
+        return response;
+
     } catch (error) {
-        return new Response(JSON.stringify({ 
-            success: false, 
-            error: "Invalid credentials" 
-        }), {
-            status: 401,
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
+        console.error("Login error:", error);
+        return NextResponse.json(
+            { message: "Internal server error", success: false },
+            { status: 500 }
+        );
     }
 }

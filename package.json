@@ -12,6 +12,7 @@
     "@gsap/react": "^2.1.2",
     "@splinetool/react-spline": "^4.0.0",
     "@splinetool/runtime": "^1.10.15",
+    "@tsndr/cloudflare-worker-jwt": "^3.2.0",
     "axios": "^1.10.0",
     "bcryptjs": "^3.0.2",
     "cloudinary": "^2.7.0",

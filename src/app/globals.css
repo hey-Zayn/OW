@@ -20,9 +20,10 @@
 }
 
 body {
-  background: var(--background);
+  background: #181818;
   color: var(--foreground);
   font-family: 'PPNeueMachina-PlainLight' ;
+
 }
 
 

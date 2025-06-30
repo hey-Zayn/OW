@@ -1,10 +1,10 @@
-
 import { NextResponse } from "next/server";
 import {writeFile} from 'fs/promises';
 
 import fs from 'fs'
 import connectDB from "@/lib/config/db";
 import BlogModel from "@/lib/models/BlogModel";
+import { getUserFromRequest } from "@/lib/utils/auth";
 
 const loadDB = async()=>{
     await connectDB();
@@ -33,10 +33,29 @@ export async function GET(request) {
 }
 
 export async function POST(request){
-    const formData = await request.formData();
-    const cloudinary = (await import('@/lib/utils/cloudinary')).default;
-
     try {
+        // Check authentication
+        const token = request.cookies.get('authToken')?.value;
+        if (!token) {
+            return NextResponse.json(
+                { success: false, message: "Authentication required" },
+                { status: 401 }
+            );
+        }
+
+        // Verify token
+        const { verify } = await import('@tsndr/cloudflare-worker-jwt');
+        const isValid = await verify(token, "your-secret-key-here-must-be-at-least-32-chars");
+        if (!isValid) {
+            return NextResponse.json(
+                { success: false, message: "Invalid token" },
+                { status: 401 }
+            );
+        }
+
+        const formData = await request.formData();
+        const cloudinary = (await import('@/lib/utils/cloudinary')).default;
+
         const image = formData.get('image');
         const imageByteData = await image.arrayBuffer();
         const buffer = Buffer.from(imageByteData);
@@ -59,6 +78,7 @@ export async function POST(request){
             author: formData.get('author'),
             image: result.secure_url,
             authorImg: formData.get('authorImg'),
+            createdBy: user.id, // Add user ID to track who created the blog
         }
 
         await BlogModel.create(blogData);
@@ -102,17 +122,38 @@ export async function DELETE(request) {
 export async function PUT(request) {
     const id = await request.nextUrl.searchParams.get('id');
     try {
-        const formData = await request.json();
-        
+        const formData = await request.formData();
+        let imageUrl = formData.get('currentImage');
+        const file = formData.get('image');
+
+        // Dynamically import cloudinary (like in POST)
+        const cloudinary = (await import('@/lib/utils/cloudinary')).default;
+
+        // If new image is uploaded, upload to Cloudinary
+        if (file && typeof file === 'object' && file.name && file.size > 0) {
+            const buffer = await file.arrayBuffer();
+            const result = await new Promise((resolve, reject) => {
+                cloudinary.uploader.upload_stream(
+                    { folder: 'blog-images' },
+                    (error, result) => {
+                        if (error) reject(error);
+                        else resolve(result);
+                    }
+                ).end(Buffer.from(buffer));
+            });
+            imageUrl = result.secure_url;
+        }
+
         const updatedBlog = await BlogModel.findByIdAndUpdate(
             id,
             {
                 $set: {
-                    title: formData.title,
-                    content: formData.content,
-                    category: formData.category,
-                    image: formData.image,
-                    isPublished: formData.isPublished
+                    title: formData.get('title'),
+                    description: formData.get('content') || formData.get('description'),
+                    content: formData.get('content') || formData.get('description'),
+                    category: formData.get('category'),
+                    image: imageUrl,
+                    isPublished: formData.get('isPublished') === 'true'
                 }
             },
             { new: true }
