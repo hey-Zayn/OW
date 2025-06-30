@@ -1,37 +1,34 @@
 import { NextResponse } from 'next/server';
 import { verify } from '@tsndr/cloudflare-worker-jwt';
 
-const JWT_SECRET = "your-secret-key-here-must-be-at-least-32-chars";
+const JWT_SECRET = "asdfkasndlkfkdsafhalskdfhlkahfdlkahds";
 
 export async function middleware(request) {
-  const { pathname } = request.nextUrl;
+  const { pathname, hostname } = request.nextUrl;
   
+  // Only protect admin routes
   if (pathname.startsWith('/admin')) {
     // Get token from cookies
     const token = request.cookies.get('authToken')?.value;
     
-    console.log('Middleware - Token from cookies:', token ? 'exists' : 'missing');
-    
     if (!token) {
-      console.log('Redirecting to login - no token');
-      return NextResponse.redirect(new URL(`/login?redirect=${pathname}`, request.url));
+      return NextResponse.redirect(
+        new URL(`/login?redirect=${pathname}`, request.url)
+      );
     }
 
     try {
-      // Verify token
       const isValid = await verify(token, JWT_SECRET);
+      if (!isValid) throw new Error('Invalid token');
       
-      if (!isValid) {
-        console.log('Redirecting to login - invalid token');
-        return NextResponse.redirect(new URL(`/login?redirect=${pathname}`, request.url));
-      }
-      
-      console.log('Token verified - allowing access');
       return NextResponse.next();
-      
     } catch (error) {
-      console.error('Token verification error:', error);
-      return NextResponse.redirect(new URL(`/login?redirect=${pathname}`, request.url));
+      // Clear invalid token
+      const response = NextResponse.redirect(
+        new URL(`/login?redirect=${pathname}`, request.url)
+      );
+      response.cookies.delete('authToken');
+      return response;
     }
   }
 

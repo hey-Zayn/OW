@@ -10,6 +10,7 @@ export async function POST(req) {
     try {
         const { email, password } = await req.json();
         
+        // Input validation
         if (!email || !password) {
             return NextResponse.json(
                 { message: "Email and password are required", success: false },
@@ -32,43 +33,33 @@ export async function POST(req) {
                 { status: 401 }
             );
         }
-
+        const JWT_SECRET = "your-secret-key-here-must-be-at-least-32-chars";
         // Create token
         const token = await sign(
-            {
-                id: user._id.toString(),
-                email: user.email
-            },
-            "your-secret-key-here-must-be-at-least-32-chars",
+            { id: user._id.toString(), email: user.email },
+            JWT_SECRET,
             { expiresIn: '7d' }
         );
 
         // Create response
         const response = NextResponse.json(
-            {
-                message: "Login successful",
-                success: true,
-                user: {
-                    id: user._id,
-                    email: user.email
-                }
-            },
+            { message: "Login successful", success: true, user: { id: user._id, email: user.email } },
             { status: 200 }
         );
 
-        // Set cookie with all required options
+        // Set cookie with proper domain for production
+        const isProduction = process.env.NODE_ENV === 'production';
         response.cookies.set({
             name: "authToken",
             value: token,
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "lax",
+            secure: isProduction,
+            sameSite: 'lax',
             maxAge: 7 * 24 * 60 * 60,
             path: "/",
-            domain: process.env.NODE_ENV === "development" ? "localhost" : "https://ow-ten.vercel.app"
+            domain: isProduction ? '.ow-ten.vercel.app' : undefined
         });
 
-        console.log('Login successful - cookie set');
         return response;
 
     } catch (error) {
