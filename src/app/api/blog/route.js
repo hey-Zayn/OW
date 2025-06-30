@@ -32,9 +32,9 @@ export async function GET(request) {
     }
 }
 
-export async function POST(request){
+export async function POST(request) {
     try {
-        // Check authentication
+        // Authentication check
         const token = request.cookies.get('authToken')?.value;
         if (!token) {
             return NextResponse.json(
@@ -43,9 +43,9 @@ export async function POST(request){
             );
         }
 
-        // Verify token
+        // Token verification
         const { verify } = await import('@tsndr/cloudflare-worker-jwt');
-        const isValid = await verify(token, "your-secret-key-here-must-be-at-least-32-chars");
+        const isValid = await verify(token, process.env.JWT_SECRET || "your-secret-key-here-must-be-at-least-32-chars");
         if (!isValid) {
             return NextResponse.json(
                 { success: false, message: "Invalid token" },
@@ -53,44 +53,7 @@ export async function POST(request){
             );
         }
 
-        const formData = await request.formData();
-        const cloudinary = (await import('@/lib/utils/cloudinary')).default;
-
-        const image = formData.get('image');
-        if (!image) {
-            return NextResponse.json(
-                { success: false, message: "Image is required" },
-                { status: 400 }
-            );
-        }
-
-        const imageByteData = await image.arrayBuffer();
-        const buffer = Buffer.from(imageByteData);
-        
-        // Upload image to Cloudinary with error handling
-        let result;
-        try {
-            result = await new Promise((resolve, reject) => {
-                cloudinary.uploader.upload_stream(
-                    { 
-                        resource_type: 'auto',
-                        folder: 'blog-images' // Add folder for better organization
-                    },
-                    (error, result) => {
-                        if (error) reject(error);
-                        else resolve(result);
-                    }
-                ).end(buffer);
-            });
-        } catch (uploadError) {
-            console.error('Cloudinary upload error:', uploadError);
-            return NextResponse.json(
-                { success: false, message: "Failed to upload image to Cloudinary" },
-                { status: 500 }
-            );
-        }
-
-        // Get user from token
+        // Get authenticated user
         const user = await getUserFromRequest(request);
         if (!user) {
             return NextResponse.json(
@@ -99,6 +62,36 @@ export async function POST(request){
             );
         }
 
+        // Process form data
+        const formData = await request.formData();
+        const requiredFields = ['title', 'description', 'category', 'author', 'image'];
+        
+        // Validate required fields
+        for (const field of requiredFields) {
+            if (!formData.get(field)) {
+                return NextResponse.json(
+                    { success: false, message: `${field} is required` },
+                    { status: 400 }
+                );
+            }
+        }
+
+        // Handle image upload
+        const image = formData.get('image');
+        const cloudinary = (await import('@/lib/utils/cloudinary')).default;
+        const buffer = Buffer.from(await image.arrayBuffer());
+
+        const result = await new Promise((resolve, reject) => {
+            cloudinary.uploader.upload_stream(
+                { 
+                    resource_type: 'auto',
+                    folder: 'blog-images'
+                },
+                (error, result) => error ? reject(error) : resolve(result)
+            ).end(buffer);
+        });
+
+        // Create blog post
         const blogData = {
             title: formData.get('title'),
             description: formData.get('description'),
@@ -107,27 +100,24 @@ export async function POST(request){
             image: result.secure_url,
             authorImg: formData.get('authorImg'),
             createdBy: user.id,
-        }
+        };
 
         const createdBlog = await BlogModel.create(blogData);
         if (!createdBlog) {
-            return NextResponse.json(
-                { success: false, message: "Failed to create blog" },
-                { status: 500 }
-            );
+            throw new Error("Failed to create blog");
         }
 
         return NextResponse.json({
             success: true,
-            message: "Blog Added Successfully",
+            message: "Blog created successfully",
             blog: createdBlog
         }, { status: 201 });
 
     } catch (error) {
-        console.error('Error in blog POST:', error);
+        console.error('Blog creation error:', error);
         return NextResponse.json({
             success: false,
-            message: "Internal server error"
+            message: error.message || "Internal server error"
         }, { status: 500 });
     }
 }
