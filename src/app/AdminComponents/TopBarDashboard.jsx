@@ -1,8 +1,24 @@
-import { Calendar } from "lucide-react";
+"use client"
+import { Calendar, LogOut } from "lucide-react";
+import { useRouter } from 'next/navigation';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 // import React from "react";
 
 const TopBarDashboard = () => {
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      await axios.post('/api/logout');
+      toast.success('Logged out successfully!');
+      router.push('/login');
+    } catch (error) {
+      toast.error('Logout failed');
+      console.error('Logout error:', error);
+    }
+  };
 
   return (
     <>
@@ -24,9 +40,19 @@ const TopBarDashboard = () => {
             </span>
           </div>
 
-          <button className="flex text-sm items-center gap-2 bg-stone-100 dark:bg-gray-800 transition-colors hover:bg-stone-200 dark:hover:bg-gray-700 px-3 py-1.5 rounded">
-            <span className="text-stone-950 dark:text-white">Prev 6 Months</span>
-          </button>
+          <div className="flex items-center gap-2">
+            <button className="flex text-sm items-center gap-2 bg-stone-100 dark:bg-gray-800 transition-colors hover:bg-stone-200 dark:hover:bg-gray-700 px-3 py-1.5 rounded">
+              <span className="text-stone-950 dark:text-white">Prev 6 Months</span>
+            </button>
+            
+            <button 
+              onClick={handleLogout}
+              className="flex text-sm items-center gap-2 bg-red-100 dark:bg-red-900/20 transition-colors hover:bg-red-200 dark:hover:bg-red-900/40 px-3 py-1.5 rounded text-red-700 dark:text-red-400"
+            >
+              <LogOut className="h-4 w-4" />
+              <span>Logout</span>
+            </button>
+          </div>
         </div>
       </div>
     </>

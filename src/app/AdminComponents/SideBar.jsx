@@ -1,65 +1,69 @@
-import React from 'react'
-
-import { Bell, FilePlus, LayoutDashboard, List, UserPlus } from 'lucide-react'
+"use client"
+import { usePathname } from 'next/navigation'
+import { Bell, FilePlus, LayoutDashboard, List } from 'lucide-react'
 import AccountToggle from '../AdminComponents/AccountToggle'
 import SearchBar from '../AdminComponents/SearchBar'
 import SideBarBottom from '../AdminComponents/SideBarBottom'
 import Link from 'next/link'
 
 const SideBar = () => {
+  const pathname = usePathname()
+
+  const isActive = (path) => {
+    return pathname === path
+  }
+
+  const navItems = [
+    {
+      path: '/admin',
+      icon: <LayoutDashboard className="text-red-100" size={18} />,
+      label: 'Dashboard'
+    },
+    {
+      path: '/admin/addProduct',
+      icon: <FilePlus className="text-red-100" size={18} />,
+      label: 'Add Blog'
+    },
+    {
+      path: '/admin/blogList',
+      icon: <List className="text-red-100" size={18} />,
+      label: 'Blog List'
+    },
+    {
+      path: '/admin/contacts',
+      icon: <List className="text-red-100" size={18} />,
+      label: 'Contact Data'
+    },
+    {
+      path: '/admin/subscription',
+      icon: <Bell className="text-red-100" size={18} />,
+      label: 'Subscription'
+    }
+  ]
+
   return (
     <div className="flex">
-      <div className="hidden lg:block w-[250px] sm:w-[300px] space-y-8 border-r border-gray-300 dark:border-gray-700 p-5 sticky top-0 h-screen bg-white dark:bg-gray-900">
+      <div className="hidden lg:block w-[250px] sm:w-[300px] space-y-8 p-5 sticky top-0 h-screen bg-red-500/10 backdrop-blur-sm border-r border-red-500/20">
         <div className="flex flex-col justify-between h-full">
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-4">
             <AccountToggle />
-
-            {/* Search Bar */}
             <SearchBar />
 
-            <div className="space-y-1.5">
-              <Link href='/admin'>
-                <button
-                  variant="ghost"
-                  className="flex items-center justify-start gap-3 w-full rounded-lg px-3 py-2 text-sm font-medium transition-all bg-gray-100/80 dark:bg-gray-800/90 text-stone-900 dark:text-white hover:bg-gray-200/80 dark:hover:bg-gray-700/90"
-                >
-                  <LayoutDashboard className="text-stone-600 dark:text-gray-300" size={18} />
-                  <span>Dashboard</span>
-                </button>
-              </Link>
-              
-              <Link href="/admin/addProduct">
-                <button variant="ghost" className="flex items-center justify-start gap-3 w-full rounded-lg px-3 py-2 text-sm font-medium transition-all hover:bg-gray-200/80 dark:hover:bg-gray-700/90 bg-transparent text-stone-600 dark:text-gray-300">
-                  <FilePlus className="text-stone-600 dark:text-gray-300" size={18} />
-                  <span>Add Blog</span>
-                </button>
-              </Link>
-              
-              <Link href='/admin/blogList'>
-                <button variant="ghost" className="flex items-center justify-start gap-3 w-full rounded-lg px-3 py-2 text-sm font-medium transition-all hover:bg-gray-200/80 dark:hover:bg-gray-700/90 bg-transparent text-stone-600 dark:text-gray-300">
-                  <List className="text-stone-600 dark:text-gray-300" size={18} />
-                  <span>Blog List</span>
-                </button>
-              </Link>
-             
-             
-              <Link href='/admin/blogList'>
-                <button variant="ghost" className="flex items-center justify-start gap-3 w-full rounded-lg px-3 py-2 text-sm font-medium transition-all hover:bg-gray-200/80 dark:hover:bg-gray-700/90 bg-transparent text-stone-600 dark:text-gray-300">
-                  <List className="text-stone-600 dark:text-gray-300" size={18} />
-                  <span>Contact Data</span>
-                </button>
-              </Link>
-             
-              
-              
-              
-              
-              <Link href='/admin/subscription'>
-                <button variant="ghost" className="flex items-center justify-start gap-3 w-full rounded-lg px-3 py-2 text-sm font-medium transition-all hover:bg-gray-200/80 dark:hover:bg-gray-700/90 bg-transparent text-stone-600 dark:text-gray-300">
-                  <Bell className="text-stone-600 dark:text-gray-300" size={18} />
-                  <span>Subscription</span>
-                </button>
-              </Link>
+            <div className="space-y-2">
+              {navItems.map((item) => (
+                <Link key={item.path} href={item.path}>
+                  <button
+                    className={`flex items-center justify-start gap-3 w-full rounded-lg px-3 py-2.5 text-sm font-medium transition-all ${
+                      isActive(item.path)
+                        ? 'bg-red-500/30 text-white'
+                        : 'text-red-100 hover:bg-red-500/20'
+                    }`}
+                  >
+                    {item.icon}
+                    <span>{item.label}</span>
+                  </button>
+                </Link>
+              ))}
             </div>
           </div>
 

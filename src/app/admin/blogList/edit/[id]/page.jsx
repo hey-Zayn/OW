@@ -8,24 +8,24 @@ const Page = () => {
     const { id } = useParams();
     const router = useRouter();
     const [loading, setLoading] = useState(true);
+    const [selectedImage, setSelectedImage] = useState(null);
     const [formData, setFormData] = useState({
         title: '',
-        content: '',
+        description: '',
         category: '',
-        image: ''
+        image: '',
+        author: "zain",
+        authorImg: "https://api.dicebear.com/9.x/notionists/svg"
     });
 
     const categories = [
         'Technology',
         'Business',
-        'Health',
-        'Entertainment',
-        'Sports',
-        'Science',
-        'Travel',
-        'Food',
-        'Lifestyle',
-        'Education'
+        'Marketing',
+        'Design',
+        'Development',
+        'SEO',
+        'Social Media'
     ];
 
     const fetchBlog = async () => {
@@ -34,9 +34,11 @@ const Page = () => {
             if (res.data.blog) {
                 setFormData({
                     title: res.data.blog.title,
-                    content: res.data.blog.content || '',
+                    description: res.data.blog.content || res.data.blog.description || '',
                     category: res.data.blog.category,
-                    image: res.data.blog.image
+                    image: res.data.blog.image,
+                    author: res.data.blog.author || "zain",
+                    authorImg: res.data.blog.authorImg || "https://api.dicebear.com/9.x/notionists/svg"
                 });
             }
         } catch (error) {
@@ -55,10 +57,29 @@ const Page = () => {
         }));
     };
 
+    const handleImageChange = (e) => {
+        setSelectedImage(e.target.files[0]);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.put(`/api/blog?id=${id}`, formData);
+            const formDataToSend = new FormData();
+            formDataToSend.append('title', formData.title);
+            formDataToSend.append('content', formData.description); // Changed from description to content
+            formDataToSend.append('category', formData.category);
+            formDataToSend.append('currentImage', formData.image);
+            
+            if (selectedImage) {
+                formDataToSend.append('image', selectedImage);
+            }
+
+            const res = await axios.put(`/api/blog?id=${id}`, formDataToSend, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+
             if (res.data.success) {
                 toast.success('Blog updated successfully');
                 router.push('/admin/blogList');
@@ -107,13 +128,13 @@ const Page = () => {
                     </div>
 
                     <div>
-                        <label htmlFor="content" className="block text-sm font-medium text-gray-300 mb-1">
-                            Content
+                        <label htmlFor="description" className="block text-sm font-medium text-gray-300 mb-1">
+                            Description
                         </label>
                         <textarea
-                            id="content"
-                            name="content"
-                            value={formData.content}
+                            id="description"
+                            name="description"
+                            value={formData.description}
                             onChange={handleChange}
                             rows={8}
                             className="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 placeholder-gray-400 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -144,16 +165,22 @@ const Page = () => {
 
                     <div>
                         <label htmlFor="image" className="block text-sm font-medium text-gray-300 mb-1">
-                            Image URL
+                            Image
                         </label>
                         <input
-                            type="text"
+                            type="file"
                             id="image"
                             name="image"
-                            value={formData.image}
-                            onChange={handleChange}
+                            onChange={handleImageChange}
                             className="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 placeholder-gray-400 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            accept="image/*"
                         />
+                        {formData.image && !selectedImage && (
+                            <div className="mt-2">
+                                <p className="text-sm text-gray-400">Current Image:</p>
+                                <img src={formData.image} alt="Current" className="mt-1 h-20 object-cover rounded" />
+                            </div>
+                        )}
                     </div>
 
                     <div className="flex justify-end space-x-4">
