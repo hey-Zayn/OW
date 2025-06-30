@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { toast } from 'react-toastify';
 import Link from 'next/link';
-import { Calendar, Clock, Share2, Twitter, Linkedin, Facebook, Mail, Send, Loader2 } from 'lucide-react';
+import { Calendar, Clock, Share2, Twitter, Linkedin, Facebook, Mail, Send, Loader2, Check } from 'lucide-react';
 import { Bookmark, Heart } from 'lucide-react';
 import NavBar from '@/app/components/NavBar';
 import Footer from '@/app/components/Footer';

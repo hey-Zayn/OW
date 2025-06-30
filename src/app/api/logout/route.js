@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 
-export async function POST() {
+export async function POST(request) {
     try {
+        // Create response
         const response = NextResponse.json(
             { 
                 success: true, 
@@ -10,8 +11,18 @@ export async function POST() {
             { status: 200 }
         );
         
-        // Clear cookie using proper Next.js API
-        response.cookies.delete('authToken');
+        // Clear the auth token cookie with proper settings
+        response.cookies.set({
+            name: 'authToken',
+            value: '',
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            path: '/',
+            domain: process.env.NODE_ENV === 'production' ? '.ow-ten.vercel.app' : undefined,
+            expires: new Date(0) // Set to past date to expire immediately
+        });
+
         return response;
     } catch (error) {
         console.error('Logout error:', error);

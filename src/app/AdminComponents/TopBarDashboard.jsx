@@ -3,6 +3,7 @@ import { Calendar, LogOut } from "lucide-react";
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import Link from "next/link";
 
 // import React from "react";
 
@@ -26,7 +27,7 @@ const TopBarDashboard = () => {
         <div className="flex items-center justify-between p-0.5">
           <div>
             <span className="text-sm font-bold block text-stone-950 dark:text-white">
-              🚀 Welcome Bcak, Olivier!
+              🚀 Welcome Back, Olivier!
             </span>
             <span className="text-xs block text-stone-500 dark:text-stone-400">
               {
@@ -41,9 +42,11 @@ const TopBarDashboard = () => {
           </div>
 
           <div className="flex items-center gap-2">
-            <button className="flex text-sm items-center gap-2 bg-stone-100 dark:bg-gray-800 transition-colors hover:bg-stone-200 dark:hover:bg-gray-700 px-3 py-1.5 rounded">
-              <span className="text-stone-950 dark:text-white">Prev 6 Months</span>
+            <Link href={'/'}>
+            <button className="flex text-sm items-center gap-2 bg-red-50/10 border border-red-200/30 transition-colors hover:bg-red-50/20 hover:border-red-300/50 px-3 py-1.5 rounded">
+              <span className="text-red-100 hover:text-white">Back to Home</span>
             </button>
+            </Link>
             
             <button 
               onClick={handleLogout}
