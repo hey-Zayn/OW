@@ -79,7 +79,7 @@ const PortfolioHero = () => {
               Loading 3D Model...
             </div>
           }>
-            <SplineModel />
+            {/* <SplineModel /> */}
           </Suspense>
         )}
       </div>

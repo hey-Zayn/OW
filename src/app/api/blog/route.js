@@ -57,19 +57,47 @@ export async function POST(request){
         const cloudinary = (await import('@/lib/utils/cloudinary')).default;
 
         const image = formData.get('image');
+        if (!image) {
+            return NextResponse.json(
+                { success: false, message: "Image is required" },
+                { status: 400 }
+            );
+        }
+
         const imageByteData = await image.arrayBuffer();
         const buffer = Buffer.from(imageByteData);
         
-        // Upload image to Cloudinary
-        const result = await new Promise((resolve, reject) => {
-            cloudinary.uploader.upload_stream(
-                { resource_type: 'auto' },
-                (error, result) => {
-                    if (error) reject(error);
-                    else resolve(result);
-                }
-            ).end(buffer);
-        });
+        // Upload image to Cloudinary with error handling
+        let result;
+        try {
+            result = await new Promise((resolve, reject) => {
+                cloudinary.uploader.upload_stream(
+                    { 
+                        resource_type: 'auto',
+                        folder: 'blog-images' // Add folder for better organization
+                    },
+                    (error, result) => {
+                        if (error) reject(error);
+                        else resolve(result);
+                    }
+                ).end(buffer);
+            });
+        } catch (uploadError) {
+            console.error('Cloudinary upload error:', uploadError);
+            return NextResponse.json(
+                { success: false, message: "Failed to upload image to Cloudinary" },
+                { status: 500 }
+            );
+        }
+
+        // Get user from token
+        const user = await getUserFromRequest(request);
+        if (!user) {
+            return NextResponse.json(
+                { success: false, message: "User not found" },
+                { status: 404 }
+            );
+        }
 
         const blogData = {
             title: formData.get('title'),
@@ -78,21 +106,28 @@ export async function POST(request){
             author: formData.get('author'),
             image: result.secure_url,
             authorImg: formData.get('authorImg'),
-            createdBy: user.id, // Add user ID to track who created the blog
+            createdBy: user.id,
         }
 
-        await BlogModel.create(blogData);
-        console.log('Blog saved with Cloudinary image');
+        const createdBlog = await BlogModel.create(blogData);
+        if (!createdBlog) {
+            return NextResponse.json(
+                { success: false, message: "Failed to create blog" },
+                { status: 500 }
+            );
+        }
 
         return NextResponse.json({
             success: true,
             message: "Blog Added Successfully",
-        });
+            blog: createdBlog
+        }, { status: 201 });
+
     } catch (error) {
-        console.error('Error uploading to Cloudinary:', error);
+        console.error('Error in blog POST:', error);
         return NextResponse.json({
             success: false,
-            message: "Error uploading image"
+            message: "Internal server error"
         }, { status: 500 });
     }
 }
