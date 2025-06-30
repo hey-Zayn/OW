@@ -1,11 +1,11 @@
 "use client"
-import React, { useState, Suspense } from 'react'
+import { useState, Suspense } from 'react'
 import { Lock, Mail, Eye, EyeOff } from 'lucide-react'
 import { toast } from 'react-toastify'
-import axios from 'axios'
 import { useRouter, useSearchParams } from 'next/navigation'
+import axios from 'axios'
 
-const LoginForm = () => {
+function LoginForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -19,19 +19,20 @@ const LoginForm = () => {
     setIsSubmitting(true)
 
     try {
-      const response = await axios.post('/api/login', { email, password })
+      const response = await axios.post('/api/login', { email, password }, {
+        headers: { 'Content-Type': 'application/json' }
+      })
 
       if (response.data.success) {
         toast.success('Login successful!')
-        // Check auth status before redirect
-        const authCheck = await axios.get('/api/auth/check', {
-          withCredentials: true
+        const authCheck = await axios.get('/api/auth/check', { 
+          withCredentials: true 
         })
         
         if (authCheck.data.isAuthenticated) {
           router.push(redirectTo)
         } else {
-          toast.error('Authentication failed')
+          toast.error('Authentication verification failed')
         }
       } else {
         toast.error(response.data.message || 'Login failed')
@@ -111,12 +112,10 @@ const LoginForm = () => {
   )
 }
 
-const Page = () => {
+export default function LoginPage() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
       <LoginForm />
     </Suspense>
   )
 }
-
-export default Page
