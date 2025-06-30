@@ -111,17 +111,17 @@ const page = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-red-100/90 mb-1">Category*</label>
+              <label className="block text-sm font-medium text-white/90 mb-1">Category*</label>
               <select
                 name="category"
                 value={data.category}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-red-200/30 rounded-md bg-red-50/10 text-white focus:outline-none focus:ring-2 focus:ring-red-500/80 focus:border-transparent transition-all duration-200"
+                className="w-full px-3 py-2 border border-white/30 rounded-md bg-black/50 text-white focus:outline-none focus:ring-2 focus:ring-red-500/80 focus:border-transparent transition-all duration-200"
                 required
               >
-                <option value="">Select a category</option>
+                <option value="" className="bg-black/50">Select a category</option>
                 {categories.map((category) => (
-                  <option key={category} value={category}>{category}</option>
+                  <option key={category} value={category} className="bg-black/50">{category}</option>
                 ))}
               </select>
             </div>
