@@ -1,11 +1,11 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useState, Suspense } from 'react'
 import { Lock, Mail, User, Eye, EyeOff } from 'lucide-react'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 import { useRouter, useSearchParams } from 'next/navigation'
 
-const Page = () => {
+const RegisterForm = () => {
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -129,6 +129,14 @@ const Page = () => {
         </div>
       </div>
     </div>
+  )
+}
+
+const Page = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <RegisterForm />
+    </Suspense>
   )
 }
 
