@@ -14,7 +14,7 @@ const page = () => {
         <NavBar/>
         {/* --------------------------------  { Hero }  ------------------------------------------ */}
         <div className="w-full h-screen relative bg-[#010101] overflow-hidden">
-          {/* <SplineModel /> */}
+          <SplineModel />
           <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-4 text-center">
             <div className="overflow-hidden">
               <h1 className="text-white text-6xl sm:text-7xl md:text-8xl font-bold tracking-tight mb-4">

@@ -4,6 +4,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import axios from 'axios';
+import Link from 'next/link';
 
 const BlogSection = () => {
     const [blogs, setBlogs] = useState([]);
@@ -77,39 +78,43 @@ const BlogSection = () => {
                                 <div className="text-white text-center">Loading blogs...</div>
                             ) : blogs.length > 0 ? (
                                 blogs.slice(0, 3).map((blog, index) => (
-                                    <div key={index} className="flex max-sm:flex-col justify-between hover:bg-[#ED97A8] group duration-300 mt-20 max-sm:px-10 cursor-pointer">
-                                        <div className="w-[25%] max-sm:w-full opacity-0 max-sm:opacity-100 group-hover:opacity-100 transition-opacity duration-300">
-                                            <img src={blog.image} alt={blog.title} />
-                                        </div>
-                                        <div className="w-[75%] max-sm:w-full px-15 max-sm:px-0">
-                                            <div className="w-full h-full flex max-sm:flex-col max-sm:gap-10 justify-between border-b border-white/30 py-4">
-                                                <div>
-                                                    <h2 className="text-2xl text-white font-semibold group-hover:text-black duration-300">
-                                                        {blog.title}
-                                                    </h2>
-                                                    <p className="text-white/80 mt-2 line-clamp-2 group-hover:text-black">
-                                                        {blog.description?.substring(0, 50)}...
-                                                    </p>
+                                    <Link href={`/blog/${blog._id || blog.id}`} key={index}>
+                                        <div className="flex max-sm:flex-col justify-between hover:bg-[#ED97A8] group duration-300 mt-20 max-sm:px-10 cursor-pointer">
+                                            <div className="w-[25%] max-sm:w-full opacity-0 max-sm:opacity-100 group-hover:opacity-100 transition-opacity duration-300">
+                                                <img src={blog.image} alt={blog.title} />
+                                            </div>
+                                            <div className="w-[75%] max-sm:w-full px-15 max-sm:px-0">
+                                                <div className="w-full h-full flex max-sm:flex-col max-sm:gap-10 justify-between border-b border-white/30 py-4">
+                                                    <div>
+                                                        <h2 className="text-2xl text-white font-semibold group-hover:text-black duration-300">
+                                                            {blog.title}
+                                                        </h2>
+                                                        <p className="text-white/80 mt-2 line-clamp-2 group-hover:text-black">
+                                                            {blog.description?.substring(0, 50)}...
+                                                        </p>
+                                                    </div>
+                                                    <h5 className="text-xl font-semibold text-white group-hover:text-black group-hover:font-medium duration-300">
+                                                        {new Date(blog.date || blog.createdAt).toLocaleDateString('en-US', {
+                                                            year: 'numeric',
+                                                            month: 'long',
+                                                            day: 'numeric'
+                                                        })}
+                                                    </h5>
                                                 </div>
-                                                <h5 className="text-xl font-semibold text-white group-hover:text-black group-hover:font-medium duration-300">
-                                                    {new Date(blog.date || blog.createdAt).toLocaleDateString('en-US', {
-                                                        year: 'numeric',
-                                                        month: 'long',
-                                                        day: 'numeric'
-                                                    })}
-                                                </h5>
                                             </div>
                                         </div>
-                                    </div>
+                                    </Link>
                                 ))
                             ) : (
                                 <div className="text-white text-center">No blogs found</div>
                             )}
 
                             <div className="w-full py-10 max-sm:pt-20">
-                                <button className="bg-transparent px-3 py-1 border rounded-full border-white text-white ml-[30%] max-sm:ml-[10%] cursor-pointer">
+                               <Link href="/blog">
+                               <button className="bg-transparent px-3 py-1 border rounded-full border-white text-white ml-[30%] max-sm:ml-[10%] cursor-pointer">
                                     View All
                                 </button>
+                               </Link>
                             </div>
                         </div>
                     </div>
