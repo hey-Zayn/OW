@@ -145,7 +145,7 @@ const Page = () => {
                     </div>
 
                     <div>
-                        <label htmlFor="category" className="block text-sm font-medium text-red-100/90 mb-1">
+                        <label htmlFor="category" className="block text-sm font-medium text-white mb-1">
                             Category
                         </label>
                         <select
@@ -153,12 +153,12 @@ const Page = () => {
                             name="category"
                             value={formData.category}
                             onChange={handleChange}
-                            className="w-full px-4 py-2 rounded-lg bg-red-50/10 border border-red-200/30 text-white focus:outline-none focus:ring-2 focus:ring-red-500/80 focus:border-transparent"
+                            className="w-full px-4 py-2 rounded-lg  border border-red-200/30 bg-black/50 text-white focus:outline-none focus:ring-2 focus:ring-red-500/80 focus:border-transparent"
                             required
                         >
                             <option value="">Select a category</option>
                             {categories.map((category) => (
-                                <option key={category} value={category}>
+                                <option key={category} value={category} className='bg-black '>
                                     {category}
                                 </option>
                             ))}
