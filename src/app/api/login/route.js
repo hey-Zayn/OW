@@ -47,7 +47,7 @@ export async function POST(req) {
             { status: 200 }
         );
 
-        // Set cookie with proper domain for production
+        // Set cookie with proper domain for Vercel
         const isProduction = process.env.NODE_ENV === 'production';
         response.cookies.set({
             name: "authToken",
@@ -55,11 +55,12 @@ export async function POST(req) {
             httpOnly: true,
             secure: isProduction,
             sameSite: 'lax',
-            maxAge: 7 * 24 * 60 * 60,
+            maxAge: 7 * 24 * 60 * 60, // 7 days
             path: "/",
-            domain: isProduction ? '.ow-ten.vercel.app' : undefined
+            domain: isProduction ? 'ow-ten.vercel.app' : undefined
         });
 
+        console.log('Login successful - cookie set');
         return response;
 
     } catch (error) {
