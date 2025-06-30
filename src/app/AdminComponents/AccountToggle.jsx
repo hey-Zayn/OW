@@ -16,9 +16,9 @@ const AccountToggle = () => {
               className="size-8 rounded shrink-0 bg-violet-500 shadow object-cover"
             />
             <div className="text-start">
-              <span className="text-sm font-bold block text-stone-950 dark:text-white">Zain Butt</span>
+              <span className="text-sm font-bold block text-stone-950 dark:text-white">Olivier Williams</span>
               <span className="text-xs block text-stone-500 dark:text-stone-400">
-               Zainbutt@gmail.com
+               admin@gmail.com
               </span>
             </div>
 

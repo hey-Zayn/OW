@@ -26,7 +26,7 @@ const TopBarDashboard = () => {
         <div className="flex items-center justify-between p-0.5">
           <div>
             <span className="text-sm font-bold block text-stone-950 dark:text-white">
-              🚀 Good morning, Zain!
+              🚀 Welcome Bcak, Olivier!
             </span>
             <span className="text-xs block text-stone-500 dark:text-stone-400">
               {
