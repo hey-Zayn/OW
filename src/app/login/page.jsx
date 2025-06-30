@@ -19,26 +19,40 @@ function LoginForm() {
     setIsSubmitting(true)
 
     try {
-      const response = await axios.post('/api/login', { email, password }, {
-        headers: { 'Content-Type': 'application/json' }
+      // 1. First make login request
+      const loginResponse = await axios.post('/api/login', { 
+        email, 
+        password 
+      }, {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true // Ensure cookies are included
       })
 
-      if (response.data.success) {
-        toast.success('Login successful!')
-        const authCheck = await axios.get('/api/auth/check', { 
-          withCredentials: true 
-        })
-        
-        if (authCheck.data.isAuthenticated) {
-          router.push(redirectTo)
-        } else {
-          toast.error('Authentication verification failed')
-        }
-      } else {
-        toast.error(response.data.message || 'Login failed')
+      if (!loginResponse.data.success) {
+        throw new Error(loginResponse.data.message || 'Login failed')
       }
+
+      toast.success('Login successful!')
+
+      // 2. Verify authentication status
+      const authCheck = await axios.get('/api/auth/check', {
+        withCredentials: true // Important for cookies
+      })
+
+      if (!authCheck.data?.isAuthenticated) {
+        throw new Error('Authentication verification failed')
+      }
+
+      // 3. Small delay to ensure cookie is properly set
+      await new Promise(resolve => setTimeout(resolve, 100))
+      
+      // 4. Redirect to admin page
+      router.push(redirectTo)
+      router.refresh() // Ensure client-side cache is updated
+
     } catch (error) {
-      toast.error(error.response?.data?.message || 'An error occurred')
+      console.error('Login error:', error)
+      toast.error(error.response?.data?.message || error.message || 'An error occurred')
     } finally {
       setIsSubmitting(false)
     }
@@ -96,7 +110,7 @@ function LoginForm() {
             <button 
               type="submit"
               disabled={isSubmitting}
-              className="w-full py-3 px-4 bg-gradient-to-r from-red-500/80 to-red-600/90 hover:from-red-500 hover:to-red-600 text-white font-medium rounded-lg transition-all duration-300 shadow-lg hover:shadow-red-5/30 hover:scale-[1.02] disabled:opacity-70 disabled:cursor-not-allowed"
+              className="w-full py-3 px-4 bg-gradient-to-r from-red-500/80 to-red-600/90 hover:from-red-500 hover:to-red-600 text-white font-medium rounded-lg transition-all duration-300 shadow-lg hover:shadow-red-500/30 hover:scale-[1.02] disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {isSubmitting ? 'Signing In...' : 'Sign In'}
             </button>
