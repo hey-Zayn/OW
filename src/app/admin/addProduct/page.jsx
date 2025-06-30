@@ -174,7 +174,7 @@ const page = () => {
                     title: '',
                     description: '',
                     category: '',
-                    author: "zain",
+                    author: "Oliver Williams",
                     authorImg: "https://api.dicebear.com/9.x/notionists/svg",
                   });
                   setImage(null);
