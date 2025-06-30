@@ -108,12 +108,14 @@ const Page = () => {
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div className="bg-gray-900 rounded-xl shadow-md border border-gray-700 p-6">
-                <h1 className="text-2xl font-bold text-white mb-6">Edit Blog Post</h1>
+            <div className="bg-white/10 backdrop-blur-lg rounded-xl shadow-lg border border-red-200/30 p-6">
+                <h1 className="text-2xl font-bold mb-6 text-white ">
+                    Edit Blog Post
+                </h1>
                 
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                        <label htmlFor="title" className="block text-sm font-medium text-gray-300 mb-1">
+                        <label htmlFor="title" className="block text-sm font-medium text-red-100/90 mb-1">
                             Title
                         </label>
                         <input
@@ -122,13 +124,13 @@ const Page = () => {
                             name="title"
                             value={formData.title}
                             onChange={handleChange}
-                            className="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 placeholder-gray-400 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            className="w-full px-4 py-2 rounded-lg bg-red-50/10 border border-red-200/30 placeholder-red-200/50 text-white focus:outline-none focus:ring-2 focus:ring-red-500/80 focus:border-transparent"
                             required
                         />
                     </div>
 
                     <div>
-                        <label htmlFor="description" className="block text-sm font-medium text-gray-300 mb-1">
+                        <label htmlFor="description" className="block text-sm font-medium text-red-100/90 mb-1">
                             Description
                         </label>
                         <textarea
@@ -137,13 +139,13 @@ const Page = () => {
                             value={formData.description}
                             onChange={handleChange}
                             rows={8}
-                            className="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 placeholder-gray-400 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            className="w-full px-4 py-2 rounded-lg bg-red-50/10 border border-red-200/30 placeholder-red-200/50 text-white focus:outline-none focus:ring-2 focus:ring-red-500/80 focus:border-transparent"
                             required
                         />
                     </div>
 
                     <div>
-                        <label htmlFor="category" className="block text-sm font-medium text-gray-300 mb-1">
+                        <label htmlFor="category" className="block text-sm font-medium text-red-100/90 mb-1">
                             Category
                         </label>
                         <select
@@ -151,7 +153,7 @@ const Page = () => {
                             name="category"
                             value={formData.category}
                             onChange={handleChange}
-                            className="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 placeholder-gray-400 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            className="w-full px-4 py-2 rounded-lg bg-red-50/10 border border-red-200/30 text-white focus:outline-none focus:ring-2 focus:ring-red-500/80 focus:border-transparent"
                             required
                         >
                             <option value="">Select a category</option>
@@ -164,7 +166,7 @@ const Page = () => {
                     </div>
 
                     <div>
-                        <label htmlFor="image" className="block text-sm font-medium text-gray-300 mb-1">
+                        <label htmlFor="image" className="block text-sm font-medium text-red-100/90 mb-1">
                             Image
                         </label>
                         <input
@@ -172,13 +174,13 @@ const Page = () => {
                             id="image"
                             name="image"
                             onChange={handleImageChange}
-                            className="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 placeholder-gray-400 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            className="w-full px-4 py-2 rounded-lg bg-red-50/10 border border-red-200/30 text-white focus:outline-none focus:ring-2 focus:ring-red-500/80 focus:border-transparent"
                             accept="image/*"
                         />
                         {formData.image && !selectedImage && (
                             <div className="mt-2">
-                                <p className="text-sm text-gray-400">Current Image:</p>
-                                <img src={formData.image} alt="Current" className="mt-1 h-20 object-cover rounded" />
+                                <p className="text-sm text-red-100/80">Current Image:</p>
+                                <img src={formData.image} alt="Current" className="mt-1 h-20 object-cover rounded border border-red-200/30" />
                             </div>
                         )}
                     </div>
@@ -187,13 +189,13 @@ const Page = () => {
                         <button
                             type="button"
                             onClick={() => router.push('/admin/blogList')}
-                            className="px-4 py-2 border border-gray-600 text-white rounded-lg hover:bg-gray-800 transition-colors"
+                            className="px-4 py-2 border border-red-200/30 text-red-100 font-medium rounded-lg transition-all duration-200 hover:bg-red-500/20 hover:text-white hover:border-red-300/50"
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
-                            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                            className="px-6 py-2 bg-gradient-to-r from-red-500/80 to-red-600/90 hover:from-red-500 hover:to-red-600 text-white font-medium rounded-lg transition-all duration-300 shadow-lg hover:shadow-red-500/40 hover:scale-[1.02]"
                         >
                             Update Post
                         </button>

@@ -48,30 +48,32 @@ const Page = () => {
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div className="bg-gray-900 rounded-xl shadow-md border border-gray-700 p-6">
-                <h1 className="text-2xl font-bold text-white mb-6">Email Subscriptions</h1>
+            <div className="bg-white/10 backdrop-blur-lg rounded-xl shadow-lg border border-red-200/30 p-6">
+                <h1 className="text-2xl font-bold text-white mb-6 text-transparent bg-clip-text bg-gradient-to-r from-red-300 to-red-500">
+                    Email Subscriptions
+                </h1>
                 
                 <div className="overflow-x-auto">
-                    <table className="min-w-full divide-y divide-gray-700">
-                        <thead className="bg-gray-800">
+                    <table className="min-w-full divide-y divide-red-200/30">
+                        <thead className="bg-red-50/10">
                             <tr>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Email</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Date Subscribed</th>
-                                <th className="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">Actions</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-red-100/90 uppercase tracking-wider">Email</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-red-100/90 uppercase tracking-wider">Date Subscribed</th>
+                                <th className="px-6 py-3 text-right text-xs font-medium text-red-100/90 uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
-                        <tbody className="bg-gray-900 divide-y divide-gray-700">
+                        <tbody className="divide-y divide-red-200/30">
                             {emails.length > 0 ? (
                                 emails.map((email) => (
-                                    <tr key={email._id}>
+                                    <tr key={email._id} className="hover:bg-red-50/20 transition-colors duration-150">
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{email.email}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-red-100/80">
                                             {new Date(email.createdAt).toLocaleDateString()}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <button
                                                 onClick={() => handleDelete(email._id)}
-                                                className="text-red-500 hover:text-red-400 transition-colors"
+                                                className="text-red-400 hover:text-red-300 transition-colors"
                                             >
                                                 Remove
                                             </button>
@@ -80,7 +82,7 @@ const Page = () => {
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan="3" className="px-6 py-4 text-center text-sm text-gray-400">
+                                    <td colSpan="3" className="px-6 py-4 text-center text-sm text-red-100/80">
                                         No subscriptions found
                                     </td>
                                 </tr>
