@@ -65,7 +65,7 @@ export async function POST(req) {
             sameSite: "lax",
             maxAge: 7 * 24 * 60 * 60,
             path: "/",
-            domain: process.env.NODE_ENV === "development" ? "localhost" : ".yourdomain.com"
+            domain: process.env.NODE_ENV === "development" ? "localhost" : "https://ow-ten.vercel.app"
         });
 
         console.log('Login successful - cookie set');
