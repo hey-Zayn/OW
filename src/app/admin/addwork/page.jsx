@@ -7,6 +7,7 @@ const AddWorkPage = () => {
     title: '',
     description: '',
     technologies: [],
+    categories: [],
     completionDate: '',
     featured: false,
     company: '',
@@ -15,12 +16,41 @@ const AddWorkPage = () => {
   const [loading, setLoading] = useState(false)
   const [techInput, setTechInput] = useState('')
 
+  const categoriesList = [
+    'Business Strategy',
+    'Market Expansion',
+    'Revenue Growth',
+    'Partnership Development',
+    'Digital Transformation',
+    'Product Development',
+    'Operational Efficiency',
+    'Customer Experience',
+    'Data Analytics',
+    'International Business',
+    'Mergers & Acquisitions',
+    'Startup Consulting',
+    'Business Development & Strategy Executive'
+  ]
+
   const handleChange = (e) => {
-    const { name, value, type, files } = e.target
+    const { name, value, type, files, checked } = e.target
     setData(prev => ({
       ...prev,
-      [name]: type === 'file' ? files[0] : value
+      [name]: type === 'file' ? files[0] : 
+              type === 'checkbox' ? checked : value
     }))
+  }
+
+  const handleCategoryChange = (category) => {
+    setData(prev => {
+      const newCategories = prev.categories.includes(category)
+        ? prev.categories.filter(c => c !== category)
+        : [...prev.categories, category]
+      return {
+        ...prev,
+        categories: newCategories
+      }
+    })
   }
 
   const handleTechAdd = () => {
@@ -52,6 +82,7 @@ const AddWorkPage = () => {
       formData.append('featured', data.featured)
       formData.append('company', data.company)
       data.technologies.forEach(tech => formData.append('technologies', tech))
+      data.categories.forEach(category => formData.append('categories', category))
       if (data.image) formData.append('image', data.image)
 
       const response = await fetch('/api/work', {
@@ -65,6 +96,7 @@ const AddWorkPage = () => {
           title: '',
           description: '',
           technologies: [],
+          categories: [],
           completionDate: '',
           featured: false,
           company: '',
@@ -114,6 +146,26 @@ const AddWorkPage = () => {
                 placeholder="Describe your work"
                 required
               />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-black mb-1">Categories*</label>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                {categoriesList.map(category => (
+                  <div key={category} className="flex items-center">
+                    <input
+                      type="checkbox"
+                      id={category}
+                      checked={data.categories.includes(category)}
+                      onChange={() => handleCategoryChange(category)}
+                      className="h-4 w-4 text-yellow-500 focus:ring-yellow-500 border-gray-300 rounded"
+                    />
+                    <label htmlFor={category} className="ml-2 text-sm text-gray-700">
+                      {category}
+                    </label>
+                  </div>
+                ))}
+              </div>
             </div>
 
             <div>

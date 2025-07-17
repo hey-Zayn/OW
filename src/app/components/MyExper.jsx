@@ -6,7 +6,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
 const MyExper = () => {
-  const timelineRef = useRef(null)
+  const sectionRef = useRef(null)
+  const titleRef = useRef(null)
+  const subtitleRef = useRef(null)
   const itemsRef = useRef([])
 
   const experiences = [
@@ -37,28 +39,56 @@ const MyExper = () => {
   ]
 
   useEffect(() => {
-    const items = itemsRef.current
-    
-    gsap.from(items, {
+    if (!sectionRef.current) return
+
+    // Set initial state
+    gsap.set(
+      [titleRef.current, subtitleRef.current, ...itemsRef.current],
+      { opacity: 0, y: 20 }
+    )
+
+    // Create animation timeline
+    const tl = gsap.timeline({
       scrollTrigger: {
-        trigger: timelineRef.current,
-        start: 'top 80%',
-        toggleActions: 'play none none none'
-      },
-      y: 50,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.2,
-      ease: 'power2.out'
+        trigger: sectionRef.current,
+        start: "top 20%",
+        end: "bottom 20%",
+        toggleActions: "play none none none"
+      }
     })
+
+    tl.to(titleRef.current, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: "power2.out"
+    })
+    .to(subtitleRef.current, {
+      opacity: 1,
+      y: 0,
+      duration: 0.6,
+      ease: "power2.out"
+    }, "-=0.4")
+    .to(itemsRef.current, {
+      opacity: 1,
+      y: 0,
+      duration: 0.5,
+      stagger: 0.15,
+      ease: "power2.out"
+    }, "-=0.3")
+
+    return () => {
+      tl.kill()
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill())
+    }
   }, [])
 
   return (
-    <div className='w-full py-20 bg-white' ref={timelineRef}>
+    <div className='w-full py-20 bg-white' ref={sectionRef}>
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
         <div className='text-center mb-16'>
-          <h2 className='text-3xl font-bold text-[#171717] mb-4'>Professional Journey</h2>
-          <div className='w-20 h-1 bg-[#FDC435] mx-auto'></div>
+          <h2 ref={titleRef} className='text-3xl font-bold text-[#171717] mb-4'>Professional Journey</h2>
+          <div ref={subtitleRef} className='w-20 h-1 bg-[#FDC435] mx-auto'></div>
         </div>
 
         <div className='relative'>

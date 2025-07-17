@@ -24,13 +24,14 @@ export async function POST(request) {
     const title = formData.get('title');
     const description = formData.get('description');
     const technologies = formData.getAll('technologies');
+    const categories = formData.getAll('categories');
     const completionDate = formData.get('completionDate');
     const featured = formData.get('featured') === 'true';
     const company = formData.get('company');
     const imageFile = formData.get('image');
 
     // Validate required fields
-    if (!title || !description || !imageFile || !technologies || !completionDate || !company) {
+    if (!title || !description || !imageFile || !technologies || !completionDate || !company || !categories) {
       return new Response(JSON.stringify({ message: 'Missing required fields' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' }
@@ -55,6 +56,7 @@ export async function POST(request) {
       description,
       image: result.secure_url,
       technologies,
+      categories,
       completionDate,
       featured,
       company
@@ -170,6 +172,7 @@ export async function PUT(request) {
       title,
       description,
       technologies,
+      categories,
       completionDate,
       featured,
       company,
@@ -218,6 +221,7 @@ export async function PUT(request) {
         title,
         description,
         technologies,
+        categories,
         completionDate,
         featured,
         company,
@@ -246,3 +250,56 @@ export async function PUT(request) {
     });
   }
 }
+
+
+
+
+
+// export async function GET(request) {
+//   try {
+//     await connectDB();
+    
+//     const { searchParams } = new URL(request.url);
+//     const id = searchParams.get('id');
+
+//     if (!id) {
+//       return new Response(JSON.stringify({ 
+//         success: false, 
+//         message: 'Work ID is required' 
+//       }), {
+//         status: 400,
+//         headers: { 'Content-Type': 'application/json' }
+//       });
+//     }
+
+//     const work = await Work.findById(id);
+    
+//     if (!work) {
+//       return new Response(JSON.stringify({ 
+//         success: false, 
+//         message: 'Work not found' 
+//       }), {
+//         status: 404,
+//         headers: { 'Content-Type': 'application/json' }
+//       });
+//     }
+
+//     return new Response(JSON.stringify({ 
+//       success: true, 
+//       data: work 
+//     }), {
+//       status: 200,
+//       headers: { 'Content-Type': 'application/json' }
+//     });
+
+//   } catch (error) {
+//     console.error('Error fetching work:', error);
+//     return new Response(JSON.stringify({ 
+//       success: false, 
+//       message: error.message || 'Failed to fetch work' 
+//     }), {
+//       status: 500,
+//       headers: { 'Content-Type': 'application/json' }
+//     });
+//   }
+// }
