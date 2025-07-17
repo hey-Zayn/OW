@@ -23,13 +23,14 @@ const TopBarDashboard = () => {
 
   return (
     <>
-      <div className="border-b px-4 mb-4 mt-2 pb-4 border-gray-300 dark:border-gray-700">
+      <div className="border-b px-4 mb-4 mt-2 pb-4 border-yellow-500/30 bg-white shadow-sm">
         <div className="flex items-center justify-between p-0.5">
           <div>
-            <span className="text-sm font-bold block text-stone-950 dark:text-white">
-              🚀 Welcome Back, Olivier!
+            <span className="text-lg font-bold block text-[#171717]">
+              🚀 Welcome Back, <span className="text-yellow-500">Olivier!</span>
             </span>
-            <span className="text-xs block text-stone-500 dark:text-stone-400">
+            <span className="text-sm block text-[#525252] flex items-center gap-1">
+              <Calendar className="h-4 w-4 text-yellow-500" />
               {
                 new Date().toLocaleDateString('en-US', {
                   weekday: 'long',
@@ -41,16 +42,16 @@ const TopBarDashboard = () => {
             </span>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <Link href={'/'}>
-            <button className="flex text-sm items-center gap-2 bg-red-50/10 border border-red-200/30 transition-colors hover:bg-red-50/20 hover:border-red-300/50 px-3 py-1.5 rounded">
-              <span className="text-red-100 hover:text-white">Back to Home</span>
-            </button>
+              <button className="flex text-sm items-center gap-2 bg-white border border-yellow-500/30 transition-all hover:bg-yellow-500/10 hover:shadow-md px-4 py-2 rounded-lg">
+                <span className="text-[#171717] font-medium">Back to Home</span>
+              </button>
             </Link>
             
             <button 
               onClick={handleLogout}
-              className="flex text-sm items-center gap-2 bg-red-100 dark:bg-red-900/20 transition-colors hover:bg-red-200 dark:hover:bg-red-900/40 px-3 py-1.5 rounded text-red-700 dark:text-red-400"
+              className="flex text-sm items-center gap-2 bg-yellow-500 text-[#171717] transition-all hover:bg-yellow-600 hover:shadow-lg px-4 py-2 rounded-lg font-medium"
             >
               <LogOut className="h-4 w-4" />
               <span>Logout</span>

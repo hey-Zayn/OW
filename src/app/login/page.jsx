@@ -59,24 +59,24 @@ function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <div className="bg-white/10 backdrop-blur-lg rounded-xl shadow-lg overflow-hidden w-full max-w-md border border-red-200/30">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-white">
+      <div className="bg-white rounded-xl shadow-lg overflow-hidden w-full max-w-md border border-yellow-500/30">
         <div className="p-8">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-white mb-2">Welcome Back</h1>
-            <p className="text-red-100/80">Sign in to access your account</p>
+            <h1 className="text-3xl font-bold text-[#171717] mb-2">Welcome Back</h1>
+            <p className="text-[#525252]">Sign in to access your account</p>
           </div>
           
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Mail className="h-5 w-5 text-red-200" />
+                <Mail className="h-5 w-5 text-yellow-500" />
               </div>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-10 pr-3 py-3 bg-red-50/10 border border-red-200/30 rounded-lg text-white placeholder-red-200/50 focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-transparent"
+                className="w-full pl-10 pr-3 py-3 bg-white border border-yellow-500/30 rounded-lg text-[#171717] placeholder-[#525252]/50 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                 placeholder="Email Address"
                 required
               />
@@ -84,13 +84,13 @@ function LoginForm() {
 
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Lock className="h-5 w-5 text-red-200" />
+                <Lock className="h-5 w-5 text-yellow-500" />
               </div>
               <input
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-10 pr-10 py-3 bg-red-50/10 border border-red-200/30 rounded-lg text-white placeholder-red-200/50 focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-transparent"
+                className="w-full pl-10 pr-10 py-3 bg-white border border-yellow-500/30 rounded-lg text-[#171717] placeholder-[#525252]/50 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                 placeholder="Password"
                 required
               />
@@ -100,9 +100,9 @@ function LoginForm() {
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? (
-                  <EyeOff className="h-5 w-5 text-red-200 hover:text-white" />
+                  <EyeOff className="h-5 w-5 text-yellow-500 hover:text-yellow-600" />
                 ) : (
-                  <Eye className="h-5 w-5 text-red-200 hover:text-white" />
+                  <Eye className="h-5 w-5 text-yellow-500 hover:text-yellow-600" />
                 )}
               </button>
             </div>
@@ -110,14 +110,14 @@ function LoginForm() {
             <button 
               type="submit"
               disabled={isSubmitting}
-              className="w-full py-3 px-4 bg-gradient-to-r from-red-500/80 to-red-600/90 hover:from-red-500 hover:to-red-600 text-white font-medium rounded-lg transition-all duration-300 shadow-lg hover:shadow-red-500/30 hover:scale-[1.02] disabled:opacity-70 disabled:cursor-not-allowed"
+              className="w-full py-3 px-4 bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-500 text-[#171717] font-medium rounded-lg transition-all duration-300 shadow-lg hover:shadow-yellow-500/30 hover:scale-[1.02] disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {isSubmitting ? 'Signing In...' : 'Sign In'}
             </button>
 
-            <div className="flex items-center justify-between text-sm text-red-100/80 mt-4">
-              <a href="#" className="hover:text-white hover:underline transition-colors">Forgot password?</a>
-              <a href="/register" className="hover:text-white hover:underline transition-colors">Create account</a>
+            <div className="flex items-center justify-between text-sm text-[#525252] mt-4">
+              <a href="#" className="hover:text-yellow-500 hover:underline transition-colors">Forgot password?</a>
+              <a href="/register" className="hover:text-yellow-500 hover:underline transition-colors">Create account</a>
             </div>
           </form>
         </div>

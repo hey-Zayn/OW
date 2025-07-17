@@ -24,15 +24,14 @@ const Marquee = () => {
     const animation = gsap.to(container, {
       x: -width,
       ease: "none",
-      duration: 50, // Adjust speed here (higher = slower)
+      duration: 30, // Faster animation
       repeat: -1,
       onRepeat: () => {
-        // Reset position when animation repeats to create seamless loop
         gsap.set(container, { x: 0 })
       },
     })
 
-    // Optional: Pause animation when not visible to save resources
+    // Pause animation when not visible
     const handleVisibility = () => {
       if (document.hidden) {
         animation.pause()
@@ -43,9 +42,9 @@ const Marquee = () => {
 
     document.addEventListener("visibilitychange", handleVisibility)
 
-    // Optional: Slow down on hover
+    // Interactive hover effects
     const handleMouseEnter = () => {
-      gsap.to(animation, { timeScale: 0.5, duration: 0.3 })
+      gsap.to(animation, { timeScale: 0.3, duration: 0.3 })
     }
 
     const handleMouseLeave = () => {
@@ -55,7 +54,6 @@ const Marquee = () => {
     container.addEventListener("mouseenter", handleMouseEnter)
     container.addEventListener("mouseleave", handleMouseLeave)
 
-    // Clean up
     return () => {
       animation.kill()
       document.removeEventListener("visibilitychange", handleVisibility)
@@ -64,20 +62,25 @@ const Marquee = () => {
     }
   }, [])
 
-  // Create multiple instances of the text for a longer marquee
+  // Marquee content with yellow theme
   const marqueeItems = []
   for (let i = 0; i < 10; i++) {
     marqueeItems.push(
-      <div key={i} className="inline-flex items-center gap-2">
-        <span className="text-[#f5eee1] text-5xl md:text-7xl font-bold tracking-wide mr-2">BOOK A DEMO</span>
-        {/* <span className="mx-4 md:mx-6 text-red-500 text-5xl md:text-7xl">●</span> */}
-        <img src="https://cdn.prod.website-files.com/660b9ff56cc1437adb553c40/6620c43b91ef23c55132ed35_Star%201.svg" alt=""  className="mr-2"/>
-      </div>,
+      <div key={i} className="inline-flex items-center gap-4">
+        <span className="text-yellow-500 text-4xl md:text-6xl font-bold tracking-tight mr-4 hover:text-yellow-600 transition-colors">
+          BOOK A DEMO
+        </span>
+        <span className="text-yellow-300 text-4xl md:text-6xl">•</span>
+        <span className="text-yellow-500 text-4xl md:text-6xl font-bold tracking-tight hover:text-yellow-600 transition-colors">
+          LET'S CONNECT
+        </span>
+        <span className="text-yellow-300 text-4xl md:text-6xl">•</span>
+      </div>
     )
   }
 
   return (
-    <div className="w-full overflow-hidden bg-[#191919] py-6">
+    <div className="w-full overflow-hidden bg-white py-6 border-y-2 border-yellow-100 shadow-lg">
       <div className="relative">
         <div ref={containerRef} className="inline-block whitespace-nowrap">
           <div ref={marqueeRef} className="inline-block">

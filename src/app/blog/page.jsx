@@ -52,8 +52,8 @@ const page = () => {
                             key={category}
                             className={`p-5 py-2 text-sm font-semibold transition-all duration-300 rounded-md ${
                                 activeCategory === category
-                                    ? 'bg-red-500/20 text-white border border-red-500/30 shadow-lg hover:shadow-red-500/20'
-                                    : 'bg-white/10 backdrop-blur-lg border border-red-500/30 text-red-200 hover:bg-red-500/30'
+                                    ? 'bg-yellow-500/20 text-[#171717] border border-yellow-500/30 shadow-lg hover:shadow-yellow-500/20'
+                                    : 'bg-white/10 backdrop-blur-lg border border-yellow-500/30 text-[#171717] hover:bg-yellow-500/30'
                             }`}
                             onClick={() => handleCategoryFilter(category)}
                         >
@@ -65,43 +65,43 @@ const page = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {blogs?.map((post) => (
-                    <article key={post._id} className="relative group backdrop-blur-lg bg-gradient-to-br from-red-900/20 via-red-900/10 to-transparent border border-red-700/30 rounded-2xl shadow-2xl overflow-hidden transition-all duration-500 hover:shadow-red-500/20 hover:-translate-y-1">
+                    <article key={post._id} className="relative group backdrop-blur-lg bg-gradient-to-br from-yellow-50 via-yellow-50/50 to-white border border-yellow-500/30 rounded-2xl shadow-2xl overflow-hidden transition-all duration-500 hover:shadow-yellow-500/20 hover:-translate-y-1">
                         <div className="h-60 relative overflow-hidden">
                             <img 
                                 src={post.image || "/placeholder-image.jpg"} 
                                 alt={post.title}
                                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                            <div className="absolute bottom-4 left-4 bg-red-900/70 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium text-white">
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+                            <div className="absolute bottom-4 left-4 bg-yellow-500/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium text-[#171717]">
                                 {post.category || "Featured"}
                             </div>
                         </div>
                         <div className="p-6">
-                            <div className="flex items-center text-sm text-red-200/80 mb-3 space-x-2">
+                            <div className="flex items-center text-sm text-[#525252] mb-3 space-x-2">
                                 <span className="flex items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 text-red-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 text-[#525252]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                     </svg>
                                     {new Date(post.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
                                 </span>
-                                <span className="text-red-300">•</span>
+                                <span className="text-[#525252]">•</span>
                                 <span className="flex items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 text-red-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 text-[#525252]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
                                     {post.readTime || '5'} min read
                                 </span>
                             </div>
-                            <h3 className="text-xl font-bold text-white mb-3">
+                            <h3 className="text-xl font-bold text-[#171717] mb-3">
                                 {post.title}
                             </h3>
-                            <p className="text-red-200/70 mb-6 leading-relaxed line-clamp-3">
+                            <p className="text-[#525252] mb-6 leading-relaxed line-clamp-3">
                                 {post.description || "Discover valuable insights and expert perspectives in this article."}
                             </p>
                             <div className="group">
                                 <Link href={`/blog/${post._id}`}>
-                                    <button className="p-5 py-3 text-lg md:text-sm font-semibold bg-red-500/20 text-white border border-red-500/30 rounded-md cursor-pointer backdrop-blur-lg hover:bg-red-500/30 transition-all duration-300 shadow-lg hover:shadow-red-500/20">
+                                    <button className="p-5 py-3 text-lg md:text-sm font-semibold bg-yellow-500/20 text-[#171717] border border-yellow-500/30 rounded-md cursor-pointer backdrop-blur-lg hover:bg-yellow-500/30 transition-all duration-300 shadow-lg hover:shadow-yellow-500/20">
                                         Read More
                                     </button>
                                 </Link>

@@ -1,12 +1,15 @@
 import React from "react";
 import PortfolioHero from "./PortolioHero";
 import About from "./About";
-import Section3 from "./Section3";
 import BlogSection from "./BlogSection";
 import Form from "./Form";
-import PandaScroll from "./PandaScroll";
+
 import NavBar from "./NavBar";
 import Footer from "./Footer";
+import Myexperties from "./Myexperties";
+import Mywork from "./Mywork";
+import MyExper from "./MyExper";
+import Quote from "./Quote";
 
 
 const Heropage = () => {
@@ -15,10 +18,14 @@ const Heropage = () => {
      <NavBar/>
       <PortfolioHero/>
     <About/>
-    <Section3/>
+    <Myexperties/>
+    <MyExper/>
+    <Mywork/>
+   
     <BlogSection/>
+    <Quote/>
     <Form/>
-    <PandaScroll/>
+    
     <Footer/>
    </>
   );
