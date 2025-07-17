@@ -1,86 +1,87 @@
-import nodemailer from "nodemailer";
+import nodemailer from 'nodemailer';
+import { NextResponse } from 'next/server';
 
 export async function POST(request) {
-  // Validate environment variables first
-  if (!process.env.GMAIL_USER || !process.env.GMAIL_PASSWORD) {
-    console.error("Missing email credentials in environment variables");
-    return Response.json(
-      { message: "Server configuration error" },
-      { status: 500 }
-    );
-  }
-
   try {
-    const formData = await request.json();
-    
-    // Validate required fields
-    const requiredFields = ['fullName', 'businessEmail', 'phoneNumber'];
-    const missingFields = requiredFields.filter(field => !formData[field]);
-    
-    if (missingFields.length > 0) {
-      return Response.json(
-        { 
-          message: "Missing required fields",
-          missingFields,
-          error: `${missingFields.join(', ')} are required`
-        },
+    const { fullName, email, company, phone, job, source } = await request.json();
+
+    // Validate input
+    if (!fullName || !email || !phone) {
+      return NextResponse.json(
+        { error: 'Name, email and phone are required fields' },
         { status: 400 }
       );
     }
 
-    // Configure email transporter
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return NextResponse.json(
+        { error: 'Please enter a valid email address' },
+        { status: 400 }
+      );
+    }
+
+    // Check if environment variables are set
+    const emailUser = "zaynobusiness@gmail.com";
+    const emailPass = "edem guoz gter rhwy";
+
+    if (!emailUser || !emailPass) {
+      return NextResponse.json(
+        { error: 'Email configuration is missing' },
+        { status: 500 }
+      );
+    }
+
+    // Create transporter
     const transporter = nodemailer.createTransport({
       service: 'gmail',
-      host: "smtp.gmail.com",
-      port: 465,
-      secure: true,
       auth: {
-        user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_PASSWORD,
+        user: emailUser,
+        pass: emailPass,
       },
     });
 
-    // Prepare email content
-    const emailFields = [
-      { label: 'Full Name', value: formData.fullName },
-      { label: 'Company Name', value: formData.companyName || 'N/A' },
-      { label: 'Business Email', value: formData.businessEmail },
-      { label: 'Phone Number', value: formData.phoneNumber },
-      { label: 'Job Title', value: formData.jobTitle || 'N/A' },
-      { label: 'How did they hear about us', value: formData.source || 'Not specified' }
-    ];
-
-    const htmlContent = `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #e0e0e0; padding: 24px; border-radius: 8px; background-color: #ffffff;">
-        <h2 style="border-bottom: 1px solid #f1f1f1; padding-bottom: 12px; text-align: center;">New Contact Submission – Forwardsols</h2>
-        ${emailFields.map(field => `<p><strong>${field.label}:</strong> ${field.value}</p>`).join('')}
-        <hr style="margin: 24px 0; border: none; border-top: 1px solid #dddddd;" />
-        <p style="font-size: 0.9rem; color: #555555;">This message was submitted through the Forwardsols website contact form.</p>
-      </div>
-    `;
+    // Email content with HTML formatting
+    const mailOptions = {
+      from: emailUser,
+      to: emailUser, // Send to yourself
+      replyTo: email, // Reply to the person who filled the form
+      subject: 'New Contact Form Submission',
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background: #f5f5f5; border-radius: 8px;">
+          <h2 style="color: #333; text-align: center;">New Contact Form Submission</h2>
+          
+          <div style="background: white; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
+            <h3 style="color: #555; margin-top: 0;">Contact Details</h3>
+            
+            <p><strong>Name:</strong> ${fullName}</p>
+            <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
+            <p><strong>Company:</strong> ${company || 'Not provided'}</p>
+            <p><strong>Phone:</strong> ${phone}</p>
+            <p><strong>Job Title:</strong> ${job || 'Not provided'}</p>
+            <p><strong>How they heard about us:</strong> ${source || 'Not provided'}</p>
+          </div>
+          
+          <p style="text-align: center; color: #777; font-size: 12px;">
+            This message was sent via your website contact form on ${new Date().toLocaleDateString()}
+          </p>
+        </div>
+      `,
+    };
 
     // Send email
-    await transporter.sendMail({
-      from: `"${formData.fullName}" <${formData.businessEmail}>`,
-      replyTo: formData.businessEmail,
-      to: process.env.GMAIL_USER,
-      subject: `New Contact Form Submission from ${formData.fullName}`,
-      html: htmlContent,
-    });
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Email sent successfully:', info.messageId);
 
-    return Response.json(
-      { message: "Message sent successfully!" },
+    return NextResponse.json(
+      { success: true, message: 'Email sent successfully!' },
       { status: 200 }
     );
-
   } catch (error) {
-    console.error("Email sending failed:", error);
-    return Response.json(
-      { 
-        message: "Failed to send message", 
-        error: error.message,
-        details: process.env.NODE_ENV === 'development' ? error.stack : undefined
-      },
+    console.error('Error sending email:', error);
+    return NextResponse.json(
+      { success: false, error: error.message || 'Failed to send email' },
       { status: 500 }
     );
   }

@@ -5,19 +5,26 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function page() {
-  const [aboutData, setAboutData] = useState([]);
+  const [experienceData, setExperienceData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchAboutData = async () => {
+    const fetchExperienceData = async () => {
       try {
-        const response = await fetch('/api/about');
+        const response = await fetch('/api/experience', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        
         if (!response.ok) {
-          throw new Error('Failed to fetch about data');
+          throw new Error('Failed to fetch experience data');
         }
-        const data = await response.json();
-        setAboutData(data);
+        
+        const { data } = await response.json();
+        setExperienceData(Array.isArray(data) ? data : []);
       } catch (err) {
         setError(err.message);
         toast.error(err.message);
@@ -26,32 +33,28 @@ export default function page() {
       }
     };
 
-    fetchAboutData();
+    fetchExperienceData();
   }, []);
 
   const handleDelete = async (id) => {
-    if (confirm('Are you sure you want to delete this about entry?')) {
-      try {
-        const response = await fetch(`/api/about?id=${id}`, {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-
-        const result = await response.json();
-
-        if (!response.ok) {
-          throw new Error(result.message || 'Failed to delete about entry');
-        }
-
-        // Refresh the list after deletion
-        setAboutData(aboutData.filter(item => item._id !== id));
-        toast.success('About entry deleted successfully');
-      } catch (err) {
-        console.error('Error deleting about entry:', err);
-        toast.error(err.message);
+    try {
+      const response = await fetch(`/api/experience`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id })
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to delete experience');
       }
+      
+      const { data: deletedExperience } = await response.json();
+      setExperienceData(experienceData.filter(item => item._id !== deletedExperience._id));
+      toast.success('Experience deleted successfully');
+    } catch (err) {
+      toast.error(err.message);
     }
   };
 
@@ -61,8 +64,8 @@ export default function page() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-black">About List</h1>
-        <Link href="/admin/addabout" className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">
+        <h1 className="text-3xl font-bold text-black">Experience List</h1>
+        <Link href="/admin/addexperience" className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">
           Add New
         </Link>
       </div>
@@ -71,37 +74,35 @@ export default function page() {
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-yellow-500">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Image</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Heading</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Details</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Company</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Position</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Duration</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Description</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {aboutData.map((item) => (
+            {experienceData.map((item) => (
               <tr key={item._id} className="hover:bg-gray-50">
-                <td className="px-6 py-4 whitespace-nowrap">
-                  {item.image && (
-                    <img 
-                      src={item.image} 
-                      alt={item.heading} 
-                      className="h-16 w-16 object-cover rounded"
-                    />
-                  )}
+                <td className="px-6 py-4 whitespace-nowrap text-black">{item.company}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-black">{item.position}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-black">{item.duration}</td>
+                <td className="px-6 py-4 text-black">
+                  {item.description.length > 100 
+                    ? `${item.description.substring(0, 100)}...` 
+                    : item.description}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-black">{item.heading}</td>
-                <td className="px-6 py-4 text-black max-w-xs truncate">{item.details.substring(0, 100)}{item.details.length > 100 ? '...' : ''}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                  <div className="flex space-x-2">
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="flex gap-2">
                     <Link 
-                      href={`/admin/aboutList/edit/${item._id}`}
-                      className="bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-1 px-3 rounded-md text-sm transition-colors"
+                      href={`/admin/experienceList/edit/${item._id}`}
+                      className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-3 rounded text-sm"
                     >
                       Edit
                     </Link>
                     <button
                       onClick={() => handleDelete(item._id)}
-                      className="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-md text-sm transition-colors"
+                      className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded text-sm"
                     >
                       Delete
                     </button>
