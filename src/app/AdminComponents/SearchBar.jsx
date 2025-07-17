@@ -5,21 +5,21 @@ import { Command, Search } from 'lucide-react'
 const SearchBar = () => {
 
   return (
-    <div>
+  
       <>
-      <div className="bg-stone-100 dark:bg-gray-800 mb-4 relative rounded flex items-center px-2 py-1.5 text-sm transition-colors hover:bg-stone-200 dark:hover:bg-gray-700">
-          <Search className="mr-2 text-stone-500 dark:text-stone-400" size={15} />
+      <div className="bg-white mb-4 relative rounded-lg flex items-center px-3 py-2 text-sm border border-yellow-500/30 transition-all hover:shadow-md focus-within:ring-2 focus-within:ring-yellow-500/50">
+          <Search className="mr-2 text-yellow-500" size={16} />
           <input
             type="text"
-            placeholder="Search"
-            className="w-full bg-transparent placeholder:text-stone-500 dark:placeholder:text-stone-400 focus:outline-none text-stone-950 dark:text-white"
+            placeholder="Search dashboard..."
+            className="w-full bg-transparent placeholder:text-gray-400 focus:outline-none text-gray-900"
           />
-          <span className="p-1 text-xs flex gap-0.5 items-center shadow bg-stone-200 dark:bg-gray-700 rounded absolute right-1.5 top-1/2 -translate-y-1/2 text-stone-500 dark:text-stone-400">
-            <Command size={15} />K
+          <span className="px-2 py-1 text-xs flex gap-1 items-center bg-yellow-500/10 rounded-md absolute right-2 top-1/2 -translate-y-1/2 text-yellow-600 font-medium">
+            <Command size={14} className="text-yellow-500" />K
           </span>
         </div>
       </>
-    </div>
+    
   )
 }
 

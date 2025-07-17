@@ -80,119 +80,131 @@ const Page = () => {
   };
 
   return (
-    <div className="w-full h-full bg-[#191919] ">
+    <div className="w-full min-h-screen bg-white">
       <NavBar/>
-      <div className="w-full h-full pt-30">
+      <div className="w-full pt-20">
         <Marquee />
-        <div className="text-white w-full h-full pb-[2%] overflow-hidden bg-[#181818] pt-15">
-          <div className="flex flex-col sm:flex-col md:flex-row xl:flex-row lg:flex-row 2xl:flex-row gap-[1%] justify-between">
-            <div className="w-[55%] h-full mb-[10%] m-[4%]">
-              <div className="flex gap-[8%]">
-                <button className="p-5 py-3 text-lg md:text-sm font-semibold bg-red-500/20 text-white border border-red-500/30 rounded-md max-sm:hidden cursor-pointer backdrop-blur-lg hover:bg-red-500/30 transition-all duration-300 shadow-lg hover:shadow-red-500/20">
+        <div className="w-full pb-12 overflow-hidden bg-white pt-10">
+          <div className="flex flex-col md:flex-row gap-8 justify-between max-w-6xl mx-auto px-4">
+            <div className="w-full md:w-1/2">
+              <div className="flex gap-4 mb-8">
+                <button className="px-6 py-3 text-lg font-semibold bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition-colors duration-300 shadow-lg hover:shadow-yellow-500/30">
                   Book a Demo
                 </button>
-               <Link href={'/about'}>
-               <button className="p-5 py-3 text-lg font-semibold md:text-sm text-white bg-[#212121] border-white-50 outline-1 rounded-md max-sm:hidden cursor-pointer">
-                  Careers
-                </button>
-               </Link>
+                <Link href={'/about'}>
+                  <button className="px-6 py-3 text-lg font-semibold text-gray-800 bg-white border border-gray-200 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                    Careers
+                  </button>
+                </Link>
               </div>
-              <div className="w-55 mt-[15%]">
-                <p>
-                  We're here to help! Complete the form and our team will reach
-                  out you soon.
+              <div className="mb-8">
+                <h2 className="text-3xl font-bold text-gray-800 mb-4">Contact Us</h2>
+                <p className="text-lg text-gray-600">
+                  We're here to help! Complete the form and our team will reach out to you soon.
                 </p>
               </div>
-              <div className="w-55 mt-[15%]">
+              <div className="text-lg text-gray-600">
                 <p>Email: jwilliams01109@gmail.com</p>
               </div>
             </div>
 
-            <div className="w-full h-full m-[4%] my-0">
-              <form onSubmit={handleSubmit} className="flex flex-col gap-[15px]">
-                <label htmlFor="fullName" className="text-xl sm:text-1xl 2xl:text-4xl md:text-1xl lg:text-2xl font-medium">
-                  FULL NAME
-                </label>
-                <input
-                  type="text"
-                  name="fullName"
-                  placeholder="Enter Your Full Name"
-                  className="p-5 w-[90%] sm:w-[90%] md:w-[100%] xl:w-[100%] lg:w-[100%] 2xl:w-[100%] text-lg font-semibold border-[1px] border-gray-100 rounded-md focus:outline-none placeholder-[rgb(107,107,107)] placeholder:text-sm sm:placeholder:text-lg md:placeholder:text-lg xl:placeholder:text-lg lg:placeholder:text-lg 2xl:placeholder:text-lg"
-                  value={data.fullName}
-                  onChange={handleChange}
-                  required
-                />
+            <div className="w-full md:w-1/2">
+              <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+                <div>
+                  <label htmlFor="fullName" className="block text-lg font-medium text-gray-800 mb-2">
+                    FULL NAME
+                  </label>
+                  <input
+                    type="text"
+                    name="fullName"
+                    placeholder="Enter Your Full Name"
+                    className="w-full p-4 text-lg font-medium text-black border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent placeholder-gray-400"
+                    value={data.fullName}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
 
-                <label htmlFor="company" className="text-xl sm:text-1xl 2xl:text-4xl md:text-1xl lg:text-2xl font-medium">
-                  COMPANY NAME
-                </label>
-                <input
-                  type="text"
-                  name="company"
-                  placeholder="Your Company Name"
-                  className="p-5 w-[90%] sm:w-[90%] md:w-[100%] xl:w-[100%] lg:w-[100%] 2xl:w-[100%] text-lg font-semibold border-[1px] border-gray-100 rounded-md focus:outline-none placeholder-[rgb(107,107,107)] placeholder:text-sm sm:placeholder:text-lg md:placeholder:text-lg xl:placeholder:text-lg lg:placeholder:text-lg 2xl:placeholder:text-lg"
-                  value={data.company}
-                  onChange={handleChange}
-                />
+                <div>
+                  <label htmlFor="company" className="block text-lg font-medium text-gray-800 mb-2">
+                    COMPANY NAME
+                  </label>
+                  <input
+                    type="text"
+                    name="company"
+                    placeholder="Your Company Name"
+                    className="w-full p-4 text-lg font-medium text-black border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent placeholder-gray-400"
+                    value={data.company}
+                    onChange={handleChange}
+                  />
+                </div>
 
-                <label htmlFor="email" className="text-xl sm:text-1xl 2xl:text-4xl md:text-1xl lg:text-2xl font-medium">
-                  BUSINESS EMAIL
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Your Business Email"
-                  className="p-5 w-[90%] sm:w-[90%] md:w-[100%] xl:w-[100%] lg:w-[100%] 2xl:w-[100%] text-lg font-semibold border-[1px] border-gray-100 rounded-md focus:outline-none placeholder-[rgb(107,107,107)] placeholder:text-sm sm:placeholder:text-lg md:placeholder:text-lg xl:placeholder:text-lg lg:placeholder:text-lg 2xl:placeholder:text-lg"
-                  value={data.email}
-                  onChange={handleChange}
-                  required
-                />
+                <div>
+                  <label htmlFor="email" className="block text-lg font-medium text-gray-800 mb-2">
+                    BUSINESS EMAIL
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Your Business Email"
+                    className="w-full p-4 text-lg font-medium text-black border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent placeholder-gray-400"
+                    value={data.email}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
                 
-                <label htmlFor="phone" className="text-xl sm:text-1xl 2xl:text-4xl md:text-1xl lg:text-2xl font-medium">
-                  PHONE NUMBER
-                </label>
-                <input
-                  type="tel"
-                  name="phone"
-                  placeholder="Enter Your Phone Number"
-                  className="p-5 w-[90%] sm:w-[90%] md:w-[100%] xl:w-[100%] lg:w-[100%] 2xl:w-[100%] text-lg font-semibold border-[1px] border-gray-100 rounded-md focus:outline-none placeholder-[rgb(107,107,107)] placeholder:text-sm sm:placeholder:text-lg md:placeholder:text-lg xl:placeholder:text-lg lg:placeholder:text-lg 2xl:placeholder:text-lg"
-                  value={data.phone}
-                  onChange={handleChange}
-                  required
-                />
+                <div>
+                  <label htmlFor="phone" className="block text-lg font-medium text-gray-800 mb-2">
+                    PHONE NUMBER
+                  </label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    placeholder="Enter Your Phone Number"
+                    className="w-full p-4 text-lg font-medium text-black border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent placeholder-gray-400"
+                    value={data.phone}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
 
-                <label htmlFor="job" className="text-xl sm:text-1xl 2xl:text-4xl md:text-1xl lg:text-2xl font-medium">
-                  JOB TITLE
-                </label>
-                <input
-                  type="text"
-                  name="job"
-                  placeholder="Enter Your Job Title"
-                  className="p-5 w-[90%] sm:w-[90%] md:w-[100%] xl:w-[100%] lg:w-[100%] 2xl:w-[100%] text-lg font-semibold border-[1px] border-gray-100 rounded-md focus:outline-none placeholder-[rgb(107,107,107)] placeholder:text-sm sm:placeholder:text-lg md:placeholder:text-lg xl:placeholder:text-lg lg:placeholder:text-lg 2xl:placeholder:text-lg"
-                  value={data.job}
-                  onChange={handleChange}
-                />
+                <div>
+                  <label htmlFor="job" className="block text-lg font-medium text-gray-800 mb-2">
+                    JOB TITLE
+                  </label>
+                  <input
+                    type="text"
+                    name="job"
+                    placeholder="Enter Your Job Title"
+                    className="w-full p-4 text-lg font-medium text-black border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent placeholder-gray-400"
+                    value={data.job}
+                    onChange={handleChange}
+                  />
+                </div>
 
-                <label htmlFor="source" className="text-xl sm:text-1xl 2xl:text-4xl md:text-1xl lg:text-2xl font-medium">
-                  HOW DID YOU HEAR ABOUT US?
-                </label>
-                <select
-                  name="source"
-                  className="text-[rgb(114,114,114)] p-5 w-[90%] sm:w-[90%] md:w-[100%] xl:w-[100%] lg:w-[100%] 2xl:w-[100%] text-lg font-semibold border-1 border-gray-100 rounded-md bg-[rgb(34,34,34)]"
-                  value={data.source}
-                  onChange={handleChange}
-                >
-                  <option value="Google">Google</option>
-                  <option value="Facebook">Facebook</option>
-                  <option value="Instagram">Instagram</option>
-                  <option value="LinkedIn">LinkedIn</option>
-                  <option value="Email">Email</option>
-                  <option value="Word of Mouth">Word of Mouth</option>
-                </select>
+                <div>
+                  <label htmlFor="source" className="block text-lg font-medium text-gray-800 mb-2">
+                    HOW DID YOU HEAR ABOUT US?
+                  </label>
+                  <select
+                    name="source"
+                    className="w-full p-4 text-lg font-medium text-black border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent bg-white"
+                    value={data.source}
+                    onChange={handleChange}
+                  >
+                    <option value="Google">Google</option>
+                    <option value="Facebook">Facebook</option>
+                    <option value="Instagram">Instagram</option>
+                    <option value="LinkedIn">LinkedIn</option>
+                    <option value="Email">Email</option>
+                    <option value="Word of Mouth">Word of Mouth</option>
+                  </select>
+                </div>
 
-                <div className="flex gap-[2%] mt-[3%]">
-                  <CircleAlert size={60} className="-mt-1" />
-                  <p className="m-0 pr-10 pt-1 text-justify mt-2">
+                <div className="flex gap-4 mt-4 p-4 bg-yellow-50 rounded-lg">
+                  <CircleAlert className="text-yellow-500 mt-1 flex-shrink-0" size={24} />
+                  <p className="text-gray-600">
                     Your privacy is important to us. All information submitted
                     through this form will be kept confidential and secure. We
                     will not share your details with third parties without your
@@ -203,7 +215,7 @@ const Page = () => {
                 <button 
                   type="submit" 
                   disabled={isSubmitting}
-                  className="p-8 py-3 text-lg font-semibold md:text-sm text-white bg-[#212121] border-white-50 outline-1 rounded-md ml-[20%] mt-[8%] sm:mt-[4%] sm:ml-[0%] md:mt-[4%] md:ml-[0%] xl:mt-[4%] xl:ml-[0%] lg:mt-[4%] lg:ml-[0%] 2xl:ml-[0%] 2xl:mt-[4%] cursor-pointer hover:bg-[#333] transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full py-4 text-lg font-semibold text-white bg-yellow-500 rounded-md hover:bg-yellow-600 transition-colors duration-300 mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? 'Submitting...' : 'Get in Touch'}
                 </button>

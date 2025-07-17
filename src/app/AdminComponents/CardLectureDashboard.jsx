@@ -79,21 +79,25 @@ export default CardLectureDashboard;
 
 const Card = ({ title, value, pillText, trend, period }) => {
     return (
-      <div className="flex items-center gap-6 w-full p-4 rounded-lg bg-red-500/10 backdrop-blur-sm border border-red-500/20">
+      <div className="flex items-center gap-6 w-full p-6 rounded-xl bg-white shadow-sm border border-yellow-500 hover:shadow-md transition-all duration-200">
         <div className="flex-1">
-          <h3 className="text-red-100/80 mb-2 text-sm">{title}</h3>
-          <p className="text-3xl font-semibold text-white">{value}</p>
-          <p className="text-xs text-red-100/60 mt-2">{period}</p>
+          <h3 className="text-gray-500 mb-2 text-sm font-medium tracking-wide">{title}</h3>
+          <p className="text-3xl font-bold text-gray-900">{value}</p>
+          <p className="text-xs text-gray-400 mt-2 font-medium">{period}</p>
         </div>
 
         <span
-          className={`text-xs flex items-center gap-1 font-medium px-2 py-1 rounded-full ${
+          className={`text-xs flex items-center gap-1 font-semibold px-3 py-1.5 rounded-full ${
             trend === "up"
-              ? "bg-red-400/20 text-red-100"
-              : "bg-red-600/30 text-red-200"
+              ? "bg-green-100 text-green-800"
+              : "bg-red-100 text-red-800"
           }`}
         >
-          {trend === "up" ? <TrendingUp size={14} /> : <TrendingDown size={14} />}{" "}
+          {trend === "up" ? (
+            <TrendingUp size={14} className="text-green-500" />
+          ) : (
+            <TrendingDown size={14} className="text-red-500" />
+          )}
           {pillText}
         </span>
       </div>

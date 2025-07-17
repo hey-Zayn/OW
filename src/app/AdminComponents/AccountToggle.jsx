@@ -1,3 +1,4 @@
+'use client'
 import { ChevronDown, ChevronUp } from "lucide-react"
 
 
@@ -8,29 +9,29 @@ const AccountToggle = () => {
      <>
         {/* Account Toggle */}
     
-     <div className="border-b mb-4 mt-2 pb-4 border-gray-300 dark:border-gray-700">
-          <button className="flex p-0.5 hover:bg-stone-100 dark:hover:bg-gray-800 rounded transition-colors relative gap-2 w-full items-center cursor-pointer">
-            <img
-              src={ "https://api.dicebear.com/9.x/notionists/svg"}
-              alt="avatar"
-              className="size-8 rounded shrink-0 bg-violet-500 shadow object-cover"
-            />
+     <div className="border-b mb-6 pb-4 border-yellow-500/30">
+          <button className="flex p-2 hover:bg-yellow-500/10 rounded-lg transition-all relative gap-3 w-full items-center cursor-pointer group">
+            <div className="relative">
+              <img
+                src={"https://api.dicebear.com/9.x/notionists/svg?backgroundType=gradientLinear&backgroundColor=b6e3f4,c0aede,d1d4f9"}
+                alt="avatar"
+                className="size-10 rounded-full ring-2 ring-yellow-500/50 group-hover:ring-yellow-500 transition-all object-cover"
+              />
+              <div className="absolute -bottom-1 -right-1 size-3 bg-green-500 rounded-full border-2 border-white"></div>
+            </div>
             <div className="text-start">
-              <span className="text-sm font-bold block text-stone-950 dark:text-white">Olivier Williams</span>
-              <span className="text-xs block text-stone-500 dark:text-stone-400">
-               admin@gmail.com
+              <span className="text-sm font-bold block text-[#171717] group-hover:text-yellow-600 transition-colors">Olivier Williams</span>
+              <span className="text-xs block text-[#525252] group-hover:text-yellow-500/80 transition-colors">
+                admin@gmail.com
               </span>
             </div>
 
             <ChevronDown
-              className="absolute right-2 top-1/2 translate-y-[calc(-50%+4px)] text-xs text-stone-500 dark:text-stone-400"
-              size={15}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-[#525252] group-hover:text-yellow-500 transition-colors"
+              size={16}
             />
 
-            <ChevronUp
-              className="absolute right-2 top-1/2 translate-y-[calc(-50%-4px)] text-xs text-stone-500 dark:text-stone-400"
-              size={15}
-            />
+         
           </button>
         </div>
      
