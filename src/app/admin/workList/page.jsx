@@ -93,6 +93,7 @@ const WorkListPage = () => {
                     <th className="px-6 py-3 text-left text-xs font-medium text-yellow-800 uppercase tracking-wider">Title</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-yellow-800 uppercase tracking-wider">Company</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-yellow-800 uppercase tracking-wider">Technologies</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-yellow-800 uppercase tracking-wider">Categories</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-yellow-800 uppercase tracking-wider">Date</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-yellow-800 uppercase tracking-wider">Featured</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-yellow-800 uppercase tracking-wider">Actions</th>
@@ -115,6 +116,15 @@ const WorkListPage = () => {
                           {work.technologies?.map((tech, i) => (
                             <span key={i} className="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-800">
                               {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex flex-wrap gap-1">
+                          {work.categories?.map((category, i) => (
+                            <span key={i} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">
+                              {category}
                             </span>
                           ))}
                         </div>

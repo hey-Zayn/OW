@@ -20,6 +20,28 @@ const WorkSchema = new mongoose.Schema({
     type: [String],
     required: [true, 'Technologies used are required']
   },
+  categories: {
+    type: [String],
+    required: [true, 'At least one category is required'],
+    enum: {
+      values: [
+        'Business Strategy', 
+        'Market Expansion', 
+        'Revenue Growth', 
+        'Partnership Development',
+        'Digital Transformation',
+        'Product Development',
+        'Operational Efficiency',
+        'Customer Experience',
+        'Data Analytics',
+        'International Business',
+        'Mergers & Acquisitions',
+        'Startup Consulting',
+        'Business Development & Strategy Executive'
+      ],
+      message: '{VALUE} is not a valid category'
+    }
+  },
   completionDate: {
     type: String,
     required: [true, 'Completion date is required'],

@@ -10,6 +10,7 @@ const EditWorkPage = () => {
     title: '',
     description: '',
     technologies: [],
+    categories: [],
     completionDate: '',
     featured: false,
     company: '',
@@ -17,6 +18,22 @@ const EditWorkPage = () => {
   })
   const [loading, setLoading] = useState(false)
   const [techInput, setTechInput] = useState('')
+
+  const categoriesList = [
+    'Business Strategy',
+    'Market Expansion',
+    'Revenue Growth',
+    'Partnership Development',
+    'Digital Transformation',
+    'Product Development',
+    'Operational Efficiency',
+    'Customer Experience',
+    'Data Analytics',
+    'International Business',
+    'Mergers & Acquisitions',
+    'Startup Consulting',
+    'Business Development & Strategy Executive'
+  ]
 
   useEffect(() => {
     const fetchWork = async () => {
@@ -28,6 +45,7 @@ const EditWorkPage = () => {
           title: work.title,
           description: work.description,
           technologies: work.technologies || [],
+          categories: work.categories || [],
           completionDate: work.completionDate,
           featured: work.featured,
           company: work.company,
@@ -65,6 +83,18 @@ const EditWorkPage = () => {
     }))
   }
 
+  const handleCategoryChange = (category) => {
+    setData(prev => {
+      const newCategories = prev.categories.includes(category)
+        ? prev.categories.filter(c => c !== category)
+        : [...prev.categories, category]
+      return {
+        ...prev,
+        categories: newCategories
+      }
+    })
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
@@ -78,11 +108,10 @@ const EditWorkPage = () => {
         featured: data.featured,
         company: data.company,
         technologies: data.technologies || [],
+        categories: data.categories || [],
       }
 
-      // Handle image data
       if (data.image && typeof data.image !== 'string') {
-        // Convert image to base64 for JSON payload
         const reader = new FileReader();
         const imageBase64 = await new Promise((resolve) => {
           reader.onload = () => resolve(reader.result.split(',')[1]);
@@ -129,7 +158,7 @@ const EditWorkPage = () => {
               <input
                 type="text"
                 name="title"
-                value={data.title}
+                value={data.title || ''}
                 onChange={handleChange}
                 className="w-full px-4 py-2 border border-yellow-500/30 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all bg-white/90 text-black"
                 placeholder="Enter work title"
@@ -142,7 +171,7 @@ const EditWorkPage = () => {
               <textarea
                 rows={6}
                 name="description"
-                value={data.description}
+                value={data.description || ''}
                 onChange={handleChange}
                 className="w-full px-4 py-2 border border-yellow-500/30 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all bg-white/90 text-black"
                 placeholder="Describe your work"
@@ -185,11 +214,27 @@ const EditWorkPage = () => {
             </div>
 
             <div>
+              <label className="block text-sm font-medium text-black mb-1">Categories</label>
+              <div className="flex flex-wrap gap-2">
+                {categoriesList.map(category => (
+                  <button
+                    key={category}
+                    type="button"
+                    onClick={() => handleCategoryChange(category)}
+                    className={`px-3 py-1 text-sm rounded-full ${data.categories?.includes(category) ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800'}`}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
               <label className="block text-sm font-medium text-black mb-1">Completion Date*</label>
               <input
                 type="text"
                 name="completionDate"
-                value={data.completionDate}
+                value={data.completionDate || ''}
                 onChange={handleChange}
                 className="w-full px-4 py-2 border border-yellow-500/30 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all bg-white/90 text-black"
                 placeholder="e.g. June 2023"
@@ -202,7 +247,7 @@ const EditWorkPage = () => {
               <input
                 type="text"
                 name="company"
-                value={data.company}
+                value={data.company || ''}
                 onChange={handleChange}
                 className="w-full px-4 py-2 border border-yellow-500/30 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all bg-white/90 text-black"
                 placeholder="Enter company name"
@@ -214,7 +259,7 @@ const EditWorkPage = () => {
               <label className="block text-sm font-medium text-black mb-1">Featured</label>
               <select
                 name="featured"
-                value={data.featured}
+                value={data.featured || false}
                 onChange={handleChange}
                 className="w-full px-4 py-2 border border-yellow-500/30 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all bg-white/90 text-black"
               >
