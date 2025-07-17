@@ -28,39 +28,18 @@ const Page = () => {
     }));
   };
 
-  const sendEmail = async (formData) => {
-    try {
-      await axios.post('/api/send-email', {
-        to: 'info@chatpandas.com',
-        subject: 'New Contact Form Submission',
-        text: `
-          New contact form submission:
-          Name: ${formData.fullName}
-          Email: ${formData.email}
-          Company: ${formData.company}
-          Phone: ${formData.phone}
-          Job Title: ${formData.job}
-          Source: ${formData.source}
-        `
-      });
-    } catch (error) {
-      console.error('Email sending error:', error);
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     
     try {
-      const response = await axios.post('/api/contact', data, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
+      // Send data to both APIs simultaneously
+      const [mailResponse, contactResponse] = await Promise.all([
+        axios.post('/api/sendMail', data),
+        axios.post('/api/contact', data)
+      ]);
       
-      if(response.data.success) {
-        await sendEmail(data);
+      if(mailResponse.data.success && contactResponse.data.success) {
         toast.success('Contact form submitted successfully!');
         setData({
           fullName: '',

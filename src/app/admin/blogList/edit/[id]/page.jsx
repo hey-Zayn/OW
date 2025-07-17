@@ -100,22 +100,22 @@ const Page = () => {
 
     if (loading) {
         return (
-            <div className="flex justify-center items-center min-h-screen">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
+            <div className="flex justify-center items-center min-h-screen bg-yellow-50/10">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-yellow-500"></div>
             </div>
         );
     }
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div className="bg-white/10 backdrop-blur-lg rounded-xl shadow-lg border border-red-200/30 p-6">
-                <h1 className="text-2xl font-bold mb-6 text-white ">
+            <div className="bg-yellow-50/10 backdrop-blur-lg rounded-xl shadow-lg border border-yellow-200 p-6">
+                <h1 className="text-2xl font-bold mb-6 text-black">
                     Edit Blog Post
                 </h1>
                 
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                        <label htmlFor="title" className="block text-sm font-medium text-red-100/90 mb-1">
+                        <label htmlFor="title" className="block text-sm font-medium text-black mb-1">
                             Title
                         </label>
                         <input
@@ -124,13 +124,13 @@ const Page = () => {
                             name="title"
                             value={formData.title}
                             onChange={handleChange}
-                            className="w-full px-4 py-2 rounded-lg bg-red-50/10 border border-red-200/30 placeholder-red-200/50 text-white focus:outline-none focus:ring-2 focus:ring-red-500/80 focus:border-transparent"
+                            className="w-full px-4 py-2 rounded-lg bg-yellow-50/10 border border-yellow-200/30 placeholder-yellow-200/50 text-black focus:outline-none focus:ring-2 focus:ring-yellow-500/80 focus:border-transparent"
                             required
                         />
                     </div>
 
                     <div>
-                        <label htmlFor="description" className="block text-sm font-medium text-red-100/90 mb-1">
+                        <label htmlFor="description" className="block text-sm font-medium text-black mb-1">
                             Description
                         </label>
                         <textarea
@@ -139,13 +139,13 @@ const Page = () => {
                             value={formData.description}
                             onChange={handleChange}
                             rows={8}
-                            className="w-full px-4 py-2 rounded-lg bg-red-50/10 border border-red-200/30 placeholder-red-200/50 text-white focus:outline-none focus:ring-2 focus:ring-red-500/80 focus:border-transparent"
+                            className="w-full px-4 py-2 rounded-lg bg-yellow-50/10 border border-yellow-200 placeholder-yellow-200/50 text-black focus:outline-none focus:ring-2 focus:ring-yellow-500/80 focus:border-transparent"
                             required
                         />
                     </div>
 
                     <div>
-                        <label htmlFor="category" className="block text-sm font-medium text-white mb-1">
+                        <label htmlFor="category" className="block text-sm font-medium text-black mb-1">
                             Category
                         </label>
                         <select
@@ -153,12 +153,12 @@ const Page = () => {
                             name="category"
                             value={formData.category}
                             onChange={handleChange}
-                            className="w-full px-4 py-2 rounded-lg  border border-red-200/30 bg-black/50 text-white focus:outline-none focus:ring-2 focus:ring-red-500/80 focus:border-transparent"
+                            className="w-full px-4 py-2 rounded-lg border border-yellow-200/30 bg-white/50 text-black focus:outline-none focus:ring-2 focus:ring-yellow-500/80 focus:border-transparent"
                             required
                         >
                             <option value="">Select a category</option>
                             {categories.map((category) => (
-                                <option key={category} value={category} className='bg-black '>
+                                <option key={category} value={category} className='bg-white'>
                                     {category}
                                 </option>
                             ))}
@@ -166,7 +166,7 @@ const Page = () => {
                     </div>
 
                     <div>
-                        <label htmlFor="image" className="block text-sm font-medium text-red-100/90 mb-1">
+                        <label htmlFor="image" className="block text-sm font-medium text-black mb-1">
                             Image
                         </label>
                         <input
@@ -174,13 +174,13 @@ const Page = () => {
                             id="image"
                             name="image"
                             onChange={handleImageChange}
-                            className="w-full px-4 py-2 rounded-lg bg-red-50/10 border border-red-200/30 text-white focus:outline-none focus:ring-2 focus:ring-red-500/80 focus:border-transparent"
+                            className="w-full px-4 py-2 rounded-lg bg-yellow-50/10 border border-yellow-200/30 text-black focus:outline-none focus:ring-2 focus:ring-yellow-500/80 focus:border-transparent"
                             accept="image/*"
                         />
                         {formData.image && !selectedImage && (
                             <div className="mt-2">
-                                <p className="text-sm text-red-100/80">Current Image:</p>
-                                <img src={formData.image} alt="Current" className="mt-1 h-20 object-cover rounded border border-red-200/30" />
+                                <p className="text-sm text-black">Current Image:</p>
+                                <img src={formData.image} alt="Current" className="mt-1 h-20 object-cover rounded border border-yellow-200/30" />
                             </div>
                         )}
                     </div>
@@ -189,13 +189,13 @@ const Page = () => {
                         <button
                             type="button"
                             onClick={() => router.push('/admin/blogList')}
-                            className="px-4 py-2 border border-red-200/30 text-red-100 font-medium rounded-lg transition-all duration-200 hover:bg-red-500/20 hover:text-white hover:border-red-300/50"
+                            className="px-4 py-2 border border-yellow-200/30 text-black font-medium rounded-lg transition-all duration-200 hover:bg-yellow-500/20 hover:border-yellow-300/50"
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
-                            className="px-6 py-2 bg-gradient-to-r from-red-500/80 to-red-600/90 hover:from-red-500 hover:to-red-600 text-white font-medium rounded-lg transition-all duration-300 shadow-lg hover:shadow-red-500/40 hover:scale-[1.02]"
+                            className="px-6 py-2 bg-gradient-to-r from-yellow-500/80 to-yellow-600/90 hover:from-yellow-500 hover:to-yellow-600 text-black font-medium rounded-lg transition-all duration-300 shadow-lg hover:shadow-yellow-500/40 hover:scale-[1.02]"
                         >
                             Update Post
                         </button>

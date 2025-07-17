@@ -41,39 +41,56 @@ const Page = () => {
     if (loading) {
         return (
             <div className="flex justify-center items-center min-h-screen">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-yellow-500"></div>
             </div>
         );
     }
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div className="bg-white/10 backdrop-blur-lg rounded-xl shadow-lg border border-red-200/30 p-6">
-                <h1 className="text-2xl font-bold text-white mb-6 text-transparent bg-clip-text bg-gradient-to-r from-red-300 to-red-500">
-                    Email Subscriptions
-                </h1>
+            <div className="bg-yellow-50/10 backdrop-blur-lg rounded-xl shadow-lg border border-yellow-200/30 p-6">
+                <div className="flex items-center justify-between mb-8">
+                    <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">
+                        Email Subscriptions
+                    </h1>
+                    <div className="text-sm text-yellow-600">
+                        {emails.length} {emails.length === 1 ? 'subscription' : 'subscriptions'}
+                    </div>
+                </div>
                 
-                <div className="overflow-x-auto">
-                    <table className="min-w-full divide-y divide-red-200/30">
-                        <thead className="bg-red-50/10">
+                <div className="overflow-hidden rounded-lg border border-yellow-200/30">
+                    <table className="min-w-full divide-y divide-yellow-200/20">
+                        <thead className="bg-yellow-50/20">
                             <tr>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-red-100/90 uppercase tracking-wider">Email</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-red-100/90 uppercase tracking-wider">Date Subscribed</th>
-                                <th className="px-6 py-3 text-right text-xs font-medium text-red-100/90 uppercase tracking-wider">Actions</th>
+                                <th className="px-6 py-4 text-left text-sm font-semibold text-yellow-900 uppercase tracking-wider">
+                                    Email Address
+                                </th>
+                                <th className="px-6 py-4 text-left text-sm font-semibold text-yellow-900 uppercase tracking-wider">
+                                    Subscription Date
+                                </th>
+                                <th className="px-6 py-4 text-right text-sm font-semibold text-yellow-900 uppercase tracking-wider">
+                                    Actions
+                                </th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-red-200/30">
+                        <tbody className="bg-white divide-y divide-yellow-200/10">
                             {emails.length > 0 ? (
                                 emails.map((email) => (
-                                    <tr key={email._id} className="hover:bg-red-50/20 transition-colors duration-150">
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{email.email}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-red-100/80">
-                                            {new Date(email.createdAt).toLocaleDateString()}
+                                    <tr key={email._id} className="hover:bg-yellow-50/30 transition-colors duration-200">
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                            {email.email}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-yellow-700">
+                                            {new Date(email.createdAt).toLocaleDateString('en-US', {
+                                                year: 'numeric',
+                                                month: 'short',
+                                                day: 'numeric'
+                                            })}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <button
                                                 onClick={() => handleDelete(email._id)}
-                                                className="text-red-400 hover:text-red-300 transition-colors"
+                                                className="text-red-600 hover:text-red-800 transition-colors px-3 py-1 rounded-md hover:bg-red-400/50"
                                             >
                                                 Remove
                                             </button>
@@ -82,8 +99,10 @@ const Page = () => {
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan="3" className="px-6 py-4 text-center text-sm text-red-100/80">
-                                        No subscriptions found
+                                    <td colSpan="3" className="px-6 py-8 text-center">
+                                        <div className="text-yellow-700/80 text-sm">
+                                            No email subscriptions found
+                                        </div>
                                     </td>
                                 </tr>
                             )}

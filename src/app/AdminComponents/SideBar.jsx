@@ -35,9 +35,19 @@ const SideBar = () => {
       label: 'Add Experience'
     },
     {
+      path: '/admin/experienceList',
+      icon: <Briefcase className="text-black" size={18} />,
+      label: 'Experience List'
+    },
+    {
       path: '/admin/addwork',
       icon: <FolderPlus className="text-black" size={18} />,
       label: 'Add Work'
+    },
+    {
+      path: '/admin/workList',
+      icon: <FolderPlus className="text-black" size={18} />,
+      label: 'Work List'
     },
     {
       path: '/admin/addProduct',

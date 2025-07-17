@@ -5,6 +5,8 @@ import { TrendingDown, TrendingUp } from "lucide-react";
 
 const CardLectureDashboard = () => {
   const [blogCount, setBlogCount] = useState(0);
+  const [workCount, setWorkCount] = useState(0);
+  const [experienceCount, setExperienceCount] = useState(0);
   const [subscriptionCount, setSubscriptionCount] = useState(0);
   const [contactCount, setContactCount] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -12,26 +14,24 @@ const CardLectureDashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [blogsRes, subscriptionsRes, contactsRes] = await Promise.all([
+        const [blogsRes, worksRes, experiencesRes, subscriptionsRes, contactsRes] = await Promise.all([
           axios.get('/api/blog'),
+          axios.get('/api/work'),
+          axios.get('/api/experience'),
           axios.get('/api/email'),
           axios.get('/api/contact')
         ]);
         setBlogCount(blogsRes.data.blogs?.length || 0);
+        setWorkCount(worksRes.data.works?.length || 0);
+        setExperienceCount(experiencesRes.data.experiences?.length || 0);
         setSubscriptionCount(subscriptionsRes.data.emails?.length || 0);
-        // Check if contacts data is in different format
-        const contactsData = contactsRes.data;
         setContactCount(
-          contactsData?.contacts?.length || 
-          contactsData?.length || 
-          (Array.isArray(contactsData) ? contactsData.length : 0)
+          contactsRes.data?.contacts?.length || 
+          contactsRes.data?.length || 
+          (Array.isArray(contactsRes.data) ? contactsRes.data.length : 0)
         );
       } catch (error) {
         console.error('Error fetching data:', error);
-        // Add error state for contacts specifically
-        if (error.config?.url === '/api/contact') {
-          console.error('Contact API error:', error.response?.data);
-        }
       } finally {
         setLoading(false);
       }
@@ -58,6 +58,20 @@ const CardLectureDashboard = () => {
         period="All time"
       />
       <Card
+        title="Work Projects"
+        value={workCount}
+        pillText="0%"
+        trend="up"
+        period="All time"
+      />
+      <Card
+        title="Experiences"
+        value={experienceCount}
+        pillText="0%"
+        trend="up"
+        period="All time"
+      />
+      <Card
         title="Email Subscribers"
         value={subscriptionCount}
         pillText="0%"
@@ -65,7 +79,7 @@ const CardLectureDashboard = () => {
         period="All time"
       />
       <Card
-        title="Contact Form Submissions"
+        title="Contact Submissions"
         value={contactCount}
         pillText="0%"
         trend="up"

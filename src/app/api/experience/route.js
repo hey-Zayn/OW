@@ -65,3 +65,90 @@ export async function GET() {
     );
   }
 }
+
+
+export async function DELETE(request) {
+  try {
+    const { id } = await request.json();
+
+    if (!id) {
+      return NextResponse.json(
+        { success: false, message: 'Experience ID is required' },
+        { status: 400 }
+      );
+    }
+
+    const deletedExperience = await Experience.findByIdAndDelete(id);
+
+    if (!deletedExperience) {
+      return NextResponse.json(
+        { success: false, message: 'Experience not found' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      { 
+        success: true,
+        message: 'Experience deleted successfully',
+        data: deletedExperience 
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error('Error deleting experience:', error);
+    return NextResponse.json(
+      { 
+        success: false,
+        message: error.message || 'Failed to delete experience' 
+      },
+      { status: 500 }
+    );
+  }
+}
+
+
+
+export async function PUT(request) {
+  try {
+    const { id, company, position, duration, description } = await request.json();
+
+    if (!id) {
+      return NextResponse.json(
+        { success: false, message: 'Experience ID is required' },
+        { status: 400 }
+      );
+    }
+
+    const updatedExperience = await Experience.findByIdAndUpdate(
+      id,
+      { company, position, duration, description },
+      { new: true }
+    );
+
+    if (!updatedExperience) {
+      return NextResponse.json(
+        { success: false, message: 'Experience not found' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      { 
+        success: true,
+        message: 'Experience updated successfully',
+        data: updatedExperience 
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error('Error updating experience:', error);
+    return NextResponse.json(
+      { 
+        success: false,
+        message: error.message || 'Failed to update experience' 
+      },
+      { status: 500 }
+    );
+  }
+}
