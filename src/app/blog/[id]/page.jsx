@@ -24,6 +24,8 @@ const Page = () => {
     const fetchBlog = async () => {
         try {
             const res = await axios.get(`/api/blog?id=${id}`);
+            console.log(res);
+            
             if (res.data) {
                 setBlog(res.data.blog);
                 const relatedRes = await axios.get(`/api/blog?category=${res.data.blog.category}`);

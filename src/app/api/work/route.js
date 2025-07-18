@@ -87,18 +87,48 @@ export async function POST(request) {
 
 
 
-export async function GET() {
+export async function GET(request) {
   try {
-    const works = await Work.find().sort({ createdAt: -1 });
+    await connectDB();
     
-    return new Response(JSON.stringify({ 
-      success: true, 
-      data: works,
-      message: 'Works fetched successfully' 
-    }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' }
-    });
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
+    if (id) {
+      // Fetch single work by ID
+      const work = await Work.findById(id);
+      
+      if (!work) {
+        return new Response(JSON.stringify({ 
+          success: false, 
+          message: 'Work not found' 
+        }), {
+          status: 404,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+
+      return new Response(JSON.stringify({ 
+        success: true, 
+        data: work,
+        message: 'Work fetched successfully' 
+      }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    } else {
+      // Fetch all works
+      const works = await Work.find().sort({ createdAt: -1 });
+      
+      return new Response(JSON.stringify({ 
+        success: true, 
+        data: works,
+        message: 'Works fetched successfully' 
+      }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
 
   } catch (error) {
     console.error('Error fetching works:', error);
