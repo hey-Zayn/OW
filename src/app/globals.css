@@ -23,12 +23,18 @@ body {
   background: #ffffff;
   color: var(--foreground);
   font-family: 'PPNeueMachina-PlainLight' ;
+  /* font-family: "Montserrat", sans-serif; */
 
 }
 
+/* @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap'); */
 
-
-  
+.montserrat {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
 @font-face {
   font-family: 'PPNeueMachina'; 
   src: url('../fonts/660bace5102a0fd4b7cf151f_PPNeueMachina-PlainBold.ttf') format('truetype'); /* Path to your font file */

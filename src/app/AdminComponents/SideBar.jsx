@@ -1,6 +1,6 @@
 "use client"
 import { usePathname } from 'next/navigation'
-import { Bell, Briefcase, FilePlus, FolderPlus, LayoutDashboard, List, User2 } from 'lucide-react'
+import { Bell, Briefcase, Contact, FileEdit, FilePlus, Folder, FolderPlus, LayoutDashboard, List, ListChecks, MessageSquarePlus, MessagesSquare, Newspaper, User2, Users } from 'lucide-react'
 import AccountToggle from '../AdminComponents/AccountToggle'
 import SearchBar from '../AdminComponents/SearchBar'
 import SideBarBottom from '../AdminComponents/SideBarBottom'
@@ -16,88 +16,100 @@ const SideBar = () => {
   const navItems = [
     {
       path: '/admin',
-      icon: <LayoutDashboard className="text-black" size={18} />,
+      icon: <LayoutDashboard className="text-black" size={20} />,
       label: 'Dashboard'
     },
     {
       path: '/admin/addabout',
-      icon: <User2 className="text-black" size={18} />,
+      icon: <User2 className="text-black" size={20} />,
       label: 'Add About'
     },
     {
       path: '/admin/aboutList',
-      icon: <User2 className="text-black" size={18} />,
+      icon: <Users className="text-black" size={20} />,
       label: 'About List'
     },
     {
       path: '/admin/addexperience',
-      icon: <Briefcase className="text-black" size={18} />,
+      icon: <Briefcase className="text-black" size={20} />,
       label: 'Add Experience'
     },
     {
       path: '/admin/experienceList',
-      icon: <Briefcase className="text-black" size={18} />,
+      icon: <ListChecks className="text-black" size={20} />,
       label: 'Experience List'
     },
     {
       path: '/admin/addwork',
-      icon: <FolderPlus className="text-black" size={18} />,
+      icon: <FolderPlus className="text-black" size={20} />,
       label: 'Add Work'
     },
     {
       path: '/admin/workList',
-      icon: <FolderPlus className="text-black" size={18} />,
+      icon: <Folder className="text-black" size={20} />,
       label: 'Work List'
     },
     {
+      path: '/admin/addquote',
+      icon: <MessageSquarePlus className="text-black" size={20} />,
+      label: 'Add Quote'
+    },
+    {
+      path: '/admin/quoteList',
+      icon: <MessagesSquare className="text-black" size={20} />,
+      label: 'Quote List'
+    },
+    {
       path: '/admin/addProduct',
-      icon: <FilePlus className="text-black" size={18} />,
+      icon: <FileEdit className="text-black" size={20} />,
       label: 'Add Blog'
     },
     {
       path: '/admin/blogList',
-      icon: <List className="text-black" size={18} />,
+      icon: <Newspaper className="text-black" size={20} />,
       label: 'Blog List'
     },
     {
       path: '/admin/contacts',
-      icon: <List className="text-black" size={18} />,
+      icon: <Contact className="text-black" size={20} />,
       label: 'Contact Data'
     },
     {
       path: '/admin/subscription',
-      icon: <Bell className="text-black" size={18} />,
+      icon: <Bell className="text-black" size={20} />,
       label: 'Subscription'
     }
   ]
 
   return (
     <div className="flex">
-      <div className="hidden lg:block w-[250px] sm:w-[300px] space-y-8 p-5 sticky top-0 h-screen bg-white/90 backdrop-blur-sm border-r border-yellow-500/50">
+      <div className="hidden lg:block w-[280px] p-6 sticky top-0 h-screen bg-gradient-to-b from-yellow-50 to-white backdrop-blur-sm border-r border-yellow-200 shadow-lg">
         <div className="flex flex-col justify-between h-full">
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-6">
             <AccountToggle />
             <SearchBar />
 
-            <div className="space-y-2">
+            <div className="overflow-y-auto max-h-[60vh] pr-2 custom-scrollbar">
               {navItems.map((item) => (
                 <Link key={item.path} href={item.path}>
                   <button
-                    className={`flex items-center justify-start gap-3 w-full rounded-lg px-3 py-2.5 text-sm font-medium transition-all ${
+                    className={`flex items-center justify-start gap-4 w-full rounded-xl px-4 py-3 text-sm font-medium transition-all duration-300 transform hover:scale-[1.02] ${
                       isActive(item.path)
-                        ? 'bg-yellow-500 text-[#171717]'
-                        : 'text-black hover:bg-yellow-500/50'
+                        ? 'bg-gradient-to-r from-yellow-400 to-yellow-500 text-white shadow-md'
+                        : 'text-gray-700 hover:bg-yellow-100 hover:text-yellow-700'
                     }`}
                   >
-                    {item.icon}
-                    <span>{item.label}</span>
+                    <div className={`p-2 rounded-lg ${isActive(item.path) ? 'bg-white/20' : 'bg-yellow-50'}`}>
+                      {item.icon}
+                    </div>
+                    <span className="font-medium">{item.label}</span>
                   </button>
                 </Link>
               ))}
             </div>
           </div>
 
-          <div>
+          <div className="mt-0">
             <SideBarBottom />
           </div>
         </div>
