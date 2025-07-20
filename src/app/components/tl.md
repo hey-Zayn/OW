@@ -5,10 +5,55 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
 import DownloadCVButton from './DownloadCVButton';
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP, MotionPathPlugin);
+
+const experiences = [
+  {
+    year: '2022 - Present',
+    title: 'Chief Strategy Officer',
+    company: 'The Recovery Center USA | Cary, NC',
+    description: 'Spearheaded digital transformation for 6 behavioral health programs, increasing revenue by 25% in Year 1. Implemented HIPAA-compliant CRM system, boosting patient inquiries by 38%.',
+    skills: ['Salesforce', 'Tableau', 'AI Automation', 'Team Leadership'],
+    icon: '📈',
+    color: 'bg-yellow-50',
+    border: 'border-yellow-500',
+    text: 'text-yellow-600'
+  },
+  {
+    year: '2018 - 2022',
+    title: 'Director of Development & Innovation',
+    company: 'Healthcare Consultancy Group | Remote',
+    description: 'Launched multi-state digital campaigns that grew engagement by 30%. Optimized vendor partnerships, reducing operational costs by 22%.',
+    skills: ['HubSpot', 'Monday.com', 'Adobe Creative Suite', 'Data Analysis'],
+    icon: '💡',
+    color: 'bg-yellow-50',
+    border: 'border-yellow-500',
+    text: 'text-yellow-600'
+  },
+  {
+    year: '2016 - 2018',
+    title: 'Digital Strategy Consultant',
+    company: 'Freelance Clients | National',
+    description: 'Delivered $18K revenue growth via SEO/email campaigns. Automated reporting workflows saving 15+ hours weekly with Lean Six Sigma methods.',
+    skills: ['WordPress', 'Mailchimp', 'Google Analytics', 'SEO'],
+    icon: '🔍',
+    color: 'bg-yellow-50',
+    border: 'border-yellow-500',
+    text: 'text-yellow-600'
+  },
+  {
+    year: '2014 - 2016',
+    title: 'Marketing Director',
+    company: 'Nonprofit Health Initiative | Kansas City, MO',
+    description: 'Secured $500K+ in grants through awareness campaigns. Revamped donor CRM system improving retention by 27%.',
+    skills: ['Bloomerang', 'Canva', 'Meta Ads', 'Grant Writing'],
+    icon: '📢',
+    color: 'bg-yellow-50',
+    border: 'border-yellow-500',
+    text: 'text-yellow-600'
+  }
+];
 
 const FloatingOrbs = memo(() => (
   <div className="absolute inset-0 pointer-events-none">
@@ -40,7 +85,6 @@ const SkillBadge = memo(({ skill, isActive, index, color }) => (
 
 const TimelineCard = memo(({ exp, index, isActive }) => {
   const isEven = index % 2 === 0;
-  const shortDescription = exp.description.length > 100 ? `${exp.description.substring(0, 100)}...` : exp.description;
   
   return (
     <div className={`relative timeline-item group md:flex ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} items-center justify-center`}>
@@ -49,11 +93,16 @@ const TimelineCard = memo(({ exp, index, isActive }) => {
         <span className="text-2xl font-bold text-gray-800">{exp.year}</span>
       </div>
 
+      {/* Interactive icon */}
+      <div className={`absolute left-1/2 -translate-x-1/2 md:left-auto md:right-1/2 md:translate-x-1/2 top-0 w-14 h-14 rounded-full bg-yellow-50 border-2 ${exp.border} shadow-lg z-10 flex items-center justify-center timeline-icon transition-all duration-500 ${isActive ? 'scale-110 bg-yellow-100' : 'bg-yellow-50'}`}>
+        <span className={`text-3xl ${isActive ? 'animate-bounce' : ''}`}>{exp.icon}</span>
+      </div>
+
       {/* Year (desktop) */}
       <div className={`hidden md:block md:w-1/2 ${isEven ? 'md:pr-16' : 'md:pl-16'}`}>
         <div className={`h-full flex items-center ${isEven ? 'justify-end' : 'justify-start'}`}>
           <span className={`text-6xl font-bold timeline-year transition-all duration-500 ${isActive ? exp.text : 'text-gray-200'}`}>
-            {exp.year}
+            {exp.year.split(' ')[0]}
           </span>
         </div>
       </div>
@@ -62,37 +111,29 @@ const TimelineCard = memo(({ exp, index, isActive }) => {
       <div className={`md:w-1/2 ${isEven ? 'md:pl-16' : 'md:pr-16'}`}>
         <div className={`relative overflow-hidden p-8 ${exp.color} rounded-2xl border ${exp.border} shadow-lg transition-all duration-500 timeline-card ${isActive ? 'scale-105' : ''} ${isEven ? 'md:translate-x-8' : 'md:-translate-x-8'}`}>
           <div className="relative z-10">
-            <div className="mb-6">
-              <h3 className="text-2xl font-bold text-gray-800">{exp.title}</h3>
-              <p className={exp.text}>{exp.company}</p>
-              {exp.location && (
-                <div className="flex items-center gap-2 mt-2 text-gray-600">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                  </svg>
-                  <span>{exp.location}</span>
-                </div>
-              )}
-            </div>
-
-            <p className="text-gray-700 mb-4">{shortDescription}</p>
-            
-            <div className="mb-6">
-              <h4 className="text-sm font-semibold text-gray-500 mb-2">SKILLS</h4>
-              <div className="flex flex-wrap gap-3">
-                {exp.skills.map((skill, i) => (
-                  <SkillBadge 
-                    key={i} 
-                    skill={skill} 
-                    isActive={isActive} 
-                    index={i}
-                    color={exp.text}
-                  />
-                ))}
+            <div className="flex items-center gap-4 mb-6">
+              <div className={`p-3 rounded-xl bg-yellow-100 ${isActive ? 'animate-pulse' : ''}`}>
+                <span className="text-3xl">{exp.icon}</span>
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-gray-800">{exp.title}</h3>
+                <p className={exp.text}>{exp.company}</p>
               </div>
             </div>
 
-           
+            <p className="text-gray-700 mb-8">{exp.description}</p>
+            
+            <div className="flex flex-wrap gap-3">
+              {exp.skills.map((skill, i) => (
+                <SkillBadge 
+                  key={i} 
+                  skill={skill} 
+                  isActive={isActive} 
+                  index={i}
+                  color={exp.text}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -104,10 +145,6 @@ const InteractiveTimeline = () => {
   const containerRef = useRef();
   const [activeCard, setActiveCard] = useState(null);
   const scrollTriggersRef = useRef([]);
-  const [experiences, setExperiences] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const router = useRouter();
 
   const handleCardEnter = useCallback((index) => {
     setActiveCard(index);
@@ -115,27 +152,6 @@ const InteractiveTimeline = () => {
 
   const handleCardLeave = useCallback(() => {
     setActiveCard(null);
-  }, []);
-
-  React.useEffect(() => {
-    const fetchExperiences = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const res = await axios.get('/api/experience');
-        if (res.data && res.data.success && Array.isArray(res.data.data)) {
-          setExperiences(res.data.data);
-        } else {
-          setExperiences([]);
-        }
-      } catch (err) {
-        setError('Failed to load experiences.');
-        setExperiences([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchExperiences();
   }, []);
 
   useGSAP(() => {
@@ -188,13 +204,15 @@ const InteractiveTimeline = () => {
       // Scroll-triggered animations - batch for better performance
       const timelineItems = gsap.utils.toArray(".timeline-item");
       timelineItems.forEach((item, i) => {
+        const icon = item.querySelector(".timeline-icon");
         const year = item.querySelector(".timeline-year");
         const card = item.querySelector(".timeline-card");
         const skills = item.querySelectorAll(".skill-badge");
         const media = item.querySelector("img");
 
         // Set initial states
-        gsap.set([year, card, skills, media], { opacity: 0, y: 30 });
+        gsap.set([icon, year, card, skills, media], { opacity: 0, y: 30 });
+        gsap.set(icon, { scale: 0 });
 
         // Create animation sequence with optimized settings
         const st = ScrollTrigger.create({
@@ -276,45 +294,16 @@ const InteractiveTimeline = () => {
           <div className="absolute left-1/2 -translate-x-1/2 w-1 h-full bg-yellow-600 timeline-track hidden md:block" />
 
           <div className="space-y-24 md:space-y-32">
-            {loading && (
-              <div className="text-center text-gray-500 py-10">Loading experiences...</div>
-            )}
-            {error && (
-              <div className="text-center text-red-500 py-10">{error}</div>
-            )}
-            {!loading && !error && experiences.length === 0 && (
-              <div className="text-center text-gray-400 py-10">No experiences found.</div>
-            )}
-            {!loading && !error && experiences.map((exp, index) => (
-              <div
-                key={exp._id || index}
+            {experiences.map((exp, index) => (
+              <div 
+                key={index}
                 onMouseEnter={() => handleCardEnter(index)}
                 onMouseLeave={handleCardLeave}
-                onClick={() => router.push(`/experience/${exp._id}`)}
-                tabIndex={0}
-                role="button"
-                onKeyDown={e => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    router.push(`/experience/${exp._id}`);
-                  }
-                }}
-                className="cursor-pointer rounded-lg focus-visible:outline-none"
-                aria-label={`View details for experience at ${exp.company}`}
               >
-                <TimelineCard
-                  exp={{
-                    year: exp.duration,
-                    title: exp.position,
-                    company: exp.company,
-                    description: exp.description,
-                    // fallback styles for dynamic data
-                    skills: exp.skills || [],
-                    color: 'bg-yellow-50',
-                    border: 'border-yellow-500',
-                    text: 'text-yellow-600'
-                  }}
-                  index={index}
-                  isActive={activeCard === index}
+                <TimelineCard 
+                  exp={exp} 
+                  index={index} 
+                  isActive={activeCard === index} 
                 />
               </div>
             ))}

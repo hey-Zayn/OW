@@ -13,6 +13,11 @@ const experienceSchema = new mongoose.Schema({
     trim: true,
     maxlength: [100, 'Position cannot exceed 100 characters']
   },
+  location: {
+    type: String,
+    required: [true, 'Location is required'],
+    trim: true
+  },
   duration: {
     type: String,
     required: [true, 'Duration is required'],
@@ -22,8 +27,18 @@ const experienceSchema = new mongoose.Schema({
   description: {
     type: String,
     required: [true, 'Description is required'],
-    trim: true,
-    maxlength: [1000, 'Description cannot exceed 1000 characters']
+    trim: true
+  },
+  skills: {
+    type: [String],
+    required: true,
+    default: [],
+    validate: {
+      validator: function(v) {
+        return v.every(skill => typeof skill === 'string' && skill.trim().length > 0);
+      },
+      message: 'Skills must be an array of non-empty strings'
+    }
   },
   createdAt: {
     type: Date,

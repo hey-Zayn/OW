@@ -9,22 +9,35 @@ const ContactsPage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchContacts = async () => {
-      try {
-        const response = await axios.get('/api/contact');
-        if (response.data.success) {
-          setContacts(response.data.data);
-        }
-      } catch (error) {
-        toast.error("Failed to fetch contacts");
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchContacts();
   }, []);
+
+  const fetchContacts = async () => {
+    try {
+      const response = await axios.get('/api/contact');
+      if (response.data.success) {
+        setContacts(response.data.data);
+      }
+    } catch (error) {
+      toast.error("Failed to fetch contacts");
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      const response = await axios.delete('/api/contact', { data: { id } });
+      if (response.data.success) {
+        toast.success("Contact deleted successfully");
+        fetchContacts(); // Refresh the list after deletion
+      }
+    } catch (error) {
+      toast.error("Failed to delete contact");
+      console.error(error);
+    }
+  };
 
   if (loading) {
     return (
@@ -50,6 +63,7 @@ const ContactsPage = () => {
                 <th className="px-4 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Job Title</th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Source</th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Date</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-yellow-200">
@@ -63,6 +77,14 @@ const ContactsPage = () => {
                   <td className="px-4 py-4 whitespace-nowrap text-sm text-black">{contact.source || '-'}</td>
                   <td className="px-4 py-4 whitespace-nowrap text-sm text-black">
                     {new Date(contact.createdAt).toLocaleDateString()}
+                  </td>
+                  <td className="px-4 py-4 whitespace-nowrap text-sm text-black">
+                    <button
+                      onClick={() => handleDelete(contact._id)}
+                      className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-sm transition-colors"
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))}

@@ -8,8 +8,9 @@ import NavBar from "./NavBar";
 import Footer from "./Footer";
 import Myexperties from "./Myexperties";
 import Mywork from "./Mywork";
-import MyExper from "./MyExper";
+// import MyExper from "./MyExper";
 import Quote from "./Quote";
+import InteractiveTimeline from "./InteractiveTimeline";
 
 
 const Heropage = () => {
@@ -19,7 +20,8 @@ const Heropage = () => {
       <PortfolioHero/>
     <About/>
     <Myexperties/>
-    <MyExper/>
+    {/* <MyExper/> */}
+    <InteractiveTimeline />
     <Mywork/>
    
     <BlogSection/>
