@@ -97,3 +97,52 @@ export async function GET() {
         );
     }
 }
+
+
+export async function DELETE(request) {
+    try {
+        await connectDB();
+        const { id } = await request.json();
+
+        if (!id) {
+            return NextResponse.json(
+                { 
+                    success: false, 
+                    message: "Contact ID is required" 
+                },
+                { status: 400 }
+            );
+        }
+
+        const deletedContact = await ContactModel.findByIdAndDelete(id);
+
+        if (!deletedContact) {
+            return NextResponse.json(
+                { 
+                    success: false, 
+                    message: "Contact not found" 
+                },
+                { status: 404 }
+            );
+        }
+
+        return NextResponse.json(
+            { 
+                success: true, 
+                message: "Contact deleted successfully",
+                data: deletedContact
+            },
+            { status: 200 }
+        );
+    } catch (error) {
+        console.error("Error deleting contact:", error);
+        return NextResponse.json(
+            { 
+                success: false, 
+                message: "Failed to delete contact",
+                error: error.message 
+            },
+            { status: 500 }
+        );
+    }
+}

@@ -2,6 +2,7 @@
 import React, { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import DownloadCVButton from './DownloadCVButton'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -11,6 +12,7 @@ const About = () => {
   const titleRef = useRef(null)
   const text1Ref = useRef(null)
   const text2Ref = useRef(null)
+  const toolsRef = useRef(null)
   const buttonRef = useRef(null)
 
   useEffect(() => {
@@ -18,7 +20,7 @@ const About = () => {
 
     // Set initial state
     gsap.set(
-      [imageRef.current, titleRef.current, text1Ref.current, text2Ref.current, buttonRef.current],
+      [imageRef.current, titleRef.current, text1Ref.current, text2Ref.current, toolsRef.current, buttonRef.current],
       { opacity: 0, y: 20 }
     )
 
@@ -56,6 +58,12 @@ const About = () => {
       duration: 0.5,
       ease: "power2.out"
     }, "-=0.3")
+    .to(toolsRef.current, {
+      opacity: 1,
+      y: 0,
+      duration: 0.5,
+      ease: "power2.out"
+    }, "-=0.2")
     .to(buttonRef.current, {
       opacity: 1,
       y: 0,
@@ -74,7 +82,7 @@ const About = () => {
       <div className='max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12'>
         <div ref={imageRef} className='w-full md:w-1/2'>
           <img 
-            src="./images/about.jpg" 
+            src="./images/about.jpeg" 
             alt="About me" 
             className='w-full h-auto rounded-lg shadow-lg object-cover'
           />
@@ -84,15 +92,42 @@ const About = () => {
             About <span className='text-[#FDC435]'>Me</span>
           </h2>
           <p ref={text1Ref} className='text-lg text-[#525252] leading-relaxed'>
-            I'm a passionate Business Development & Strategy Executive with over 10 years of experience helping companies grow and scale. My expertise lies in identifying new market opportunities, developing strategic partnerships, and driving revenue growth.
+            Dynamic and results-driven Business Development & Digital Strategy Executive with a track record of 
+            elevating organizational digital capabilities and driving sustainable, data-informed growth. A proven leader in 
+            orchestrating cross-platform brand campaigns that consistently deliver 25–30% revenue growth.
           </p>
-          <p ref={text2Ref} className='text-lg text-[#525252] leading-relaxed'>
-            I combine analytical thinking with creative problem-solving to deliver exceptional results. My approach is data-driven yet human-centered, ensuring strategies that work for both businesses and their customers.
-          </p>
+          {/* <p ref={text2Ref} className='text-lg text-[#525252] leading-relaxed'>
+            Expert in designing and implementing HIPAA-compliant CRM systems that boost digital inquiry submissions by 38% 
+            and spearheading organic digital strategies that drive 300% increases in referrals. Certified Lean Six Sigma Green Belt, 
+            recognized for operational excellence, stakeholder engagement, and transformative leadership in fast-paced environments.
+          </p> */}
+          <div ref={toolsRef} className="pt-2">
+            <h3 className="text-lg font-semibold text-[#171717] mb-3">Tech Stack</h3>
+            <div className="flex flex-wrap gap-2">
+              {[
+                'Google Analytics',
+                'Meta Ads',
+                'Email Marketing',
+                'CRM Tools',
+                'Data Visualization',
+                'SEO',
+                'CMS',
+                'Office Suite',
+                'Adobe CC',
+                'Automation',
+                'Survey Tools'
+              ].map((tool, index) => (
+                <div 
+                  key={index}
+                  className="px-2.5 py-1.5 bg-yellow-50 rounded-md border border-yellow-100 text-xs text-yellow-800 hover:bg-yellow-100 transition-all hover:scale-105 shadow-sm"
+                >
+                  {tool}
+                </div>
+              ))}
+            </div>
+          </div>
           <div ref={buttonRef} className='pt-6'>
-            <button className='px-8 py-3 bg-[#FDC435] text-[#171717] font-medium rounded-lg hover:bg-[#fdc435cc] transition-all duration-300 shadow-lg hover:shadow-[#FDC435]/50'>
-              Download Resume
-            </button>
+            <DownloadCVButton/>
           </div>
         </div>
       </div>

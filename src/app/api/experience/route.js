@@ -14,15 +14,15 @@ loadDB();
 
 export async function POST(request) {
   try {
- 
-    
-    const { company, position, duration, description } = await request.json();
+    const { company, position, duration, description, skills, location } = await request.json();
 
     const newExperience = new Experience({
       company,
       position,
       duration,
-      description
+      description, // No character limit validation needed
+      location: location || '', // Initialize location with empty string if not provided
+      skills: skills || [] // Initialize skills with empty array if not provided
     });
 
     await newExperience.save();
@@ -111,7 +111,7 @@ export async function DELETE(request) {
 
 export async function PUT(request) {
   try {
-    const { id, company, position, duration, description } = await request.json();
+    const { id, company, position, location, duration, description, skills } = await request.json();
 
     if (!id) {
       return NextResponse.json(
@@ -122,7 +122,7 @@ export async function PUT(request) {
 
     const updatedExperience = await Experience.findByIdAndUpdate(
       id,
-      { company, position, duration, description },
+      { company, position, location, duration, description, skills },
       { new: true }
     );
 
