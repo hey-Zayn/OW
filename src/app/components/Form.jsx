@@ -4,6 +4,13 @@ import { CircleAlert } from "lucide-react";
 import { toast } from "react-toastify";
 import Link from "next/link";
 
+// Theme colors using CSS variables
+const THEME = {
+  bg: 'var(--bg-color)',
+  primary: 'var(--primary-color)',
+  text: 'var(--text-color)',
+};
+
 const Form = () => {
   const [formData, setFormData] = useState({
     fullName: "",
@@ -60,32 +67,52 @@ const Form = () => {
   };
 
   return (
-    <div className="w-full py-12 px-4 sm:px-8 lg:px-16 bg-white">
+    <div
+      className="w-full py-12 px-4 sm:px-8 lg:px-16"
+      style={{ background: THEME.bg }}
+    >
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-center text-3xl sm:text-4xl lg:text-5xl font-bold text-[#171717] mb-8">
+        <h1
+          className="text-center text-3xl sm:text-4xl lg:text-5xl font-bold mb-8"
+          style={{ color: THEME.text }}
+        >
           Let's Connect
         </h1>
         
         <div className="flex flex-col lg:flex-row gap-8">
           <div className="lg:w-1/2 space-y-6">
             <div className="flex flex-col sm:flex-row gap-4">
-              <button className="px-6 py-3 bg-[#FDC435] text-[#171717] font-semibold rounded-md hover:bg-[#FDC435]/90 transition-all duration-300">
+              <button
+                className="px-6 py-3 font-semibold rounded-md transition-all duration-300"
+                style={{
+                  background: THEME.primary,
+                  color: THEME.text,
+                  boxShadow: `0 2px 8px 0 ${THEME.primary}22`
+                }}
+              >
                 Book a Consultation
               </button>
               <Link href="/about">
-                <button className="px-6 py-3 border border-[#171717] text-[#171717] font-semibold rounded-md hover:bg-[#FDC435]/10 transition-all duration-300">
+                <button
+                  className="px-6 py-3 border font-semibold rounded-md transition-all duration-300"
+                  style={{
+                    borderColor: THEME.text,
+                    color: THEME.text,
+                    background: 'transparent'
+                  }}
+                >
                   About Me
                 </button>
               </Link>
             </div>
             
             <div className="space-y-4">
-              <p className="text-[#525252]">
+              <p style={{ color: 'var(--muted-text-color, #525252)' }}>
                 I'd love to hear about your project or business needs. Fill out the form and I'll get back to you soon.
               </p>
               <div>
-                <p className="text-[#171717] font-medium">
-                  <span className="text-[#FDC435]">Email:</span> jwilliams01109@gmail.com
+                <p className="font-medium" style={{ color: THEME.text }}>
+                  <span style={{ color: THEME.primary }}>Email:</span> jwilliams01109@gmail.com
                 </p>
               </div>
             </div>
@@ -94,7 +121,7 @@ const Form = () => {
           <div className="lg:w-1/2">
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-1">
-                <label htmlFor="fullName" className="block text-[#171717] font-medium">
+                <label htmlFor="fullName" className="block font-medium" style={{ color: THEME.text }}>
                   Full Name
                 </label>
                 <input
@@ -104,13 +131,18 @@ const Form = () => {
                   value={formData.fullName}
                   onChange={handleChange}
                   placeholder="Your Name"
-                  className="w-full p-3 border border-[#E5E5E5] rounded-md focus:outline-none focus:ring-2 focus:ring-[#FDC435] text-black"
+                  className="w-full p-3 rounded-md focus:outline-none focus:ring-2"
+                  style={{
+                    border: `1.5px solid ${THEME.primary}`,
+                    color: THEME.text,
+                    background: THEME.bg
+                  }}
                   required
                 />
               </div>
 
               <div className="space-y-1">
-                <label htmlFor="company" className="block text-[#171717] font-medium">
+                <label htmlFor="company" className="block font-medium" style={{ color: THEME.text }}>
                   Company Name
                 </label>
                 <input
@@ -120,12 +152,17 @@ const Form = () => {
                   value={formData.company}
                   onChange={handleChange}
                   placeholder="Your Company"
-                  className="w-full p-3 border border-[#E5E5E5] rounded-md focus:outline-none focus:ring-2 focus:ring-[#FDC435] text-black"
+                  className="w-full p-3 rounded-md focus:outline-none focus:ring-2"
+                  style={{
+                    border: `1.5px solid ${THEME.primary}`,
+                    color: THEME.text,
+                    background: THEME.bg
+                  }}
                 />
               </div>
 
               <div className="space-y-1">
-                <label htmlFor="email" className="block text-[#171717] font-medium">
+                <label htmlFor="email" className="block font-medium" style={{ color: THEME.text }}>
                   Business Email
                 </label>
                 <input
@@ -135,13 +172,18 @@ const Form = () => {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="your@email.com"
-                  className="w-full p-3 border border-[#E5E5E5] rounded-md focus:outline-none focus:ring-2 focus:ring-[#FDC435] text-black"
+                  className="w-full p-3 rounded-md focus:outline-none focus:ring-2"
+                  style={{
+                    border: `1.5px solid ${THEME.primary}`,
+                    color: THEME.text,
+                    background: THEME.bg
+                  }}
                   required
                 />
               </div>
 
               <div className="space-y-1">
-                <label htmlFor="phone" className="block text-[#171717] font-medium">
+                <label htmlFor="phone" className="block font-medium" style={{ color: THEME.text }}>
                   Phone Number
                 </label>
                 <input
@@ -151,13 +193,18 @@ const Form = () => {
                   value={formData.phone}
                   onChange={handleChange}
                   placeholder="(123) 456-7890"
-                  className="w-full p-3 border border-[#E5E5E5] rounded-md focus:outline-none focus:ring-2 focus:ring-[#FDC435] text-black"
+                  className="w-full p-3 rounded-md focus:outline-none focus:ring-2"
+                  style={{
+                    border: `1.5px solid ${THEME.primary}`,
+                    color: THEME.text,
+                    background: THEME.bg
+                  }}
                   required
                 />
               </div>
 
               <div className="space-y-1">
-                <label htmlFor="job" className="block text-[#171717] font-medium">
+                <label htmlFor="job" className="block font-medium" style={{ color: THEME.text }}>
                   Job Title
                 </label>
                 <input
@@ -167,13 +214,18 @@ const Form = () => {
                   value={formData.job}
                   onChange={handleChange}
                   placeholder="Your Position"
-                  className="w-full p-3 border border-[#E5E5E5] rounded-md focus:outline-none focus:ring-2 focus:ring-[#FDC435] text-black"
+                  className="w-full p-3 rounded-md focus:outline-none focus:ring-2"
+                  style={{
+                    border: `1.5px solid ${THEME.primary}`,
+                    color: THEME.text,
+                    background: THEME.bg
+                  }}
                   required
                 />
               </div>
 
               <div className="space-y-1">
-                <label htmlFor="source" className="block text-[#171717] font-medium">
+                <label htmlFor="source" className="block font-medium" style={{ color: THEME.text }}>
                   How did you hear about me?
                 </label>
                 <select
@@ -181,7 +233,12 @@ const Form = () => {
                   id="source"
                   value={formData.source}
                   onChange={handleChange}
-                  className="w-full p-3 border border-[#E5E5E5] rounded-md focus:outline-none focus:ring-2 focus:ring-[#FDC435] bg-white text-black"
+                  className="w-full p-3 rounded-md focus:outline-none focus:ring-2"
+                  style={{
+                    border: `1.5px solid ${THEME.primary}`,
+                    color: THEME.text,
+                    background: THEME.bg
+                  }}
                 >
                   <option value="Google">Google</option>
                   <option value="Facebook">Facebook</option>
@@ -195,15 +252,27 @@ const Form = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-3 bg-[#FDC435] text-[#171717] font-semibold rounded-md hover:bg-[#FDC435]/90 transition-all duration-300"
+                className="w-full py-3 font-semibold rounded-md transition-all duration-300"
+                style={{
+                  background: THEME.primary,
+                  color: THEME.text,
+                  boxShadow: `0 2px 8px 0 ${THEME.primary}22`,
+                  opacity: isSubmitting ? 0.7 : 1,
+                  cursor: isSubmitting ? "not-allowed" : "pointer"
+                }}
               >
                 {isSubmitting ? 'Sending...' : 'Send Message'}
               </button>
             </form>
 
-            <div className="flex items-start gap-3 mt-6 p-4 bg-[#FDC435]/10 rounded-md">
-              <CircleAlert className="text-[#FDC435] mt-1 flex-shrink-0" />
-              <p className="text-sm text-[#525252]">
+            <div
+              className="flex items-start gap-3 mt-6 p-4 rounded-md"
+              style={{
+                background: `${THEME.primary}18`
+              }}
+            >
+              <CircleAlert style={{ color: THEME.primary }} className="mt-1 flex-shrink-0" />
+              <p className="text-sm" style={{ color: 'var(--muted-text-color, #525252)' }}>
                 Your privacy is important. All information will be kept confidential and secure. I will not share your details without consent.
               </p>
             </div>
