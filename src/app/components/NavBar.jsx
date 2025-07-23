@@ -47,6 +47,11 @@ const NavBar = () => {
                         >
                             {navLinks[navLinks.length - 1].name}
                         </Link>
+                        <Link href="/theme">
+                            <button style={{ marginLeft: '1rem', padding: '0.5rem 1rem', background: 'var(--primary-color)', color: 'var(--text-color)', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
+                                Choose Theme
+                            </button>
+                        </Link>
                     </div>
 
                     {/* Mobile menu button */}

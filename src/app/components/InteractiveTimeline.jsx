@@ -10,29 +10,68 @@ import { useRouter } from 'next/navigation';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP, MotionPathPlugin);
 
+// Use CSS variables for theme colors
+const THEME = {
+  bg: 'var(--bg-color)',
+  primary: 'var(--primary-color)',
+  text: 'var(--text-color)',
+};
+
 const FloatingOrbs = memo(() => (
   <div className="absolute inset-0 pointer-events-none">
-    <div className="floating-orb absolute top-1/4 left-10 w-6 h-6 rounded-full bg-yellow-100/30 blur-xl" />
-    <div className="floating-orb absolute top-2/3 right-20 w-8 h-8 rounded-full bg-yellow-100/30 blur-xl" />
-    <div className="floating-orb absolute bottom-1/4 left-1/3 w-5 h-5 rounded-full bg-yellow-100/30 blur-xl" />
+    <div
+      className="floating-orb absolute top-1/4 left-10 w-6 h-6 rounded-full blur-xl"
+      style={{
+        backgroundColor: 'rgba(253, 196, 53, 0.18)', // --primary-color with opacity
+      }}
+    />
+    <div
+      className="floating-orb absolute top-2/3 right-20 w-8 h-8 rounded-full blur-xl"
+      style={{
+        backgroundColor: 'rgba(253, 196, 53, 0.18)',
+      }}
+    />
+    <div
+      className="floating-orb absolute bottom-1/4 left-1/3 w-5 h-5 rounded-full blur-xl"
+      style={{
+        backgroundColor: 'rgba(253, 196, 53, 0.18)',
+      }}
+    />
   </div>
 ));
 
 const SectionHeader = memo(() => (
   <div className="text-center mb-20">
-    <h2 className="text-5xl md:text-5xl font-bold text-gray-800 mb-6">
+    <h2
+      className="text-5xl md:text-5xl font-bold mb-6"
+      style={{ color: THEME.text }}
+    >
       Professional Milestones
     </h2>
-    <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-      A comprehensive overview of my career progression, highlighting key achievements and <span className="font-bold text-yellow-600">strategic contributions</span>
+    <p
+      className="text-xl max-w-2xl mx-auto"
+      style={{ color: THEME.text }}
+    >
+      A comprehensive overview of my career progression, highlighting key achievements and{' '}
+      <span
+        className="font-bold"
+        style={{ color: THEME.primary }}
+      >
+        strategic contributions
+      </span>
     </p>
   </div>
 ));
 
-const SkillBadge = memo(({ skill, isActive, index, color }) => (
-  <span 
-    className={`skill-badge px-4 py-2 text-sm font-medium rounded-full bg-yellow-100 border border-yellow-200 text-yellow-800 hover:bg-yellow-200 hover:scale-105 transition-all duration-300 ${isActive ? 'animate-pop' : ''}`}
-    style={{ transitionDelay: `${index * 50}ms` }}
+const SkillBadge = memo(({ skill, isActive, index }) => (
+  <span
+    className={`skill-badge px-4 py-2 text-sm font-medium rounded-full border hover:scale-105 transition-all duration-300 ${isActive ? 'animate-pop' : ''}`}
+    style={{
+      backgroundColor: 'rgba(253, 196, 53, 0.12)', // --primary-color with opacity
+      borderColor: 'rgba(253, 196, 53, 0.25)',
+      color: THEME.primary,
+      transitionDelay: `${index * 50}ms`,
+    }}
   >
     {skill}
   </span>
@@ -40,19 +79,34 @@ const SkillBadge = memo(({ skill, isActive, index, color }) => (
 
 const TimelineCard = memo(({ exp, index, isActive }) => {
   const isEven = index % 2 === 0;
-  const shortDescription = exp.description.length > 100 ? `${exp.description.substring(0, 100)}...` : exp.description;
-  
+  const shortDescription =
+    exp.description.length > 100
+      ? `${exp.description.substring(0, 100)}...`
+      : exp.description;
+
   return (
-    <div className={`relative timeline-item group md:flex ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} items-center justify-center`}>
+    <div
+      className={`relative timeline-item group md:flex ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} items-center justify-center`}
+    >
       {/* Year (mobile) */}
       <div className="md:hidden mb-6">
-        <span className="text-2xl font-bold text-gray-800">{exp.year}</span>
+        <span
+          className="text-2xl font-bold"
+          style={{ color: THEME.text }}
+        >
+          {exp.year}
+        </span>
       </div>
 
       {/* Year (desktop) */}
       <div className={`hidden md:block md:w-1/2 ${isEven ? 'md:pr-16' : 'md:pl-16'}`}>
         <div className={`h-full flex items-center ${isEven ? 'justify-end' : 'justify-start'}`}>
-          <span className={`text-6xl font-bold timeline-year transition-all duration-500 ${isActive ? exp.text : 'text-gray-200'}`}>
+          <span
+            className={`text-6xl font-bold timeline-year transition-all duration-500`}
+            style={{
+              color: isActive ? THEME.primary : '#e5e7eb', // gray-200 fallback
+            }}
+          >
             {exp.year}
           </span>
         </div>
@@ -60,13 +114,24 @@ const TimelineCard = memo(({ exp, index, isActive }) => {
 
       {/* Modern Card */}
       <div className={`md:w-1/2 ${isEven ? 'md:pl-16' : 'md:pr-16'}`}>
-        <div className={`relative overflow-hidden p-8 ${exp.color} rounded-2xl border ${exp.border} shadow-lg transition-all duration-500 timeline-card ${isActive ? 'scale-105' : ''} ${isEven ? 'md:translate-x-8' : 'md:-translate-x-8'}`}>
+        <div
+          className={`relative overflow-hidden p-8 rounded-2xl border shadow-lg transition-all duration-500 timeline-card ${isActive ? 'scale-105' : ''} ${isEven ? 'md:translate-x-8' : 'md:-translate-x-8'}`}
+          style={{
+            background: 'rgba(253, 196, 53, 0.07)', // --primary-color with low opacity
+            borderColor: THEME.primary,
+          }}
+        >
           <div className="relative z-10">
             <div className="mb-6">
-              <h3 className="text-2xl font-bold text-gray-800">{exp.title}</h3>
-              <p className={exp.text}>{exp.company}</p>
+              <h3
+                className="text-2xl font-bold"
+                style={{ color: THEME.text }}
+              >
+                {exp.title}
+              </h3>
+              <p style={{ color: THEME.primary, fontWeight: 600 }}>{exp.company}</p>
               {exp.location && (
-                <div className="flex items-center gap-2 mt-2 text-gray-600">
+                <div className="flex items-center gap-2 mt-2" style={{ color: 'rgba(23,23,23,0.6)' }}>
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
                   </svg>
@@ -75,24 +140,23 @@ const TimelineCard = memo(({ exp, index, isActive }) => {
               )}
             </div>
 
-            <p className="text-gray-700 mb-4">{shortDescription}</p>
-            
+            <p className="mb-4" style={{ color: THEME.text }}>{shortDescription}</p>
+
             <div className="mb-6">
-              <h4 className="text-sm font-semibold text-gray-500 mb-2">SKILLS</h4>
+              <h4 className="text-sm font-semibold mb-2" style={{ color: THEME.primary }}>
+                SKILLS
+              </h4>
               <div className="flex flex-wrap gap-3">
                 {exp.skills.map((skill, i) => (
-                  <SkillBadge 
-                    key={i} 
-                    skill={skill} 
-                    isActive={isActive} 
+                  <SkillBadge
+                    key={i}
+                    skill={skill}
+                    isActive={isActive}
                     index={i}
-                    color={exp.text}
                   />
                 ))}
               </div>
             </div>
-
-           
           </div>
         </div>
       </div>
@@ -152,7 +216,7 @@ const InteractiveTimeline = () => {
       const container = containerRef.current;
       container.addEventListener("mousemove", (e) => {
         if (!e.target.closest(".timeline-card")) return;
-        
+
         const card = e.target.closest(".timeline-card");
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
@@ -174,7 +238,7 @@ const InteractiveTimeline = () => {
 
       container.addEventListener("mouseleave", (e) => {
         if (!e.target.closest(".timeline-card")) return;
-        
+
         const card = e.target.closest(".timeline-card");
         gsap.to(card, {
           rotationX: 0,
@@ -205,33 +269,30 @@ const InteractiveTimeline = () => {
             const tl = gsap.timeline({
               defaults: { duration: 0.4, ease: "power2.out" }
             });
-            
-            tl.to(icon, { 
-              scale: 1, 
-              opacity: 1, 
-              duration: 0.5
-            })
-            .to(year, { 
-              opacity: 1, 
-              y: 0
-            }, "-=0.3")
-            .to(card, { 
-              opacity: 1, 
-              y: 0
-            }, "-=0.2")
-            .to(media, {
-              opacity: 1,
-              y: 0
-            }, "-=0.2")
-            .to(skills, { 
-              opacity: 1, 
-              y: 0, 
-              stagger: 0.05
-            }, "-=0.1");
+
+            // Remove icon animation (no icon in this version)
+            tl
+              .to(year, {
+                opacity: 1,
+                y: 0
+              }, "-=0.3")
+              .to(card, {
+                opacity: 1,
+                y: 0
+              }, "-=0.2")
+              .to(media, {
+                opacity: 1,
+                y: 0
+              }, "-=0.2")
+              .to(skills, {
+                opacity: 1,
+                y: 0,
+                stagger: 0.05
+              }, "-=0.1");
           },
           once: true
         });
-        
+
         scrollTriggersRef.current.push(st);
       });
 
@@ -250,7 +311,7 @@ const InteractiveTimeline = () => {
         }),
         fastScrollEnd: true
       });
-      
+
       scrollTriggersRef.current.push(trackST);
     }, containerRef);
 
@@ -263,8 +324,10 @@ const InteractiveTimeline = () => {
   }, { scope: containerRef });
 
   return (
-    <section className="relative py-28 px-4 sm:px-8 bg-white overflow-hidden">
-       
+    <section
+      className="relative py-28 px-4 sm:px-8 overflow-hidden"
+      style={{ background: THEME.bg }}
+    >
       <FloatingOrbs />
 
       <div className="max-w-7xl mx-auto relative z-10">
@@ -273,17 +336,26 @@ const InteractiveTimeline = () => {
         {/* Interactive timeline */}
         <div ref={containerRef} className="relative">
           {/* Animated gradient track */}
-          <div className="absolute left-1/2 -translate-x-1/2 w-1 h-full bg-yellow-600 timeline-track hidden md:block" />
+          <div
+            className="absolute left-1/2 -translate-x-1/2 w-1 h-full timeline-track hidden md:block"
+            style={{ background: THEME.primary }}
+          />
 
           <div className="space-y-24 md:space-y-32">
             {loading && (
-              <div className="text-center text-gray-500 py-10">Loading experiences...</div>
+              <div className="text-center py-10" style={{ color: THEME.text }}>
+                Loading experiences...
+              </div>
             )}
             {error && (
-              <div className="text-center text-red-500 py-10">{error}</div>
+              <div className="text-center py-10" style={{ color: '#ef4444' }}>
+                {error}
+              </div>
             )}
             {!loading && !error && experiences.length === 0 && (
-              <div className="text-center text-gray-400 py-10">No experiences found.</div>
+              <div className="text-center py-10" style={{ color: THEME.text }}>
+                No experiences found.
+              </div>
             )}
             {!loading && !error && experiences.map((exp, index) => (
               <div
@@ -307,11 +379,8 @@ const InteractiveTimeline = () => {
                     title: exp.position,
                     company: exp.company,
                     description: exp.description,
-                    // fallback styles for dynamic data
                     skills: exp.skills || [],
-                    color: 'bg-yellow-50',
-                    border: 'border-yellow-500',
-                    text: 'text-yellow-600'
+                    location: exp.location,
                   }}
                   index={index}
                   isActive={activeCard === index}
@@ -324,10 +393,7 @@ const InteractiveTimeline = () => {
 
       {/* Floating CTA */}
       <div className="mt-20 text-center">
-        {/* <button className="px-8 py-4 bg-gradient-to-r from-[#FDC435] via-[#FDC435]/80 to-[#FDC435]/50 rounded-xl text-gray-900 font-semibold shadow-lg hover:shadow-[#FDC435]/50 hover:scale-[1.02] transition-all duration-300 animate-float">
-          Download Full Resume
-        </button> */}
-        <DownloadCVButton/>
+        <DownloadCVButton />
       </div>
     </section>
   );

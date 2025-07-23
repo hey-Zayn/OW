@@ -1,8 +1,10 @@
 @import "tailwindcss";
 
+/* Theme variables */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-color: #ffffff;
+  --primary-color: #FDC435;
+  --text-color: #171717;
 }
 
 @theme inline {
@@ -20,8 +22,9 @@
 }
 
 body {
-  background: #ffffff;
-  color: var(--foreground);
+  background: var(--bg-color);
+  color: var(--text-color);
+  transition: background 0.3s, color 0.3s;
   font-family: 'PPNeueMachina-PlainLight' ;
   /* font-family: "Montserrat", sans-serif; */
 
@@ -77,4 +80,59 @@ body {
   font-weight: normal;
   font-style: normal;
 }
+/* Soft luxury scrollbar styling */
+/* Elegant, refined scrollbar with smooth premium feel */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
 
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, rgba(190, 177, 138, 0.8) 0%, rgba(190, 177, 138, 0.6) 100%);
+  border-radius: 10px;
+  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 
+    0 1px 4px rgba(0, 0, 0, 0.05),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, rgba(190, 177, 138, 0.9) 0%, rgba(190, 177, 138, 0.7) 100%);
+  transform: scaleX(1.1);
+  box-shadow: 
+    0 2px 8px rgba(190, 177, 138, 0.2),
+    inset 0 1px 1px rgba(255, 255, 255, 0.3);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Firefox scrollbar with soft luxury styling */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(190, 177, 138, 0.7) rgba(30, 30, 30, 0.05);
+  scrollbar-gutter: stable both-edges;
+}
+
+/* Ultra-smooth scrolling behavior */
+html {
+  scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-color);
+}
+
+a {
+  color: var(--primary-color);
+}
