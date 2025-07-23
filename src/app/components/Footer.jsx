@@ -1,8 +1,15 @@
 "use client";
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Mail, Twitter, Linkedin, Instagram, Dribbble } from 'lucide-react';
+import { Twitter, Linkedin, Instagram, Dribbble } from 'lucide-react';
+
+// Theme colors using CSS variables
+const THEME = {
+  bg: 'var(--bg-color)',
+  primary: 'var(--primary-color)',
+  text: 'var(--text-color)',
+};
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -10,12 +17,13 @@ gsap.registerPlugin(ScrollTrigger);
 const Footer = () => {
   const footerRef = useRef(null);
   const year = new Date().getFullYear();
-  const [email, setEmail] = React.useState('');
+  const [email, setEmail] = useState('');
 
   useEffect(() => {
     const footer = footerRef.current;
 
-    gsap.fromTo(footer,
+    gsap.fromTo(
+      footer,
       { y: 100, opacity: 0 },
       {
         y: 0,
@@ -31,7 +39,8 @@ const Footer = () => {
     );
 
     // Animate the links
-    gsap.fromTo(".footer-link",
+    gsap.fromTo(
+      ".footer-link",
       { y: 20, opacity: 0 },
       {
         y: 0,
@@ -57,27 +66,51 @@ const Footer = () => {
   };
 
   return (
-    <footer 
+    <footer
       ref={footerRef}
-      className="w-full bg-white py-12 px-4 sm:px-6 lg:px-8 border-t border-gray-200"
+      className="w-full py-12 px-4 sm:px-6 lg:px-8 border-t"
+      style={{
+        background: THEME.bg,
+        borderColor: 'rgba(0,0,0,0.08)'
+      }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+          {/* About */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-900">About</h3>
-            <p className="text-gray-600 text-sm">
+            <h3
+              className="text-lg font-semibold"
+              style={{ color: THEME.text }}
+            >
+              About
+            </h3>
+            <p
+              className="text-sm"
+              style={{ color: 'var(--muted-text-color, #525252)' }}
+            >
               Professional creative offering innovative solutions to help businesses grow and succeed.
             </p>
           </div>
 
+          {/* Quick Links */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-900">Quick Links</h3>
+            <h3
+              className="text-lg font-semibold"
+              style={{ color: THEME.text }}
+            >
+              Quick Links
+            </h3>
             <ul className="space-y-2">
               {['Home', 'About', 'Services', 'Portfolio', 'Contact'].map((item) => (
                 <li key={item}>
-                  <a 
-                    href="#" 
-                    className="footer-link text-gray-600 hover:text-[#FDC435] transition-colors duration-300 text-sm"
+                  <a
+                    href="#"
+                    className="footer-link text-sm transition-colors duration-300"
+                    style={{
+                      color: 'var(--muted-text-color, #525252)',
+                    }}
+                    onMouseOver={e => (e.currentTarget.style.color = THEME.primary)}
+                    onMouseOut={e => (e.currentTarget.style.color = 'var(--muted-text-color, #525252)')}
                   >
                     {item}
                   </a>
@@ -86,8 +119,14 @@ const Footer = () => {
             </ul>
           </div>
 
+          {/* Connect */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-900">Connect</h3>
+            <h3
+              className="text-lg font-semibold"
+              style={{ color: THEME.text }}
+            >
+              Connect
+            </h3>
             <div className="flex flex-wrap gap-3">
               {[
                 { name: 'Twitter', icon: <Twitter size={18} /> },
@@ -95,11 +134,24 @@ const Footer = () => {
                 { name: 'Instagram', icon: <Instagram size={18} /> },
                 { name: 'Dribbble', icon: <Dribbble size={18} /> }
               ].map((social) => (
-                <a 
+                <a
                   key={social.name}
-                  href="#" 
-                  className="footer-link w-9 h-9 rounded-full bg-black text-white flex items-center justify-center hover:bg-[#FDC435] hover:text-white transition-all duration-300"
+                  href="#"
+                  className="footer-link w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300"
                   aria-label={social.name}
+                  style={{
+                    background: THEME.primary,
+                    color: THEME.bg,
+                    boxShadow: `0 2px 8px 0 ${THEME.primary}22`
+                  }}
+                  onMouseOver={e => {
+                    e.currentTarget.style.background = THEME.text;
+                    e.currentTarget.style.color = THEME.primary;
+                  }}
+                  onMouseOut={e => {
+                    e.currentTarget.style.background = THEME.primary;
+                    e.currentTarget.style.color = THEME.bg;
+                  }}
                 >
                   {social.icon}
                 </a>
@@ -107,20 +159,39 @@ const Footer = () => {
             </div>
           </div>
 
+          {/* Newsletter */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-900">Newsletter</h3>
+            <h3
+              className="text-lg font-semibold"
+              style={{ color: THEME.text }}
+            >
+              Newsletter
+            </h3>
             <form onSubmit={handleSubmit} className="flex flex-col space-y-2">
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Your email address"
-                className="p-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-[#FDC435]"
+                className="p-2 text-sm border rounded focus:outline-none"
+                style={{
+                  borderColor: 'rgba(0,0,0,0.12)',
+                  color: THEME.text,
+                  background: THEME.bg,
+                  boxShadow: `0 1px 2px 0 ${THEME.primary}11`
+                }}
                 required
               />
-              <button 
-                type="submit" 
-                className="text-sm bg-[#FDC435] text-gray-900 py-2 px-4 rounded hover:bg-[#FDC435]/90 transition-colors duration-300"
+              <button
+                type="submit"
+                className="text-sm py-2 px-4 rounded transition-colors duration-300 font-semibold"
+                style={{
+                  background: THEME.primary,
+                  color: THEME.bg,
+                  boxShadow: `0 2px 8px 0 ${THEME.primary}22`
+                }}
+                onMouseOver={e => (e.currentTarget.style.background = THEME.text)}
+                onMouseOut={e => (e.currentTarget.style.background = THEME.primary)}
               >
                 Subscribe
               </button>
@@ -128,9 +199,18 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="pt-8 border-t border-gray-200 text-center">
-          <p className="text-gray-600 text-sm">
-            © {year} All Rights Reserved. Crafted with <span className="text-[#FDC435]">care</span>
+        <div
+          className="pt-8 border-t text-center"
+          style={{
+            borderColor: 'rgba(0,0,0,0.08)'
+          }}
+        >
+          <p
+            className="text-sm"
+            style={{ color: 'var(--muted-text-color, #525252)' }}
+          >
+            © {year} All Rights Reserved. Crafted with{' '}
+            <span style={{ color: THEME.primary, fontWeight: 600 }}>care</span>
           </p>
         </div>
       </div>

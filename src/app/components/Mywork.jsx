@@ -1,5 +1,12 @@
 "use client"
 import React, { useState, useEffect } from 'react'
+import Link from 'next/link'
+
+const THEME = {
+  bg: 'var(--bg-color)',
+  primary: 'var(--primary-color)',
+  text: 'var(--text-color)',
+};
 
 const Mywork = () => {
   const [works, setWorks] = useState([])
@@ -44,13 +51,22 @@ const Mywork = () => {
   }
 
   return (
-    <div className='w-full min-h-screen px-8 sm:px-16 lg:px-24 py-12 md:py-24 bg-white'>
+    <div
+      className='w-full min-h-screen px-8 sm:px-16 lg:px-24 py-12 md:py-24'
+      style={{ background: THEME.bg }}
+    >
       <div className='max-w-7xl mx-auto'>
         <div className='text-center space-y-4 mb-12'>
-          <h2 className='text-3xl sm:text-4xl md:text-5xl font-bold text-[#171717]'>
-            My <span className='text-[#FDC435]'>Work</span>
+          <h2
+            className='text-3xl sm:text-4xl md:text-5xl font-bold'
+            style={{ color: THEME.text }}
+          >
+            My <span style={{ color: THEME.primary }}>Work</span>
           </h2>
-          <p className='text-lg text-[#525252] max-w-3xl mx-auto'>
+          <p
+            className='text-lg max-w-3xl mx-auto'
+            style={{ color: 'var(--muted-text-color, #525252)' }}
+          >
             Here are some of my recent projects and case studies
           </p>
         </div>
@@ -60,11 +76,24 @@ const Mywork = () => {
             <button
               key={category}
               onClick={() => handleFilter(category)}
-              className={`px-6 py-2 ${
+              style={
                 activeCategory === category
-                  ? 'bg-[#FDC435] text-[#171717] hover:bg-[#fdc435cc]'
-                  : 'border border-[#FDC435] text-[#FDC435] hover:bg-[#FDC435]/10'
-              } font-medium rounded-lg transition-all duration-300`}
+                  ? {
+                      background: THEME.primary,
+                      color: THEME.text,
+                      boxShadow: `0 2px 8px 0 ${THEME.primary}22`
+                    }
+                  : {
+                      border: `2px solid ${THEME.primary}`,
+                      color: THEME.primary,
+                      background: 'transparent'
+                    }
+              }
+              className={`px-6 py-2 font-medium rounded-lg transition-all duration-300 ${
+                activeCategory === category
+                  ? 'hover:opacity-90'
+                  : 'hover:bg-[var(--primary-color)/10]'
+              }`}
             >
               {category}
             </button>
@@ -72,30 +101,72 @@ const Mywork = () => {
         </div>
 
         {loading ? (
-          <div className="text-center py-12">Loading...</div>
+          <div className="text-center py-12" style={{ color: THEME.text }}>Loading...</div>
         ) : (
           <>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
               {filteredWorks.map((work) => (
-                <div key={work._id} className='bg-[#F9FAFF] rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300'>
-                  <img 
-                    src={work.image} 
-                    alt={work.title} 
-                    className='w-full h-64 object-cover'
-                  />
-                  <div className='p-6 space-y-3'>
-                    <h3 className='text-xl font-bold text-[#171717]'>{work.title.slice(0,100)}</h3>
-                    <p className='text-[#525252] line-clamp-3' title={work.description}>
-                      {work.description.length > 300 ? `${work.description.substring(0, 300)}...` : work.description}
-                    </p>
-                    <button className='text-[#FDC435] font-medium hover:underline'>View Case Study</button>
+                <Link
+                  key={work._id}
+                  href={`/mywork/${work._id}`}
+                  style={{ textDecoration: 'none' }}
+                  className='block'
+                >
+                  <div
+                    className='rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 h-full flex flex-col'
+                    style={{
+                      background: 'var(--card-bg-color, #F9FAFF)',
+                      border: `1px solid ${THEME.primary}22`
+                    }}
+                  >
+                    <div style={{ display: 'block' }}>
+                      <img 
+                        src={work.image} 
+                        alt={work.title} 
+                        className='w-full h-64 object-cover'
+                        style={{ borderBottom: `2px solid ${THEME.primary}` }}
+                      />
+                    </div>
+                    <div className='p-6 space-y-3 flex-1 flex flex-col'>
+                      <h3
+                        className='text-xl font-bold'
+                        style={{ color: THEME.text }}
+                      >
+                        {work.title.slice(0,100)}
+                      </h3>
+                      <p
+                        className='line-clamp-3'
+                        style={{ color: 'var(--muted-text-color, #525252)' }}
+                        title={work.description}
+                      >
+                        {work.description.length > 300 ? `${work.description.substring(0, 300)}...` : work.description}
+                      </p>
+                      <div className="mt-auto">
+                        <span
+                          className='font-medium transition-colors duration-200'
+                          style={{
+                            color: THEME.primary,
+                            background: 'none',
+                            border: 'none',
+                            padding: 0,
+                            cursor: 'pointer',
+                            textDecoration: 'underline'
+                          }}
+                        >
+                          View Case Study
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
 
             {filteredWorks.length === 0 && (
-              <div className="text-center py-12 text-[#525252]">
+              <div
+                className="text-center py-12"
+                style={{ color: 'var(--muted-text-color, #525252)' }}
+              >
                 No projects found in this category
               </div>
             )}
