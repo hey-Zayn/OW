@@ -135,9 +135,9 @@ const PortfolioHero = () => {
       <div className='w-full lg:w-1/2 relative order-first lg:order-none overflow-hidden'>
         <img
           ref={yellowBgRef}
-          src="./images/yellow-bg.png"
+          src="./images/yellow-bg.svg"
           alt=""
-          className='w-full h-auto'
+          className='w-full h-auto '
           style={{ filter: 'brightness(1) saturate(1)', zIndex: 1 }}
         />
         <div className='z-20 absolute top-0 w-full flex justify-center max-sm:top-12 max-sm:-left-4 max-md:top-30 '>

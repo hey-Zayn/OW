@@ -8,6 +8,7 @@ import Footer from "../components/Footer";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Link from "next/link";
+import Head from "next/head";
 
 const Page = () => {
   const [data, setData] = useState({
@@ -60,6 +61,22 @@ const Page = () => {
 
   return (
     <div className="w-full min-h-screen bg-white">
+      <Head>
+        <title>Contact | Digital Transformation Expert | Business Growth | Consultation</title>
+        <meta
+          name="description"
+          content="Contact a digital transformation expert for business growth, leadership, process optimization, and technology consultation. Get in touch for tailored solutions and expert advice."
+        />
+        <meta
+          name="keywords"
+          content="Contact, Digital Transformation, Business Growth, Consultation, Leadership, Process Optimization, Technology, Vendor Management, CRM, Analytics, Creative Tools, Business Solutions, Expert Advice, Book a Demo, Careers"
+        />
+        <meta property="og:title" content="Contact | Digital Transformation Expert | Business Growth | Consultation" />
+        <meta property="og:description" content="Contact a digital transformation expert for business growth, leadership, process optimization, and technology consultation. Get in touch for tailored solutions and expert advice." />
+        <meta property="og:type" content="website" />
+        <meta name="robots" content="index, follow" />
+        <meta name="author" content="Digital Transformation Expert" />
+      </Head>
       <NavBar/>
       <div className="w-full pt-20">
         <Marquee />

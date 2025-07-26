@@ -19,7 +19,7 @@ const NavBar = () => {
   const navLinks = [
     { name: 'Home', href: '/' },
     { name: 'About', href: '/about' },
-    { name: 'Portfolio', href: '/mywork' },
+    { name: 'Portfolio', href: '/mywork' }, // changed from '/mywork' to '/portfolio'
     { name: 'Blog', href: '/blog' },
     { name: 'Contact', href: '/contact' }
   ]

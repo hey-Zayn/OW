@@ -3,36 +3,26 @@ import connectDB from '@/lib/config/db';
 import Work from '@/lib/models/WorkModel';
 import cloudinary from '@/lib/utils/cloudinary';
 
-
-
-
 cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME || "dd9j33dja",
-    api_key: process.env.CLOUDINARY_API_KEY || "329347982555784",
-    api_secret: process.env.CLOUDINARY_API_SECRET || "4avhppvyg6hTcbXYBH4cTKjiDK8",
-    secure: true
-  });
-  
-  const loadDB = async()=>{
-    await connectDB();
-}
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME || "dd9j33dja",
+  api_key: process.env.CLOUDINARY_API_KEY || "329347982555784",
+  api_secret: process.env.CLOUDINARY_API_SECRET || "4avhppvyg6hTcbXYBH4cTKjiDK8",
+  secure: true
+});
+
+const loadDB = async () => {
+  await connectDB();
+};
 loadDB();
 
+// Create a new Work with only an image
 export async function POST(request) {
   try {
     const formData = await request.formData();
-    const title = formData.get('title');
-    const description = formData.get('description');
-    const technologies = formData.getAll('technologies');
-    const categories = formData.getAll('categories');
-    const completionDate = formData.get('completionDate');
-    const featured = formData.get('featured') === 'true';
-    const company = formData.get('company');
     const imageFile = formData.get('image');
 
-    // Validate required fields
-    if (!title || !description || !imageFile || !technologies || !completionDate || !company || !categories) {
-      return new Response(JSON.stringify({ message: 'Missing required fields' }), {
+    if (!imageFile) {
+      return new Response(JSON.stringify({ message: 'Image is required' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' }
       });
@@ -50,34 +40,27 @@ export async function POST(request) {
       ).end(Buffer.from(buffer));
     });
 
-    // Create new work entry
+    // Create new work entry with only image
     const newWork = new Work({
-      title,
-      description,
-      image: result.secure_url,
-      technologies,
-      categories,
-      completionDate,
-      featured,
-      company
+      image: result.secure_url
     });
 
     await newWork.save();
 
-    return new Response(JSON.stringify({ 
-      success: true, 
+    return new Response(JSON.stringify({
+      success: true,
       data: newWork,
-      message: 'Work created successfully' 
+      message: 'Work image uploaded successfully'
     }), {
       status: 201,
       headers: { 'Content-Type': 'application/json' }
     });
 
   } catch (error) {
-    console.error('Error creating work:', error);
-    return new Response(JSON.stringify({ 
-      success: false, 
-      message: error.message || 'Failed to create work' 
+    console.error('Error uploading work image:', error);
+    return new Response(JSON.stringify({
+      success: false,
+      message: error.message || 'Failed to upload work image'
     }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
@@ -85,45 +68,42 @@ export async function POST(request) {
   }
 }
 
-
-
+// Get all works or a single work (no change, but only image field will be present)
 export async function GET(request) {
   try {
     await connectDB();
-    
+
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 
     if (id) {
-      // Fetch single work by ID
       const work = await Work.findById(id);
-      
+
       if (!work) {
-        return new Response(JSON.stringify({ 
-          success: false, 
-          message: 'Work not found' 
+        return new Response(JSON.stringify({
+          success: false,
+          message: 'Work not found'
         }), {
           status: 404,
           headers: { 'Content-Type': 'application/json' }
         });
       }
 
-      return new Response(JSON.stringify({ 
-        success: true, 
+      return new Response(JSON.stringify({
+        success: true,
         data: work,
-        message: 'Work fetched successfully' 
+        message: 'Work fetched successfully'
       }), {
         status: 200,
         headers: { 'Content-Type': 'application/json' }
       });
     } else {
-      // Fetch all works
       const works = await Work.find().sort({ createdAt: -1 });
-      
-      return new Response(JSON.stringify({ 
-        success: true, 
+
+      return new Response(JSON.stringify({
+        success: true,
         data: works,
-        message: 'Works fetched successfully' 
+        message: 'Works fetched successfully'
       }), {
         status: 200,
         headers: { 'Content-Type': 'application/json' }
@@ -132,9 +112,9 @@ export async function GET(request) {
 
   } catch (error) {
     console.error('Error fetching works:', error);
-    return new Response(JSON.stringify({ 
-      success: false, 
-      message: error.message || 'Failed to fetch works' 
+    return new Response(JSON.stringify({
+      success: false,
+      message: error.message || 'Failed to fetch works'
     }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
@@ -142,15 +122,15 @@ export async function GET(request) {
   }
 }
 
-
+// Delete a work by id (no change)
 export async function DELETE(request) {
   try {
     const { id } = await request.json();
 
     if (!id) {
-      return new Response(JSON.stringify({ 
-        success: false, 
-        message: 'Work ID is required' 
+      return new Response(JSON.stringify({
+        success: false,
+        message: 'Work ID is required'
       }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' }
@@ -160,19 +140,19 @@ export async function DELETE(request) {
     const deletedWork = await Work.findByIdAndDelete(id);
 
     if (!deletedWork) {
-      return new Response(JSON.stringify({ 
-        success: false, 
-        message: 'Work not found' 
+      return new Response(JSON.stringify({
+        success: false,
+        message: 'Work not found'
       }), {
         status: 404,
         headers: { 'Content-Type': 'application/json' }
       });
     }
 
-    return new Response(JSON.stringify({ 
-      success: true, 
+    return new Response(JSON.stringify({
+      success: true,
       data: deletedWork,
-      message: 'Work deleted successfully' 
+      message: 'Work deleted successfully'
     }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' }
@@ -180,9 +160,9 @@ export async function DELETE(request) {
 
   } catch (error) {
     console.error('Error deleting work:', error);
-    return new Response(JSON.stringify({ 
-      success: false, 
-      message: error.message || 'Failed to delete work' 
+    return new Response(JSON.stringify({
+      success: false,
+      message: error.message || 'Failed to delete work'
     }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
@@ -190,29 +170,16 @@ export async function DELETE(request) {
   }
 }
 
-
-
-
+// Update only the image of a work
 export async function PUT(request) {
   try {
     const data = await request.json();
-    
-    const { 
-      id,
-      title,
-      description,
-      technologies,
-      categories,
-      completionDate,
-      featured,
-      company,
-      image 
-    } = data;
+    const { id, image } = data;
 
     if (!id) {
-      return new Response(JSON.stringify({ 
-        success: false, 
-        message: 'Work ID is required' 
+      return new Response(JSON.stringify({
+        success: false,
+        message: 'Work ID is required'
       }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' }
@@ -221,9 +188,9 @@ export async function PUT(request) {
 
     const existingWork = await Work.findById(id);
     if (!existingWork) {
-      return new Response(JSON.stringify({ 
-        success: false, 
-        message: 'Work not found' 
+      return new Response(JSON.stringify({
+        success: false,
+        message: 'Work not found'
       }), {
         status: 404,
         headers: { 'Content-Type': 'application/json' }
@@ -247,89 +214,27 @@ export async function PUT(request) {
 
     const updatedWork = await Work.findByIdAndUpdate(
       id,
-      {
-        title,
-        description,
-        technologies,
-        categories,
-        completionDate,
-        featured,
-        company,
-        image: imageUrl
-      },
+      { image: imageUrl },
       { new: true }
     );
 
-    return new Response(JSON.stringify({ 
-      success: true, 
+    return new Response(JSON.stringify({
+      success: true,
       data: updatedWork,
-      message: 'Work updated successfully' 
+      message: 'Work image updated successfully'
     }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' }
     });
 
   } catch (error) {
-    console.error('Error updating work:', error);
-    return new Response(JSON.stringify({ 
-      success: false, 
-      message: error.message || 'Failed to update work' 
+    console.error('Error updating work image:', error);
+    return new Response(JSON.stringify({
+      success: false,
+      message: error.message || 'Failed to update work image'
     }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
     });
   }
 }
-
-
-
-
-
-// export async function GET(request) {
-//   try {
-//     await connectDB();
-    
-//     const { searchParams } = new URL(request.url);
-//     const id = searchParams.get('id');
-
-//     if (!id) {
-//       return new Response(JSON.stringify({ 
-//         success: false, 
-//         message: 'Work ID is required' 
-//       }), {
-//         status: 400,
-//         headers: { 'Content-Type': 'application/json' }
-//       });
-//     }
-
-//     const work = await Work.findById(id);
-    
-//     if (!work) {
-//       return new Response(JSON.stringify({ 
-//         success: false, 
-//         message: 'Work not found' 
-//       }), {
-//         status: 404,
-//         headers: { 'Content-Type': 'application/json' }
-//       });
-//     }
-
-//     return new Response(JSON.stringify({ 
-//       success: true, 
-//       data: work 
-//     }), {
-//       status: 200,
-//       headers: { 'Content-Type': 'application/json' }
-//     });
-
-//   } catch (error) {
-//     console.error('Error fetching work:', error);
-//     return new Response(JSON.stringify({ 
-//       success: false, 
-//       message: error.message || 'Failed to fetch work' 
-//     }), {
-//       status: 500,
-//       headers: { 'Content-Type': 'application/json' }
-//     });
-//   }
-// }
