@@ -5,11 +5,18 @@ import React, { useEffect, useState } from 'react'
 import Footer from '../components/Footer';
 import NavBar from '../components/NavBar';
 
+// Import Head for meta tags
+import Head from 'next/head';
+
 const THEME = {
   bg: 'var(--bg-color)',
   primary: 'var(--primary-color)',
   text: 'var(--text-color)',
 };
+
+const SEO_TITLE = "Blog | Latest Tech Insights, Tutorials & Industry News";
+const SEO_DESCRIPTION = "Explore our blog for the latest technology news, programming tutorials, web development guides, and expert insights. Stay updated with trending topics in software engineering, coding best practices, and digital innovation.";
+const SEO_KEYWORDS = "tech blog, programming tutorials, web development, software engineering, coding tips, technology news, developer blog, JavaScript, React, Next.js, tutorials, guides, industry insights, digital innovation";
 
 const page = () => {
     const [blogs, setBlogs] = useState([]);
@@ -104,6 +111,21 @@ const page = () => {
 
     return (
        <>
+            <Head>
+                <title>{SEO_TITLE}</title>
+                <meta name="description" content={SEO_DESCRIPTION} />
+                <meta name="keywords" content={SEO_KEYWORDS} />
+                <meta property="og:title" content={SEO_TITLE} />
+                <meta property="og:description" content={SEO_DESCRIPTION} />
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content="https://yourdomain.com/blog" />
+                <meta property="og:image" content="https://yourdomain.com/og-image-blog.jpg" />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content={SEO_TITLE} />
+                <meta name="twitter:description" content={SEO_DESCRIPTION} />
+                <meta name="twitter:image" content="https://yourdomain.com/og-image-blog.jpg" />
+                <link rel="canonical" href="https://yourdomain.com/blog" />
+            </Head>
             <NavBar/>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16" style={{ background: THEME.bg, color: THEME.text }}>
             <div className="text-center mb-16 mt-10">

@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Allow: /about
+Allow: /blog
+Allow: /mywork
+Allow: /blog/688539a72bb243db478e73bf
+
+Disallow: /admin
+Disallow: /login
+
+Sitemap: https://ow-ten.vercel.app/sitemap.xml

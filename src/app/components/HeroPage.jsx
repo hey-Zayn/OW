@@ -22,7 +22,7 @@ const Heropage = () => {
     <Myexperties/>
     {/* <MyExper/> */}
     <InteractiveTimeline />
-    <Mywork/>
+    {/* <Mywork/> */}
    
     <BlogSection/>
     <Quote/>

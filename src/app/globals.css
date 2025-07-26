@@ -25,8 +25,8 @@ body {
   background: var(--bg-color);
   color: var(--text-color);
   transition: background 0.3s, color 0.3s;
-  font-family: 'PPNeueMachina-PlainLight' ;
-  /* font-family: "Montserrat", sans-serif; */
+  /* font-family: 'PPNeueMachina-PlainLight' ; */
+  font-family: "Montserrat", sans-serif;
 
 }
 
@@ -39,45 +39,33 @@ body {
   font-style: normal;
 }
 @font-face {
-  font-family: 'PPNeueMachina'; 
-  src: url('../fonts/660bace5102a0fd4b7cf151f_PPNeueMachina-PlainBold.ttf') format('truetype'); /* Path to your font file */
-  font-weight: normal;
+  font-family: 'Montserrat';
+  src: url('../fonts/Montserrat-Regular.ttf') format('truetype');
+  font-weight: 400;
   font-style: normal;
 }
 @font-face {
-  font-family: 'samsungsharpsans'; 
-  src: url('../fonts/660bace533b3c65b4b6e2f57_samsungsharpsans.otf') format('truetype'); /* Path to your font file */
-  font-weight: normal;
+  font-family: 'Montserrat';
+  src: url('../fonts/Montserrat-Medium.ttf') format('truetype');
+  font-weight: 500;
   font-style: normal;
 }
 @font-face {
-  font-family: 'PPNeueMachina-PlainSemibold'; 
-  src: url('../fonts/660bace544b9468ed530c7e5_PPNeueMachina-PlainSemibold.ttf') format('truetype'); /* Path to your font file */
-  font-weight: normal;
+  font-family: 'Montserrat';
+  src: url('../fonts/Montserrat-SemiBold.ttf') format('truetype');
+  font-weight: 600;
   font-style: normal;
 }
 @font-face {
-  font-family: 'PPNeueMachina-PlainMedium'; 
-  src: url('../fonts/660bace59a18dca6d291b917_PPNeueMachina-PlainMedium.ttf') format('truetype'); /* Path to your font file */
-  font-weight: normal;
+  font-family: 'Montserrat';
+  src: url('../fonts/Montserrat-Bold.ttf') format('truetype');
+  font-weight: 700;
   font-style: normal;
 }
 @font-face {
-  font-family: 'PPNeueMachina-PlainLight'; 
-  src: url('../fonts/660bace5c434256e0adb2e47_PPNeueMachina-PlainLight.ttf') format('truetype'); /* Path to your font file */
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'samsungsharpsans-bold'; 
-  src: url('../fonts/660bace5ed884dfc4add12ff_samsungsharpsans-bold.otf') format('truetype'); /* Path to your font file */
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'samsungsharpsans-medium'; 
-  src: url('../fonts/660bace9e29efc201cddf51f_samsungsharpsans-medium.otf') format('truetype'); /* Path to your font file */
-  font-weight: normal;
+  font-family: 'Montserrat';
+  src: url('../fonts/Montserrat-Light.ttf') format('truetype');
+  font-weight: 300;
   font-style: normal;
 }
 /* Soft luxury scrollbar styling */
