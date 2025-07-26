@@ -209,8 +209,8 @@ const Footer = () => {
             className="text-sm"
             style={{ color: 'var(--muted-text-color, #525252)' }}
           >
-            © {year} All Rights Reserved. Crafted with{' '}
-            <span style={{ color: THEME.primary, fontWeight: 600 }}>care</span>
+            © {year} All Rights Reserved. powered by{' '}
+            <span style={{ color: THEME.primary, fontWeight: 600 }}>Zayn</span>
           </p>
         </div>
       </div>
