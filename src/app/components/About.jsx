@@ -86,7 +86,7 @@ const About = () => {
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12">
         <div ref={imageRef} className="w-full md:w-1/2">
           <img
-            src="./images/about.jpeg"
+            src="./images/IMG_1448.jpeg"
             alt="About me"
             className="w-full h-auto rounded-lg shadow-lg object-cover"
           />
@@ -111,15 +111,7 @@ const About = () => {
             elevating organizational digital capabilities and driving sustainable, data-informed growth. A proven leader in
             orchestrating cross-platform brand campaigns that consistently deliver 25–30% revenue growth.
           </p>
-          {/* <p
-            ref={text2Ref}
-            className="text-lg leading-relaxed"
-            style={{ color: '#525252' }}
-          >
-            Expert in designing and implementing HIPAA-compliant CRM systems that boost digital inquiry submissions by 38%
-            and spearheading organic digital strategies that drive 300% increases in referrals. Certified Lean Six Sigma Green Belt,
-            recognized for operational excellence, stakeholder engagement, and transformative leadership in fast-paced environments.
-          </p> */}
+         
           <div ref={toolsRef} className="pt-2">
             <h3
               className="text-lg font-semibold mb-3"
