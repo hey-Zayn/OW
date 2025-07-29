@@ -24,6 +24,8 @@ export async function POST(request) {
 
     // Check if environment variables are set
     const emailUser = "zaynobusiness@gmail.com";
+    // const emailUser = "ojwilliams01109@gmail.com";
+    // const emailPass = "Hzu28GoPro1!";
     const emailPass = "edem guoz gter rhwy";
 
     if (!emailUser || !emailPass) {

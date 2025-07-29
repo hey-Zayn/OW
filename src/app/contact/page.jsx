@@ -10,6 +10,13 @@ import { toast } from "react-toastify";
 import Link from "next/link";
 import Head from "next/head";
 
+// Use THEME from @file_context_0
+const THEME = {
+  bg: 'var(--bg-color)',
+  primary: 'var(--primary-color)',
+  text: 'var(--text-color)',
+};
+
 const Page = () => {
   const [data, setData] = useState({
     fullName: '',
@@ -60,7 +67,10 @@ const Page = () => {
   };
 
   return (
-    <div className="w-full min-h-screen bg-white">
+    <div
+      className="w-full min-h-screen"
+      style={{ background: THEME.bg }}
+    >
       <Head>
         <title>Contact | Digital Transformation Expert | Business Growth | Consultation</title>
         <meta
@@ -80,26 +90,55 @@ const Page = () => {
       <NavBar/>
       <div className="w-full pt-20">
         <Marquee />
-        <div className="w-full pb-12 overflow-hidden bg-white pt-10">
+        <div
+          className="w-full pb-12 overflow-hidden pt-10"
+          style={{ background: THEME.bg }}
+        >
           <div className="flex flex-col md:flex-row gap-8 justify-between max-w-6xl mx-auto px-4">
             <div className="w-full md:w-1/2">
               <div className="flex gap-4 mb-8">
-                <button className="px-6 py-3 text-lg font-semibold bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition-colors duration-300 shadow-lg hover:shadow-yellow-500/30">
+                <button
+                  className="px-6 py-3 text-lg font-semibold rounded-md transition-colors duration-300 shadow-lg"
+                  style={{
+                    background: THEME.primary,
+                    color: '#fff',
+                    boxShadow: `0 4px 24px 0 ${THEME.primary}33`
+                  }}
+                  onMouseOver={e => e.currentTarget.style.background = 'rgba(253,196,53,0.95)'}
+                  onMouseOut={e => e.currentTarget.style.background = THEME.primary}
+                >
                   Book a Demo
                 </button>
                 <Link href={'/about'}>
-                  <button className="px-6 py-3 text-lg font-semibold text-gray-800 bg-white border border-gray-200 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                  <button
+                    className="px-6 py-3 text-lg font-semibold border rounded-md transition-colors duration-300"
+                    style={{
+                      color: THEME.text,
+                      background: '#fff',
+                      borderColor: '#e5e7eb'
+                    }}
+                    onMouseOver={e => e.currentTarget.style.background = '#f9fafb'}
+                    onMouseOut={e => e.currentTarget.style.background = '#fff'}
+                  >
                     Careers
                   </button>
                 </Link>
               </div>
               <div className="mb-8">
-                <h2 className="text-3xl font-bold text-gray-800 mb-4">Contact Us</h2>
-                <p className="text-lg text-gray-600">
+                <h2
+                  className="text-3xl font-bold mb-4"
+                  style={{ color: THEME.text }}
+                >
+                  Contact Us
+                </h2>
+                <p
+                  className="text-lg"
+                  style={{ color: 'var(--text-color)', opacity: 0.7 }}
+                >
                   We're here to help! Complete the form and our team will reach out to you soon.
                 </p>
               </div>
-              <div className="text-lg text-gray-600">
+              <div className="text-lg" style={{ color: 'var(--text-color)', opacity: 0.7 }}>
                 <p>Email: jwilliams01109@gmail.com</p>
               </div>
             </div>
@@ -107,14 +146,23 @@ const Page = () => {
             <div className="w-full md:w-1/2">
               <form onSubmit={handleSubmit} className="flex flex-col gap-6">
                 <div>
-                  <label htmlFor="fullName" className="block text-lg font-medium text-gray-800 mb-2">
+                  <label
+                    htmlFor="fullName"
+                    className="block text-lg font-medium mb-2"
+                    style={{ color: THEME.text }}
+                  >
                     FULL NAME
                   </label>
                   <input
                     type="text"
                     name="fullName"
                     placeholder="Enter Your Full Name"
-                    className="w-full p-4 text-lg font-medium text-black border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent placeholder-gray-400"
+                    className="w-full p-4 text-lg font-medium border rounded-md focus:outline-none focus:ring-2 focus:border-transparent placeholder-gray-400"
+                    style={{
+                      color: THEME.text,
+                      background: '#fff',
+                      borderColor: '#e5e7eb'
+                    }}
                     value={data.fullName}
                     onChange={handleChange}
                     required
@@ -122,28 +170,46 @@ const Page = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="company" className="block text-lg font-medium text-gray-800 mb-2">
+                  <label
+                    htmlFor="company"
+                    className="block text-lg font-medium mb-2"
+                    style={{ color: THEME.text }}
+                  >
                     COMPANY NAME
                   </label>
                   <input
                     type="text"
                     name="company"
                     placeholder="Your Company Name"
-                    className="w-full p-4 text-lg font-medium text-black border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent placeholder-gray-400"
+                    className="w-full p-4 text-lg font-medium border rounded-md focus:outline-none focus:ring-2 focus:border-transparent placeholder-gray-400"
+                    style={{
+                      color: THEME.text,
+                      background: '#fff',
+                      borderColor: '#e5e7eb'
+                    }}
                     value={data.company}
                     onChange={handleChange}
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block text-lg font-medium text-gray-800 mb-2">
+                  <label
+                    htmlFor="email"
+                    className="block text-lg font-medium mb-2"
+                    style={{ color: THEME.text }}
+                  >
                     BUSINESS EMAIL
                   </label>
                   <input
                     type="email"
                     name="email"
                     placeholder="Your Business Email"
-                    className="w-full p-4 text-lg font-medium text-black border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent placeholder-gray-400"
+                    className="w-full p-4 text-lg font-medium border rounded-md focus:outline-none focus:ring-2 focus:border-transparent placeholder-gray-400"
+                    style={{
+                      color: THEME.text,
+                      background: '#fff',
+                      borderColor: '#e5e7eb'
+                    }}
                     value={data.email}
                     onChange={handleChange}
                     required
@@ -151,14 +217,23 @@ const Page = () => {
                 </div>
                 
                 <div>
-                  <label htmlFor="phone" className="block text-lg font-medium text-gray-800 mb-2">
+                  <label
+                    htmlFor="phone"
+                    className="block text-lg font-medium mb-2"
+                    style={{ color: THEME.text }}
+                  >
                     PHONE NUMBER
                   </label>
                   <input
                     type="tel"
                     name="phone"
                     placeholder="Enter Your Phone Number"
-                    className="w-full p-4 text-lg font-medium text-black border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent placeholder-gray-400"
+                    className="w-full p-4 text-lg font-medium border rounded-md focus:outline-none focus:ring-2 focus:border-transparent placeholder-gray-400"
+                    style={{
+                      color: THEME.text,
+                      background: '#fff',
+                      borderColor: '#e5e7eb'
+                    }}
                     value={data.phone}
                     onChange={handleChange}
                     required
@@ -166,26 +241,44 @@ const Page = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="job" className="block text-lg font-medium text-gray-800 mb-2">
+                  <label
+                    htmlFor="job"
+                    className="block text-lg font-medium mb-2"
+                    style={{ color: THEME.text }}
+                  >
                     JOB TITLE
                   </label>
                   <input
                     type="text"
                     name="job"
                     placeholder="Enter Your Job Title"
-                    className="w-full p-4 text-lg font-medium text-black border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent placeholder-gray-400"
+                    className="w-full p-4 text-lg font-medium border rounded-md focus:outline-none focus:ring-2 focus:border-transparent placeholder-gray-400"
+                    style={{
+                      color: THEME.text,
+                      background: '#fff',
+                      borderColor: '#e5e7eb'
+                    }}
                     value={data.job}
                     onChange={handleChange}
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="source" className="block text-lg font-medium text-gray-800 mb-2">
+                  <label
+                    htmlFor="source"
+                    className="block text-lg font-medium mb-2"
+                    style={{ color: THEME.text }}
+                  >
                     HOW DID YOU HEAR ABOUT US?
                   </label>
                   <select
                     name="source"
-                    className="w-full p-4 text-lg font-medium text-black border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent bg-white"
+                    className="w-full p-4 text-lg font-medium border rounded-md focus:outline-none focus:ring-2 focus:border-transparent bg-white"
+                    style={{
+                      color: THEME.text,
+                      background: '#fff',
+                      borderColor: '#e5e7eb'
+                    }}
                     value={data.source}
                     onChange={handleChange}
                   >
@@ -198,9 +291,16 @@ const Page = () => {
                   </select>
                 </div>
 
-                <div className="flex gap-4 mt-4 p-4 bg-yellow-50 rounded-lg">
-                  <CircleAlert className="text-yellow-500 mt-1 flex-shrink-0" size={24} />
-                  <p className="text-gray-600">
+                <div
+                  className="flex gap-4 mt-4 p-4 rounded-lg"
+                  style={{ background: 'rgba(253, 196, 53, 0.08)' }}
+                >
+                  <CircleAlert
+                    className="flex-shrink-0"
+                    size={24}
+                    style={{ color: THEME.primary, marginTop: 4 }}
+                  />
+                  <p style={{ color: THEME.text, opacity: 0.7 }}>
                     Your privacy is important to us. All information submitted
                     through this form will be kept confidential and secure. We
                     will not share your details with third parties without your
@@ -211,7 +311,13 @@ const Page = () => {
                 <button 
                   type="submit" 
                   disabled={isSubmitting}
-                  className="w-full py-4 text-lg font-semibold text-white bg-yellow-500 rounded-md hover:bg-yellow-600 transition-colors duration-300 mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full py-4 text-lg font-semibold rounded-md transition-colors duration-300 mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
+                  style={{
+                    background: THEME.primary,
+                    color: '#fff'
+                  }}
+                  onMouseOver={e => e.currentTarget.style.background = 'rgba(253,196,53,0.95)'}
+                  onMouseOut={e => e.currentTarget.style.background = THEME.primary}
                 >
                   {isSubmitting ? 'Submitting...' : 'Get in Touch'}
                 </button>

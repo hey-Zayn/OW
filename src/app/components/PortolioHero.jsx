@@ -141,13 +141,13 @@ const PortfolioHero = () => {
           style={{ filter: 'brightness(1) saturate(1)', zIndex: 1 }}
         />
         <div className='z-20 absolute top-0 w-full flex justify-center max-sm:top-12 max-sm:-left-4 max-md:top-30 '>
-          <img 
+          {/* <img 
             ref={heroImgRef}
             src="/images/hero-img.png" 
             alt="Portfolio hero image" 
             className='max-w-[80%] md:max-w-[70%] lg:max-w-full'
             style={{ zIndex: 2 }}
-          />
+          /> */}
         </div>
       </div>
     </section>
